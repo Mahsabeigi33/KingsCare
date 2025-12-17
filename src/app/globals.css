@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  --background: #e6e8eb;
+  --foreground: #0e2a47;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0e2a47;
+    --foreground: #e6e8eb;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+/* optional: slimmer horizontal scrollbar */
+.scrollbar-thin::-webkit-scrollbar { height: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,.25); border-radius: 9999px; }
+.capsule-cursor-hide * { cursor: none !important; }
+.bg-image-about {
+  background-image: url('/website/aboutpharmacy.png');
+  background-size: cover;
+  background-position: center;
+}

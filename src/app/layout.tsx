@@ -1,0 +1,32 @@
+import "./globals.css";
+import type { Metadata } from "next";
+import { Poppins, Roboto } from "next/font/google";
+import { AuthProvider } from "@/components/providers/AuthProvider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/options";
+
+const poppins = Poppins({ subsets: ["latin"], weight: ["600", "700"] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
+
+export const metadata: Metadata = {
+  title: "Kings Care Medical Clinic & Travel Health",
+  description:
+    "Book appointments, refills, transfers. Travel clinic and prescribing pharmacists.",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"),
+};
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions);
+  return (
+    <html lang="en" className={`${roboto.className} ${poppins.className}`} suppressHydrationWarning>
+      <body className="min-h-screen">
+        <AuthProvider session={session}>
+          
+          {children}
+        </AuthProvider>
+      </body>
+    </html>
+  );
+}
+      

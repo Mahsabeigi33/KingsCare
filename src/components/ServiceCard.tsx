@@ -1,0 +1,92 @@
+﻿import type { ReactNode } from "react";
+
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image"
+
+import { cn } from "@/lib/cn";
+export default function ServiceCard({
+  title,
+  text,
+  href,
+  icon,
+  image,
+}: {
+  title: string;
+  text: string;
+  href: string;
+  icon?: ReactNode;
+  image?: string | null;
+}) {
+  const toInitials = (val: string) => {
+    try {
+      const words = val
+        .normalize("NFC")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((w) => Array.from(w)[0] ?? "")
+      const joined = words.join("").toLocaleUpperCase("en-US")
+      return joined || "#"
+    } catch {
+      return "#"
+    }
+  }
+  const iconDisplay =
+    icon ?? (
+      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#0E2A47]/10 text-sm font-semibold uppercase text-[#0E2A47]">
+        {toInitials(title)}
+      </span>
+    );
+
+  return (
+    <Link
+      href={href}
+      className={cn(
+        "group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-soft transition hover:-translate-y-1 hover:shadow-lg",
+      )}
+    >
+      <div className="relative w-full overflow-hidden bg-gradient-to-r from-[#D9C89E]/20 to-[#0E2A47]/10 aspect-[4/3] md:aspect-[16/10]">
+        {image ? (
+          <Image
+            src={((): string => {
+              const val = image
+              if (val.startsWith("http://") || val.startsWith("https://")) return val
+              if (val.startsWith("/uploads/")) {
+                const base = (process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || "").replace(/\/$/, "")
+                return `${base}${val}`
+              }
+              return val.startsWith("/") ? val : `/${val}`
+            })()}
+            alt={`${title} service illustration`}            
+            className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+            loading="lazy"
+            fill
+            style={{ objectFit: "cover" }}
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-4xl text-[#0E2A47]/30">
+            {iconDisplay}
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col gap-4 p-6">
+        <div className="flex items-start gap-3 text-[#0E2A47]">
+          <span className="text-3xl">{iconDisplay}</span>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+            <p className="mt-2 text-sm text-gray-600">{text}</p>
+          </div>
+        </div>
+
+        <div className="mt-auto inline-flex w-max items-center gap-2 rounded-full border border-[#0E2A47] bg-white px-4 py-1.5 text-sm font-semibold text-[#0E2A47] transition group-hover:bg-[#0E2A47] group-hover:text-white">
+          Explore
+          <ArrowRight className="h-4 w-4" />
+        </div>
+      </div>
+    </Link>
+  );
+}
