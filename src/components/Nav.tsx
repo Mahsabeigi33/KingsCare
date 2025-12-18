@@ -60,7 +60,7 @@ export default function Nav() {
             <Link href="/" className="flex-shrink-0 transition-transform hover:scale-105">
               <div className="rounded-full border-4  border-[#0E2A47] relative h-40 w-40 mt-20  p-2 sm:p-0 bg-[#0E2A47]/50 ">
               <Image
-                src="/website/logo.png" 
+                src="/website/Logo.png" 
                 alt="Kings Care Medical Clinic logo" 
                 fill  priority className="  object-contain"
               />

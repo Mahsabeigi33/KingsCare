@@ -62,7 +62,7 @@ export default function NavUser() {
               <div className="relative h-40 w-40 mt-20  p-2 sm:p-0 bg-[#0E2A47]/40 rounded-lg">
 
               <Image
-                src="/website/logo.png" 
+                src="/website/Logo.png" 
                 alt="Kings Care Medical Clinic logo" 
                 fill  priority className="sm:h-40 sm:w-40 object-contain" 
               />

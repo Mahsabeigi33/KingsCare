@@ -7,6 +7,10 @@ import Footer from "@/components/Footer";
 import Emergency from "@/components/Emergency";
 import Image from "next/image";
 import ServiceCard from "@/components/ServiceCard";
+
+// Force this route to run dynamically to avoid static-generation conflicts with auth/session usage in the root layout.
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 const currencyFormatter = new Intl.NumberFormat("en-CA", {
   style: "currency",
   currency: "CAD",

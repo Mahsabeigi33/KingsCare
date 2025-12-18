@@ -7,6 +7,10 @@ const placeholder =
   "https://images.unsplash.com/photo-1502989642968-94fbdc9eace4?auto=format&fit=crop&w=800&q=80"
 const baseApiUrl = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || ""
 
+// Force dynamic rendering to avoid static-generation conflicts coming from session handling in the root layout.
+export const dynamic = "force-dynamic"
+export const fetchCache = "force-no-store"
+
 const resolveImage = (url?: string | null) => {
   if (!url) return placeholder
   if (url.startsWith("http")) return url
