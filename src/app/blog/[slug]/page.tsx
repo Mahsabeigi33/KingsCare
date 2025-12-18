@@ -7,6 +7,10 @@ import Footer from "@/components/Footer";
 import Emergency from "@/components/Emergency";
 import { fetchBlogBySlug, fetchPublishedBlogs } from "@/lib/blogs";
 
+// Force dynamic rendering to avoid static-generation conflicts coming from session handling in the root layout.
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 const dateFormatter = new Intl.DateTimeFormat("en-CA", {
   month: "long",
   day: "numeric",
