@@ -38,7 +38,7 @@ export default async function ServicesPage() {
             Care built for your routine
           </p>
           <p className="mt-4 max-w-3xl text-xl text-white/80 sm:text-base">
-            From same-day virtual prescribing to travel vaccines and injection support, our pharmacists keep you protected and on track.
+           Personalized medical clinic care tailored to your needs.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
@@ -51,7 +51,7 @@ export default async function ServicesPage() {
               href="/contact"
               className="inline-flex items-center justify-center rounded-full border border-white/70 px-5 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
             >
-              Talk with a pharmacist
+              Talk with Us
             </Link>
           </div>
         
@@ -70,7 +70,7 @@ export default async function ServicesPage() {
               <ServiceCard
                 key={service.id}
                 title={service.name}
-                text={service.shortDescription ?? service.shortDescription ?? "Personalized pharmacy care."}
+                text={service.shortDescription ?? service.shortDescription ?? "Personalized medical clinic care."}
                 href={`/services/${buildServiceSlug(service)}`}
                 image={service.images?.[0] ? `${service.images[0]}` : null}
               />

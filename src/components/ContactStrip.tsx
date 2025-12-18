@@ -5,8 +5,8 @@ const CONTACT_INFO = [
   {
     icon: Phone,
     title: "Phone",
-    content: "+1 (587) 327-6106",
-    href: "tel:+15873276106",
+    content: "+1 (403) 123456",
+    href: "tel:+1403123456",
   },
   {
     icon: Mail,
@@ -83,7 +83,7 @@ export default function ContactStrip() {
         </div>
 
         <div className="space-y-4 p-4 rounded-xl"  style={{ background: "linear-gradient(135deg, #0E2A47 0%, #4B5563 65%)" }}>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#0E2A47]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#0E2A47]">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#0E2A47]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#D9C89E]">
             <MessageSquare className="h-4 w-4" />
             Contact
           </div>

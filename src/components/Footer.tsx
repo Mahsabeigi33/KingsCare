@@ -21,8 +21,8 @@ export default function Footer() {
         </div>
         <div className="text-larg sm:text-center mt-6 ">
           <p>Mon–Fri 9–6 • Sat 10–4</p>
-          <p> 328 Centre Street SE T2G 4X6 #159 </p><p>Calgary ,AB</p>
-          <a className="hover:text-[#D9C89E]" href="tel:5873276106">+1 (587)3276106</a>
+          <p>  </p><p>Calgary ,AB</p>
+          <a className="hover:text-[#D9C89E]" href="tel:5876">+1 (587)36</a>
         </div>
         
       </div>

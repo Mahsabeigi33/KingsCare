@@ -9,7 +9,7 @@ import Image from "next/image";
 export const revalidate = 600;
 export const metadata: Metadata = {
   title: "Blog | Kings Care Medical Clinic",
-  description: "Read health tips, travel preparation guides, and pharmacist advice from Kings Care Medical Clinic.",
+  description: "advice from Kings Care Medical Clinic.",
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en-CA", {
@@ -35,18 +35,18 @@ export default async function BlogIndexPage() {
           <div className="max-w-6xl mx-auto ml-20 text-center lg:text-left">
 
             <p className="text-xl font-semibold uppercase tracking-[0.35em] text-white/70">
-            Pharmacy Blog
+            Kings Care Blog
             </p>
-            <h1 className="mt-3 text-3xl font-semibold sm:text-4xl">Pharmacy perspectives & travel health updates</h1>
+            <h1 className="mt-3 text-3xl font-semibold sm:text-4xl">Kings Care Blog</h1>
             <p className="mt-4 max-w-3xl text-sm text-white/80 sm:text-base">
-              Practical guidance from our clinical team covering seasonal vaccines, travel preparation, and everyday wellness support.
+              Stay informed with the latest health tips, clinic updates, and expert advice from the Kings Care team.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/contact"
                 className="inline-flex items-center justify-center rounded-full border border-white/70 px-5 py-4 text-m font-semibold text-[#0E2A47] transition hover:bg-white/10 bg-[#D9C89E]"
                 >
                 <LucidePhoneOutgoing className="mr-2 h-4 w-4" />
-                  Talk with a pharmacist
+                  Talk with Us
                 </Link>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default async function BlogIndexPage() {
       <div className="mx-auto max-w-6xl px-4 py-16">
         {posts.length === 0 ? (
           <p className="mt-10 rounded-3xl border border-slate-200 bg-white p-10 text-center text-sm text-slate-600 shadow">
-            Articles are on the way. Check back soon for the latest pharmacy insights.
+            No blog posts found. Please check back later.
           </p>
         ) : (
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4">

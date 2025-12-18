@@ -206,7 +206,7 @@ export function AvailabilityExplorer({ services }: AvailabilityExplorerProps) {
         <p className="mt-4 text-slate-600">
           We@apos;re setting up online scheduling. Reach out by {""}
           <Link href="/contact" className="text-[#0E2A47] underline">
-            contacting our pharmacy team
+            contacting our Clinic team
           </Link>{" "}
           and we@apos;ll hold a time for you.
         </p>
@@ -226,8 +226,7 @@ export function AvailabilityExplorer({ services }: AvailabilityExplorerProps) {
             Find a visit that works for you
           </h1>
           <p className="mx-auto max-w-3xl text-base text-slate-600 lg:mx-0">
-            Browse open appointment times without logging in. Pick a service, choose a day, and see
-            the exact slots held for walk-in and telemedicine visits.
+            Browse open appointment times for in-clinic and virtual visits. Select a service
           </p>
         </header>
 
@@ -368,7 +367,7 @@ export function AvailabilityExplorer({ services }: AvailabilityExplorerProps) {
                 </div>
               ) : (
                 <p className="text-sm text-slate-500">
-                  Select a day to preview open times. We hold a mix of in-pharmacy and virtual visits
+                  Select a day to preview open times. We hold a mix of in-clinic and virtual visits
                   every day.
                 </p>
               )}

@@ -46,16 +46,16 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
           </div>
 
           <h1
-            className="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
+            className="text-shadow-2xs text-shadow-[#D9C89E] text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl"
             style={{
               opacity: entered ? 1 : 0,
               transform: entered ? "translateY(0)" : "translateY(24px)",
               transition: "opacity 1.2s ease 0.15s, transform 1.2s ease 0.15s",
             }}
           >
-            Your AI-powered
+            Your Family’s Health,
             <br />
-            prescription companion
+            Our Priority
           </h1>
 
           <p
@@ -66,7 +66,7 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
               transition: "opacity 1.2s ease 0.3s, transform 1.2s ease 0.3s",
             }}
           >
-            Kings Care Medical Clinic keeps you on track with the right dose, at the right time, in the right way-personalized to your health needs.
+            KingsCare Medical Clinic provides trusted family medicine, walk-in care, women’s health, prenatal services, travel medicine, and specialized clinics,  all in one welcoming location.
           </p>
 
           <div
@@ -79,14 +79,15 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
           >
             <Link
               href="/user/appointments"
-              className="inline-flex items-center gap-2 rounded-full bg-[#D9C89E] px-6 py-3 text-base font-semibold text-[#0E2A47] shadow-lg shadow-[#0E2A47]/15 transition hover:-translate-y-0.5 hover:bg-[#C7B57A] hover:shadow-xl"
+              className="inline-flex items-center gap-2 rounded-full bg-[#D9C89E] px-6 py-3 text-base font-semibold text-[#0E2A47] shadow-lg shadow-[#0E2A47] transition hover:-translate-y-0.5 hover:bg-[#C7B57A] hover:shadow-xl"
             >
               <CalendarSearchIcon className="h-5 w-5" />
+
               Book appointment
             </Link>
             <Link
-              href="tel:+15873276106"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3 text-base font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-white"
+              href="tel:+15873"
+              className="inline-flex items-center gap-2 rounded-full border border-white px-6 py-3 text-base font-semibold text-white backdrop-blur transition hover:-translate-y-0.5 hover:border-[#D9C89E] hover:bg-white/10 shadow-lg shadow-[#D9C89E] hover:border-[#D9C89E]"
             >
               <PhoneCall className="h-5 w-5" />
               Call the clinic
@@ -101,19 +102,19 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
               transition: "opacity 1s ease 0.6s, transform 1s ease 0.6s",
             }}
           >
-            <div className="flex -space-x-2">
+            {/* <div className="flex -space-x-2">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="h-10 w-10 rounded-full border-2 border-white bg-white/40 backdrop-blur" />
               ))}
-            </div>
+            </div> */}
             <div>
-              <div className="text-lg font-semibold">Trusted care, proven outcomes</div>
-              <p className="text-white/70">Smart scheduling, telehealth support, and 24/7 answers.</p>
+              <div className="text-lg font-semibold">Serving individuals and families with compassionate,</div>
+              <p className="text-white/70">professional medical care in Calgary.</p>
             </div>
           </div>
         </div>
 
-        <div className="flex w-full justify-end lg:w-auto">
+        <div className="flex w-full justify-end lg:w-auto shadow-2xl ring-1 ring-white/20 rounded-3xl overflow-hidden shadow-[#D9C89E]">
           <div
             className="w-full max-w-sm rounded-2xl border border-white/15 bg-white/70 p-6 text-[#0E2A47] shadow-2xl backdrop-blur-lg"
             style={{
@@ -127,29 +128,29 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
           >
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-sm font-semibold text-[#4B5563]">Adherence lift</div>
-                <div className="text-4xl font-bold text-[#0E2A47]">46%</div>
-                <p className="text-sm text-[#4B5563]">of patients improved adherence</p>
+                <div className="text-l font-semibold text-[#4B5563] text-shadow-[#D9C89E]">Accepting new patients</div>
+                <div className="text-4xl font-bold  text-sky-950 text-shadow-2xs text-shadow-sky-300 ">Walk-ins welcome</div>
+                <p className="text-m ">Most services covered by Alberta Health Care</p>
               </div>
-              <div className="flex -space-x-2">
+              {/* <div className="flex -space-x-2">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="h-9 w-9 rounded-full border-2 border-white bg-[#E6E8EB]" />
                 ))}
-              </div>
+              </div> */}
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3 text-sm font-semibold">
-              <div className="rounded-full border border-[#0E2A47]/20 bg-white px-4 py-2 text-center shadow-sm">
-                Telehealth
+              <div className="rounded-3xl border border-[#0E2A47]/20 bg-white/80 px-4 py-2 text-center shadow-xl">
+               Alberta Health Care Accepted
               </div>
-              <div className="rounded-full border border-[#0E2A47]/20 bg-white px-4 py-2 text-center shadow-sm">
-                Smart scheduling
+              <div className="rounded-3xl border border-[#0E2A47]/20 bg-white/80 px-4 py-2 text-center shadow-xl">
+                Same-Day & Walk-In Appointments
               </div>
-              <div className="rounded-full border border-[#0E2A47]/20 bg-white px-4 py-2 text-center shadow-sm">
-                24/7 support
+              <div className="rounded-3xl border border-[#0E2A47]/20 bg-white/80 px-4 py-2 text-center shadow-xl">
+                Experienced Family Physicians
               </div>
-              <div className="rounded-full border border-[#0E2A47]/20 bg-white px-4 py-2 text-center shadow-sm">
-                Refill alerts
+              <div className="rounded-3xl border border-[#0E2A47]/20 bg-white px-4 py-2 text-center shadow-xl">
+                Women’s & Prenatal Care Available
               </div>
             </div>
           </div>

@@ -216,7 +216,7 @@ export default async function UserProfilePage() {
           <h2 className="text-base font-semibold text-white">Care notes</h2>
           <p className="leading-relaxed text-slate-300">
             {notesCopy ??
-              "Share allergies, ongoing treatments, or any preferences you'd like our pharmacists to keep in mind. It helps us tailor every visit to you."}
+              "You have no care notes recorded. Any important information from your visits will appear here for your reference."}
           </p>
         </div>
 

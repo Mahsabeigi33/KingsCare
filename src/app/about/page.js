@@ -9,22 +9,22 @@ const AboutPage = () => {
     {
       icon: Heart,
       title: 'Compassionate Care',
-      description: 'We treat every patient with empathy, respect, and personalized attention to their unique healthcare needs.'
+      description: 'We treat every patient with empathy, dignity, and personalized attention, recognizing that each individual’s health journey is unique.'
     },
     {
       icon: Shield,
       title: 'Trust & Integrity',
-      description: 'Your health information is secure, and our advice is always honest and in your best interest.'
+      description: 'Your health and privacy come first. We provide honest medical guidance, maintain strict confidentiality, and act in your best interest at every visit.'
     },
     {
       icon: Clock,
       title: 'Accessible Service',
-      description: 'Modern telemedicine combined with convenient hours to ensure healthcare fits your schedule.'
+      description: 'We prioritize timely care through walk-in availability, same-day appointments, and efficient scheduling designed around our patients’ needs.'
     },
     {
       icon: Users,
       title: 'Community Focus',
-      description: 'We are more than a pharmacy - we are your neighborhood health partner and trusted advisor.'
+      description: 'We are proud to be a community-focused medical clinic, supporting the health and wellbeing of families and individuals in our neighborhood.'
     }
   ];
 
@@ -49,12 +49,14 @@ const AboutPage = () => {
                     About Kings Care Medical Clinic
                    </h1>
                    <p className="mt-4 max-w-3xl text-sm text-white/80 sm:text-base">
-                     At Kings Care Medical Clinic, we combine modern telemedicine with compassionate, personalized care. We are committed to making healthcare accessible, affordable, and centered around you.
-                   </p>
-                   <div className="mt-6 flex flex-wrap gap-3">            
+                      Kings Care Medical Clinic is a locally operated family medical clinic dedicated to providing comprehensive, patient-centered care for individuals and families in our community. Our experienced physicians offer a wide range of services, from routine check-ups to specialized care, all delivered with compassion and professionalism.
+                      </p>
+                      <p className="mt-4 max-w-3xl text-sm text-white/80 sm:text-base">
+                      We focus on accessible healthcare, offering same-day appointments, walk-in visits, and coordinated care to support patients at every stage of life.                   </p>
+                     <div className="mt-6 flex flex-wrap gap-3">            
                      <Link
                        href="/contact"
-                       className="inline-flex items-center justify-center rounded-full bg-[#D9C89E] border border-white/70 px-5 py-4 text-sm font-semibold text-[#0E2A47] transition hover:bg-[#C7B57A]"
+                       className="inline-flex items-center justify-center rounded-full bg-[#D9C89E] border border-white/70 px-5 py-4 text-sm font-semibold text-[#0E2A47] transition hover:bg-[#C7B57A] hover:border-white/90 focus:outline-none focus:ring-2 focus:ring-[#D9C89E] focus:ring-offset-2 hover:shadow-lg shadow-xl shadow-[#D9C89E]/30"
                      >
                        Get in Touch
                      </Link>
@@ -72,18 +74,15 @@ const AboutPage = () => {
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-[#0E2A47] mb-6">Our Mission</h2>
               <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                We believe healthcare should be personal, accessible, and built on trust. Our mission is to revolutionize the pharmacy experience by integrating cutting-edge technology with the warmth of human connection.
-              </p>
+                We believe healthcare should be personal, accessible, and built on trust. Our mission is to provide high-quality medical care that supports patients through every stage of life, delivered with compassion, professionalism, and respect.              </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Every prescription filled, every consultation provided, and every question answered is done with your wellbeing at the forefront of our minds.
-              </p>
+                At Kings Care Medical Clinic, every appointment, consultation, and treatment is guided by a commitment to your health, comfort, and long-term wellbeing. We focus on listening first, caring deeply, and delivering medical services you can rely on.              </p>
             </div>
             <div className="bg-[#0E2A47] rounded-2xl p-8 text-white">
               <Award className="w-12 h-12 mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Award-Winning Service</h3>
+              <h3 className="text-2xl font-bold mb-4">Trusted Medical Care</h3>
               <p className="text-white/80 leading-relaxed">
-                Recognized by the National Pharmacy Association for excellence in patient care and innovation in healthcare delivery. Our commitment to quality has earned us the trust of thousands of families.
-              </p>
+              Kings Care Medical Clinic is proud to serve individuals and families with comprehensive primary care, same-day appointments, and specialized services. Our physicians are dedicated to providing evidence-based medicine in a welcoming and respectful environment.              </p>
             </div>
           </div>
         </div>

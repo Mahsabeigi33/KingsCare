@@ -11,13 +11,13 @@ import type { ServicesListItem } from "@/components/ServicesGrid";
 import { fetchPublishedBlogs } from "@/lib/blogs";
 import { buildServiceSlug, fetchServices } from "@/lib/services";
 import WhyChoose from "@/components/WhyChoose";
-
+import TeamMember from "@/components/TeamMember";
 export const revalidate = 1800;
-
+import Link from "next/link";
 export const metadata: Metadata = {
   title: "Kings Care Medical Clinic - Telemedicine & Travel Health",
   description:
-    "Book telemedicine consults, travel vaccinations, injections, refills, and more. Trusted pharmacists and convenient online care.",
+    ".",
   openGraph: {
     title: "Kings Care Medical Clinic - Telemedicine & Travel Health",
     description: "Trusted care for every journey. Book online in minutes.",
@@ -74,13 +74,14 @@ export default async function HomePage() {
       <WhyChoose />
       <main className="mx-auto max-w-6xl px-4 py-12">
         <AboutTeaser />
-
+  {/* Team Section */}
+      <TeamMember />
         <div className="mt-12">
           <ServicesGrid services={serviceCards} />
         </div>
 
         <div className="mt-12">
-          <BlogList posts={blogEntries} />
+          {/* <BlogList posts={blogEntries} /> */}
         </div>
 
         <section aria-labelledby="contact-heading" className="mt-12">
@@ -88,8 +89,14 @@ export default async function HomePage() {
             Contact & Hours
           </h2>
           <ContactStrip />
-          
-       
+          <div className="w-full">
+            <Link
+              href="/contact"
+              className="flex w-full items-center justify-center rounded-full bg-[#0E2A47] px-5 py-4 text-sm font-semibold text-white text-center shadow-xl shadow-[#0E2A47]/30 transition hover:bg-[#C7B57A] hover:text-[#0E2A47] hover:shadow-[#C7B57A]/30"
+            >
+              Contact Us
+            </Link>
+          </div>
         </section>
 
       </main>

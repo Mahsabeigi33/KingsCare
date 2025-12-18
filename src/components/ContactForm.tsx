@@ -298,7 +298,7 @@ const ContactForm = () => {
             <div className=" rounded-2xl w-full  overflow-hidden shadow-lg">
               <Image
                 src="/website/contact.png"
-                alt="Kings Care Medical Clinic contact - friendly pharmacist ready to help"
+                alt="Kings Care Medical Clinic contact "
                 className="w-full cover"
                 priority
                 width={600}
@@ -364,7 +364,7 @@ const ContactForm = () => {
                 value={formData.phone}
                 error={errors.phone}
                 onChange={handleChange}
-                placeholder="(403) 555-0123"
+                placeholder="(403) 555-0000"
               />
 
               {/* Subject */}

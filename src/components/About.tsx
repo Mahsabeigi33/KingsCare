@@ -7,9 +7,11 @@ import Image from "next/image";
 const DAYS_OF_WEEK = ["S", "M", "T", "W", "T", "F", "S"] as const;
 
 const ABOUT_FEATURES = [
-  "Same-day telemedicine availability",
-  "Travel vaccines and expert advice",
-  "Compassionate, multilingual team",
+  "Same-day and walk-in appointments available",
+  "Comprehensive family and preventative care",
+  "Women’s health and prenatal services",
+  "Travel medicine and WCB injury assessments",
+  "Compassionate, diverse, and multilingual medical team",
 ] as const;
 
 interface CalendarDay {
@@ -70,7 +72,7 @@ const AboutSection = () => {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16 lg:py-20">
         <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 items-center">
           <div
-            className="order-2 md:order-1 relative h-80 w-full"
+            className="order-2 md:order-1 relative h-120 w-full"
             style={{
               opacity: visible ? 1 : 0,
               transform: visible ? "translateY(0)" : "translateY(30px)",
@@ -95,11 +97,11 @@ const AboutSection = () => {
               transition: "opacity 1.4s ease 0.15s, transform 1.4s ease 0.15s",
             }}
           >
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#0E2A47] mb-4">
+            <h2 className="text-3xl sm:text-3xl lg:text-3xl font-bold text-[#0E2A47] mb-4">
               About Kings Care Medical Clinic
             </h2>
             <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-6">
-              We are a locally owned pharmacy offering travel health, and personalized care. Our prescribing pharmacists help with renewals, minor ailments, injections, and more.
+            Kings Care Medical Clinic provides trusted family medicine and specialized medical services in a welcoming, professional environment. Our team is committed to accessible, high-quality care for patients of all ages, with same-day appointments and comprehensive health services under one roof.  
             </p>
             <ul className="space-y-3 text-gray-700 mb-8" role="list">
               {ABOUT_FEATURES.map((feature, index) => (
@@ -113,9 +115,9 @@ const AboutSection = () => {
             </ul>
             <Link
               href="/about"
-              className="inline-block rounded-full border-2 border-[#0E2A47] px-6 py-3 font-semibold text-[#0E2A47] hover:bg-[#0E2A47] hover:text-white transition-all duration-200"
+              className="inline-block rounded-full border-2 border-[#0E2A47] px-6 py-3 font-semibold text-white hover:bg-[#D9C89E] hover:text-[#0E2A47] transition-all duration-200 bg-[#0E2A47] shadow-lg hover:shadow-xl shadow-[#0E2A47]/50 hover:shadow-[#0E2A47]/70"
             >
-              More about us
+              More About Us
             </Link>
           </div>
         </div>

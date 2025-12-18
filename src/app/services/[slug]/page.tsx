@@ -93,10 +93,10 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
           <h1 className="mt-4 text-3xl font-semibold sm:text-5xl">{service.name}</h1>
           <p className="mt-4 max-w-3xl text-base text-white/80 sm:text-lg">
-            {service.description ?? "Personalized pharmacy care tailored to your goals."}
+            {service.description ?? "Personalized medical clinic care tailored to your goals."}
           </p>
           <p className="mt-4 max-w-3xl text-base text-white/80 sm:text-lg">
-            {service.shortDescription ?? "Personalized pharmacy care tailored to your goals."}
+            {service.shortDescription ?? "Personalized medical clinic care tailored to your goals."}
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/90">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
@@ -135,7 +135,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                     <ServiceCard
                       key={item.id}
                       title={item.name}
-                      text={item.shortDescription ?? "Personalized pharmacy care."}
+                      text={item.shortDescription ?? "Personalized medical clinic care."}
                       href={`/services/${buildServiceSlug(item)}`}
                       image={item.images?.[0] ? item.images[0] : null}
                     />
@@ -155,7 +155,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   className="group rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600 transition hover:-translate-y-1 hover:border-[#0E2A47]/60 hover:shadow-lg"
                 >
                   <p className="text-base font-semibold text-slate-900 group-hover:text-[#0E2A47]">{item.name}</p>
-                  <p className="mt-2 line-clamp-3">{item.shortDescription ?? item.description ?? "Comprehensive pharmacist-led care."}</p>
+                  <p className="mt-2 line-clamp-3">{item.shortDescription ?? item.description ?? "Comprehensive medical clinic-led care."}</p>
                 </Link>
               ))}
             </div>

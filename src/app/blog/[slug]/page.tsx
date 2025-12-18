@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 
   return {
     title: `${post.title} | Kings Care Medical Clinic`,
-    description: post.excerpt ?? "Read pharmacy insights from the Lyfe team.",
+    description: post.excerpt ?? "Read clinic insights from the Kings Care team.",
   };
 }
 
@@ -146,7 +146,7 @@ const heroImage = post.imageUrl ?? "/website/Pharmacists.jpg";
             href="/contact"
             className="inline-flex items-center justify-center rounded-full bg-[#D9C89E] px-4 py-2 text-sm font-semibold text-[#0E2A47] transition hover:bg-[#C7B57A]"
           >
-            Speak with a pharmacist
+            Speak with Our Team
           </Link>
         </div>
 

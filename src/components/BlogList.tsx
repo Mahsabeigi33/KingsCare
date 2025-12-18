@@ -35,7 +35,7 @@ export default function BlogList({ posts }: { posts: BlogPost[] }) {
 
         {items.length === 0 ? (
           <p className="mt-8 rounded-xl border border-white/20 bg-white/10 p-6 text-sm text-white/80">
-            Our team is writing up new guidance. Check back soon for fresh care tips and pharmacy updates.
+            Our team is writing up new guidance. Check back soon for fresh care tips and midical clinic updates.
           </p>
         ) : (
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

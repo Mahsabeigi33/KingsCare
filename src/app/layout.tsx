@@ -11,7 +11,7 @@ const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
 export const metadata: Metadata = {
   title: "Kings Care Medical Clinic & Travel Health",
   description:
-    "Book appointments, refills, transfers. Travel clinic and prescribing pharmacists.",
+    "Book appointments medical clinic , family doctor .",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"),
 };
