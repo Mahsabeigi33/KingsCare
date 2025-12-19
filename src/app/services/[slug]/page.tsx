@@ -71,22 +71,20 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   }
 
   const heroImage = service.images?.[0] ?? "/website/Pharmacists.jpg";
-  const base = (process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "")
+  const base = (process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "");
+  const resolveImage = (val: string) => {
+    if (val.startsWith("http://") || val.startsWith("https://")) return val;
+    if (val.startsWith("/uploads/")) return `${base}${val}`;
+    return val.startsWith("/") ? val : `/${val}`;
+  };
+  const galleryImages = (service.images ?? []).slice(1, 4).map(resolveImage);
   return (
     <div>
       <Nav/>
     
       <div className="relative isolate overflow-hidden bg-slate-900 text-white max-h-500 h-200">
         <Image
-          src={((): string => {
-            const val = heroImage
-            if (val.startsWith("http://") || val.startsWith("https://")) return val
-            if (val.startsWith("/uploads/")) {
-              
-              return `${base}${val}`
-            }
-            return val.startsWith("/") ? val : `/${val}`
-          })()}
+          src={resolveImage(heroImage)}
           alt=""
           fill
           priority
@@ -124,6 +122,18 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               Ask a question
             </Link>
           </div>
+          {galleryImages.length ? (
+            <div className="mt-10 grid gap-4 sm:grid-cols-3">
+              {galleryImages.map((img, idx) => (
+                <div
+                  key={`${img}-${idx}`}
+                  className="relative h-28 overflow-hidden rounded-xl border border-white/10 bg-white/10 shadow-lg backdrop-blur-sm"
+                >
+                  <Image src={img} alt={`${service.name} preview ${idx + 1}`} fill className="object-cover" />
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
 
