@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   title: "Kings Care Medical Clinic & Travel Health",
   description:
     "Book appointments medical clinic , family doctor .",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [
+    { rel: "icon", url: "/website/logo-footer.png" },
+    { rel: "shortcut icon", url: "/website/logo-footer.png" },
+  ],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"),
 };
 

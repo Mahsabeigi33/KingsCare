@@ -89,6 +89,8 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           alt=""
           fill
           priority
+          sizes="100vw"
+          unoptimized
           className="absolute inset-0 object-cover opacity-40"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/90 via-[#0E2A47]/60 to-transparent" />
@@ -107,9 +109,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
                   <strong className="text-white">Duration:</strong> {service.durationMin} minutes
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
-                  <strong className="text-white">Investment:</strong> {currencyFormatter.format((service.priceCents ?? 0) / 100)}
-                </span>
+               
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
@@ -133,6 +133,8 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 fill
                 className="object-cover"
                 priority
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/10 via-transparent to-transparent" />
             </div>
