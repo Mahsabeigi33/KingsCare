@@ -2,7 +2,7 @@ import Link from "next/link"
 import { fetchDoctors } from "@/lib/doctors"
 import Image from "next/image"
 const placeholder =
-  "https://unsplash.com/photos/a-woman-in-a-white-lab-coat-writing-on-a-notebook-0X-1-9lpEbM?auto=format&fit=crop&w=400&q=80"
+  "https://images.unsplash.com/photo-1502989642968-94fbdc9eace4?auto=format&fit=crop&w=400&q=80"
 
 const resolveImage = (url?: string | null) => {
   const val = url ?? ""
@@ -59,9 +59,6 @@ export default async function TeamMember() {
                       className="object-cover transition duration-300 group-hover:scale-105"
                       sizes="128px"
                       priority={false}
-                      onError={(e) => {
-                        console.error(`Failed to load image for ${member.fullName}:`, imageUrl)
-                      }}
                     />
                   </div>
                   <h3 className="mb-1 text-xl font-bold text-gray-900">{member.fullName}</h3>
