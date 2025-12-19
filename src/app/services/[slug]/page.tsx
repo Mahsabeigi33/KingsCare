@@ -77,7 +77,6 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     if (val.startsWith("/uploads/")) return `${base}${val}`;
     return val.startsWith("/") ? val : `/${val}`;
   };
-  const galleryImages = (service.images ?? []).slice(1, 4).map(resolveImage);
   return (
     <div>
       <Nav/>
@@ -91,49 +90,51 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           className="absolute inset-0 object-cover opacity-40"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/90 via-[#0E2A47]/60 to-transparent" />
-        <div className="relative mx-auto max-w-5xl px-4 py-20">
-          <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
-          <h1 className="mt-4 text-3xl font-semibold sm:text-5xl">{service.name}</h1>
-          <p className="mt-4 max-w-3xl text-base text-white/80 sm:text-lg">
-            {service.description ?? "Personalized medical clinic care tailored to your goals."}
-          </p>
-          <p className="mt-4 max-w-3xl text-base text-white/80 sm:text-lg">
-            {service.shortDescription ?? "Personalized medical clinic care tailored to your goals."}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/90">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
-              <strong className="text-white">Duration:</strong> {service.durationMin} minutes
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
-              <strong className="text-white">Investment:</strong> {currencyFormatter.format((service.priceCents ?? 0) / 100)}
-            </span>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/user/appointments"
-              className="inline-flex items-center justify-center rounded-full bg-[#D9C89E]  px-6 py-4 text-sm font-semibold text-[#0E2A47] transition hover:bg-[#C7B57A]"
-            >
-              Book this service
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-4 text-sm font-semibold text-white transition hover:bg-white/20 bg-white/10"
-            >
-              Ask a question
-            </Link>
-          </div>
-          {galleryImages.length ? (
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
-              {galleryImages.map((img, idx) => (
-                <div
-                  key={`${img}-${idx}`}
-                  className="relative h-28 overflow-hidden rounded-xl border border-white/10 bg-white/10 shadow-lg backdrop-blur-sm"
+        <div className="relative mx-auto max-w-6xl px-4 py-20">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.3fr,0.9fr]">
+            <div>
+              <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
+              <h1 className="mt-4 text-3xl font-semibold sm:text-5xl">{service.name}</h1>
+              <p className="mt-4 max-w-3xl text-base text-white/80 sm:text-lg">
+                {service.description ?? "Personalized medical clinic care tailored to your goals."}
+              </p>
+              <p className="mt-4 max-w-3xl text-base text-white/80 sm:text-lg">
+                {service.shortDescription ?? "Personalized medical clinic care tailored to your goals."}
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/90">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
+                  <strong className="text-white">Duration:</strong> {service.durationMin} minutes
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
+                  <strong className="text-white">Investment:</strong> {currencyFormatter.format((service.priceCents ?? 0) / 100)}
+                </span>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  href="/user/appointments"
+                  className="inline-flex items-center justify-center rounded-full bg-[#D9C89E]  px-6 py-4 text-sm font-semibold text-[#0E2A47] transition hover:bg-[#C7B57A]"
                 >
-                  <Image src={img} alt={`${service.name} preview ${idx + 1}`} fill className="object-cover" />
-                </div>
-              ))}
+                  Book this service
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-4 text-sm font-semibold text-white transition hover:bg-white/20 bg-white/10"
+                >
+                  Ask a question
+                </Link>
+              </div>
             </div>
-          ) : null}
+            <div className="relative h-[260px] w-full overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm sm:h-[320px]">
+              <Image
+                src={resolveImage(heroImage)}
+                alt={`${service.name} hero`}
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/10 via-transparent to-transparent" />
+            </div>
+          </div>
         </div>
       </div>
 
