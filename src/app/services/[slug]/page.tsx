@@ -71,7 +71,9 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   }
 
   const heroImage = service.images?.[0] ?? "/website/Pharmacists.jpg";
-  const base = (process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "");
+  // Prefer the public admin URL if available, fallback to server-side URL
+  const base =
+    (process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "");
   const resolveImage = (val: string) => {
     if (val.startsWith("http://") || val.startsWith("https://")) return val;
     if (val.startsWith("/uploads/")) return `${base}${val}`;
