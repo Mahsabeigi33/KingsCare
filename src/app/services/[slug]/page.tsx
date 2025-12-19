@@ -75,10 +75,24 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   const base =
     (process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "");
   const resolveImage = (val: string) => {
-    if (val.startsWith("http://") || val.startsWith("https://")) return val;
-    if (val.startsWith("/uploads/")) return `${base}${val}`;
+    // If already a full URL, return as-is
+    if (val.startsWith("http://") || val.startsWith("https://")) {
+      return val;
+    }
+    
+    // For upload paths, construct full URL
+    if (val.startsWith("/uploads/")) {
+      // Use the public env var if available (for client), otherwise server env var
+      const baseUrl = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || "";
+      return `${baseUrl.replace(/\/$/, "")}${val}`;
+    }
+    
+    // For local public assets
     return val.startsWith("/") ? val : `/${val}`;
   };
+  const resolvedHeroImage = resolveImage(heroImage);
+  console.log('Hero image URL:', resolvedHeroImage);
+
   return (
     <div>
       <Nav/>
@@ -89,6 +103,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           alt=""
           fill
           priority
+          sizes="100vw"
           className="absolute inset-0 object-cover opacity-40"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/90 via-[#0E2A47]/60 to-transparent" />
@@ -107,9 +122,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
                   <strong className="text-white">Duration:</strong> {service.durationMin} minutes
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
-                  <strong className="text-white">Investment:</strong> {currencyFormatter.format((service.priceCents ?? 0) / 100)}
-                </span>
+               
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
@@ -133,6 +146,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 fill
                 className="object-cover"
                 priority
+                sizes="(min-width: 1024px) 45vw, 100vw"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/10 via-transparent to-transparent" />
             </div>

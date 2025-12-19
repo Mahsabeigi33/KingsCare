@@ -1,19 +1,19 @@
 import Link from "next/link"
 import { fetchDoctors } from "@/lib/doctors"
-
+import Image from "next/image"
 const placeholder =
   "https://images.unsplash.com/photo-1502989642968-94fbdc9eace4?auto=format&fit=crop&w=400&q=80"
 const baseApiUrl = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || ""
 
 const resolveImage = (url?: string | null) => {
-  if (!url) return placeholder
-  if (url.startsWith("http")) return url
-  if (!baseApiUrl) return url
-  try {
-    return new URL(url, baseApiUrl).toString()
-  } catch {
-    return url
+  const val = url ?? ""
+  if (!val) return placeholder
+  if (val.startsWith("http://") || val.startsWith("https://")) return val
+  if (val.startsWith("/uploads/")) {
+    const base = (process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "")
+    return base ? `${base}${val}` : val
   }
+  return val.startsWith("/") ? val : `/${val}`
 }
 
 export default async function TeamMember() {
@@ -48,12 +48,17 @@ export default async function TeamMember() {
                 href={`/doctors/${member.id}`}
                 className="rounded-2xl border border-gray-100 bg-gray-50/60 p-6 text-center shadow-sm transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-md"
               >
-                <div className="mx-auto mb-4 h-32 w-32 overflow-hidden rounded-full bg-[#E6E8EB]">
-                  <img
+                <div className="mx-auto mb-4 h-32 w-32 overflow-hidden rounded-full bg-[#E6E8EB] relative">
+                  <Image
                     src={resolveImage(member.photoUrl)}
                     alt={member.fullName}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                    loading="lazy"
+                    fill
+                    style={{ objectFit: "cover" }}
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
+
                 </div>
                 <h3 className="mb-1 text-xl font-bold text-gray-900">{member.fullName}</h3>
                 <p className="text-[#0E2A47] font-medium">
