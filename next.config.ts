@@ -8,6 +8,10 @@ remotePatterns.push({ protocol: "http", hostname: "localhost", port: "3000", pat
 // Allow external icon hosts
 remotePatterns.push({ protocol: "https", hostname: "www.svgrepo.com", pathname: "/**" });
 
+// Always allow the deployed admin host (can be overridden via ADMIN_PUBLIC_HOSTNAME)
+const adminPublicHostname = process.env.ADMIN_API_BASE_URL || "admin-kings-care.vercel.app";
+remotePatterns.push({ protocol: "https", hostname: adminPublicHostname, pathname: "/**" });
+
 // Optionally allow ADMIN_API_BASE_URL host if set and not localhost
 try {
   const adminUrl = process.env.ADMIN_API_BASE_URL ? new URL(process.env.ADMIN_API_BASE_URL) : null;
