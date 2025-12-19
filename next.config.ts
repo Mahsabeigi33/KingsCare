@@ -39,8 +39,8 @@ remotePatterns.push({ protocol: "https", hostname: "**.blob.vercel-storage.com",
 const nextConfig: NextConfig = {
   images: {
     remotePatterns,
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    deviceSizes: [320,375,425,640, 750, 828, 1080, 1200,1400, 1920, 2048,2500, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384,500, 640, 750, 828, 1080, 1200],
   },
 };
 
