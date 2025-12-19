@@ -123,6 +123,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   <strong className="text-white">Duration:</strong> {service.durationMin} minutes
                 </span>
                
+               
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
