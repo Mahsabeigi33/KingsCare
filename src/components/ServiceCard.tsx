@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image"
+import { resolveMediaUrl } from "@/lib/media"
 
 import { cn } from "@/lib/cn";
 export default function ServiceCard({
@@ -50,16 +51,8 @@ export default function ServiceCard({
       <div className="relative w-full overflow-hidden bg-gradient-to-r from-[#D9C89E]/20 to-[#0E2A47]/10 aspect-[4/3] md:aspect-[16/10]">
         {image ? (
           <Image
-            src={((): string => {
-              const val = image
-              if (val.startsWith("http://") || val.startsWith("https://")) return val
-              if (val.startsWith("/uploads/")) {
-                const base = (process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || "").replace(/\/$/, "")
-                return `${base}${val}`
-              }
-              return val.startsWith("/") ? val : `/${val}`
-            })()}
-            alt={`${title} service illustration`}            
+            src={resolveMediaUrl(image)}
+            alt={`${title} service illustration`}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
             loading="lazy"
             fill

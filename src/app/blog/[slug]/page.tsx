@@ -6,6 +6,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Emergency from "@/components/Emergency";
 import { fetchBlogBySlug, fetchPublishedBlogs } from "@/lib/blogs";
+import { resolveMediaUrl } from "@/lib/media";
 
 // Force dynamic rendering to avoid static-generation conflicts coming from session handling in the root layout.
 export const dynamic = "force-dynamic";
@@ -98,15 +99,7 @@ const heroImage = post.imageUrl ?? "/website/Pharmacists.jpg";
     <article className="bg-slate-50">
       <div className="relative isolate overflow-hidden bg-slate-900 text-white max-h-500 h-200">
               <Image
-                src={((): string => {
-                  const val = heroImage
-                  if (val.startsWith("http://") || val.startsWith("https://")) return val
-                  if (val.startsWith("/uploads/")) {
-                    const base = (process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "")
-                    return `${base}${val}`
-                  }
-                  return val.startsWith("/") ? val : `/${val}`
-                })()}
+                src={resolveMediaUrl(heroImage)}
                 alt=""
                 fill
                 priority
@@ -115,7 +108,7 @@ const heroImage = post.imageUrl ?? "/website/Pharmacists.jpg";
         {post.imageUrl ? (
           <div className="absolute inset-0">
             <Image
-              src={post.imageUrl}
+              src={resolveMediaUrl(post.imageUrl)}
               alt={post.title ?? "Featured article background"}
               fill
               className="object-cover opacity-40"

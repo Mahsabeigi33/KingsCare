@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Emergency from "@/components/Emergency";
 import Image from "next/image";
 import ServiceCard from "@/components/ServiceCard";
+import { resolveMediaUrl } from "@/lib/media";
 
 // Force this route to run dynamically to avoid static-generation conflicts with auth/session usage in the root layout.
 export const dynamic = "force-dynamic";
@@ -71,27 +72,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   }
 
   const heroImage = service.images?.[0] ?? "/website/Pharmacists.jpg";
-  // Prefer the public admin URL if available, fallback to server-side URL
-  const base =
-    (process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "");
-  const resolveImage = (val: string) => {
-    // If already a full URL, return as-is
-    if (val.startsWith("http://") || val.startsWith("https://")) {
-      return val;
-    }
-    
-    // For upload paths, construct full URL
-    if (val.startsWith("/uploads/")) {
-      // Use the public env var if available (for client), otherwise server env var
-      const baseUrl = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || "";
-      return `${baseUrl.replace(/\/$/, "")}${val}`;
-    }
-    
-    // For local public assets
-    return val.startsWith("/") ? val : `/${val}`;
-  };
-  const resolvedHeroImage = resolveImage(heroImage);
-  console.log('Hero image URL:', resolvedHeroImage);
+  const resolvedHeroImage = resolveMediaUrl(heroImage);
 
   return (
     <div>
@@ -99,7 +80,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     
       <div className="relative isolate overflow-hidden bg-slate-900 text-white max-h-500 h-200">
         <Image
-          src={resolveImage(heroImage)}
+          src={resolvedHeroImage}
           alt=""
           fill
           priority
@@ -142,7 +123,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             </div>
             <div className="relative h-[260px] w-full overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm sm:h-[320px]">
               <Image
-                src={resolveImage(heroImage)}
+                src={resolvedHeroImage}
                 alt={`${service.name} hero`}
                 fill
                 className="object-cover"

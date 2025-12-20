@@ -3,24 +3,13 @@ import Image from "next/image"
 import { fetchDoctorById } from "@/lib/doctors"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
+import { resolveMediaUrl } from "@/lib/media"
 const placeholder =
   "https://images.unsplash.com/photo-1502989642968-94fbdc9eace4?auto=format&fit=crop&w=800&q=80"
-const baseApiUrl = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || process.env.ADMIN_API_BASE_URL || ""
 
 // Force dynamic rendering to avoid static-generation conflicts coming from session handling in the root layout.
 export const dynamic = "force-dynamic"
 export const fetchCache = "force-no-store"
-
-const resolveImage = (url?: string | null) => {
-  if (!url) return placeholder
-  if (url.startsWith("http")) return url
-  if (!baseApiUrl) return url
-  try {
-    return new URL(url, baseApiUrl).toString()
-  } catch {
-    return url
-  }
-}
 
 type PageProps = { params: Promise<{ id: string }> }
 
@@ -29,8 +18,8 @@ export default async function DoctorPage({ params }: PageProps) {
   const doctor = await fetchDoctorById(id)
   if (!doctor) return notFound()
 
-  const imageUrl = resolveImage(doctor.photoUrl)
-  const gallery = (doctor.gallery ?? []).map((url) => resolveImage(url))
+  const imageUrl = resolveMediaUrl(doctor.photoUrl, { placeholder })
+  const gallery = (doctor.gallery ?? []).map((url) => resolveMediaUrl(url, { placeholder }))
 
   return (
 

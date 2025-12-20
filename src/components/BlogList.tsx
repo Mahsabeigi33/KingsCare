@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import Image from "next/image";
+import { resolveMediaUrl } from "@/lib/media";
 export type BlogPost = {
   slug: string;
   title: string;
@@ -48,15 +49,7 @@ export default function BlogList({ posts }: { posts: BlogPost[] }) {
                 <div className="aspect-[16/9] bg-gray-100">
                   {post.image ? (
                     <Image
-                      src={((): string => {
-                        const val = post.image as string
-                        if (val.startsWith("http://") || val.startsWith("https://")) return val
-                        if (val.startsWith("/uploads/")) {
-                          const base = (process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || "").replace(/\/$/, "")
-                          return `${base}${val}`
-                        }
-                        return val.startsWith("/") ? val : `/${val}`
-                      })()}
+                      src={resolveMediaUrl(post.image)}
                       alt=""
                       className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
                       loading="lazy"

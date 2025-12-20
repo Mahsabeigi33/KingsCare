@@ -6,6 +6,7 @@ import Emergency from "@/components/Emergency";
 import { fetchPublishedBlogs } from "@/lib/blogs";
 import { LucidePhoneOutgoing } from "lucide-react";
 import Image from "next/image";
+import { resolveMediaUrl } from "@/lib/media";
 export const revalidate = 600;
 export const metadata: Metadata = {
   title: "Blog | Kings Care Medical Clinic",
@@ -67,15 +68,7 @@ export default async function BlogIndexPage() {
               >
                 {post.imageUrl ? (
                   <Image
-                    src={((): string => {
-                      const val = post.imageUrl as string
-                      if (val.startsWith("http://") || val.startsWith("https://")) return val
-                      if (val.startsWith("/uploads/")) {
-                        const base = (process.env.ADMIN_API_BASE_URL || "").replace(/\/$/, "")
-                        return `${base}${val}`
-                      }
-                      return val.startsWith("/") ? val : `/${val}`
-                    })()}
+                    src={resolveMediaUrl(post.imageUrl)}
                     alt=""
                     className="h-48 w-full object-cover transition duration-300 group-hover:scale-105"
                     loading="lazy"
