@@ -1,12 +1,18 @@
-import { Phone, Mail, MapPin, Clock, MessageSquare } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageSquare,Printer } from "lucide-react";
 import Emergency from "./Emergency";
 
 const CONTACT_INFO = [
   {
     icon: Phone,
     title: "Phone",
-    content: "+1 (403) 123456",
-    href: "tel:+1403123456",
+    content: "+1 (403) 984-0255",
+    href: "tel:+14039840255",
+  },
+  {
+    icon: Printer,
+    title: "Fax",
+    content: "+1  (403) 984-0256",
+    href: "fax:+14039840256",
   },
   {
     icon: Mail,
@@ -17,13 +23,13 @@ const CONTACT_INFO = [
   {
     icon: MapPin,
     title: "Visit",
-    content: "#159 328 Centre Street SE, Calgary, AB",
-    href: "https://maps.app.goo.gl/e1dLBNX6KV4KhtRJ6",
+    content: "7712 Elbow Dr. SW, Calgary, AB, T2V 1K2",
+    href: "https://maps.app.goo.gl/U2fuSG5iXC1xCcKF7",
   },
   {
     icon: Clock,
     title: "Hours",
-    content: "Mon–Fri 9am–6pm · Sat 10am–4pm",
+    content: "Mon–Fri 8:30-17:00 • Sat 9:00-14:00 • Sun Closed",
   },
 ];
 
@@ -72,8 +78,8 @@ export default function ContactStrip() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(14,42,71,0.08),transparent_40%),radial-gradient(circle_at_80%_10%,rgba(217,200,158,0.18),transparent_35%)]" />
           <iframe
             title="Kings Care Medical Clinic Map"
-            src="https://maps.google.com/maps?width=600&height=400&hl=en&q=%20328%20Centre%20Street%20SE%20T2G%204X6&t=&z=14&ie=UTF8&iwloc=B&output=embed"
-            className="relative w-full aspect-[30/24] rounded-3xl"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2511.68015293935!2d-114.0823235!3d50.9851024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5371710529a2581d%3A0x7a8d33ecae953db0!2s7712%20Elbow%20Dr%20SW%2C%20Calgary%2C%20AB%20T2V%201K1!5e0!3m2!1sen!2sca!4v1766524119611!5m2!1sen!2sca"
+            className="relative w-full aspect-[33/30] rounded-3xl"
             loading="lazy"
           />
           <div className="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-[#0E2A47] shadow-lg backdrop-blur">
