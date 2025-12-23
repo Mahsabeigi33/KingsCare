@@ -7,7 +7,7 @@ export default function Emergency() {
              
               
               <Link
-                href="tel:+15873276106"
+                href="tel:+14039840255"
                 className="inline-block text-[#E6E8EB] font-semibold px-6 py-3 rounded-full "
               >
                 <LucidePhoneCall className=" h-10 w-10 text-[#D9C89E]" />

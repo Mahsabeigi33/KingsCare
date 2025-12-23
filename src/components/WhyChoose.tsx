@@ -12,7 +12,7 @@ const WhyChoose = () => {
   const reasons = [
    {
       title: "Patient-Centered Care",
-      blurb: "At KingsCare, every patient is treated with respect, empathy, and personal attention. Our healthcare professionals take the time to listen, understand your concerns, and provide care that is tailored to your individual needs — not rushed, not one-size-fits-all.",
+      blurb: "At KingsCare, every patient is treated with respect, empathy, and personal attention. Our healthcare professionals take the time to listen, understand your concerns, and provide care that is tailored to your individual needs - not rushed, not one-size-fits-all.",
       bullets: ["Personalized treatment plans", "Compassionate communication", "Holistic health approach"],
       image: "/website/why.png",
       tag: "Your health, our priority",

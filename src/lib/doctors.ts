@@ -63,7 +63,12 @@ export async function fetchDoctors(options?: { featured?: boolean; active?: bool
 
   const body = await response.json()
   if (!Array.isArray(body)) return []
-  return body as AdminDoctor[]
+  const items = body as AdminDoctor[]
+  return [...items].sort((a, b) => {
+    const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0
+    const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
+    return bTime - aTime
+  })
 }
 
 export async function fetchDoctorById(id: string) {
