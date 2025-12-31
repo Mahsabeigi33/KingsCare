@@ -51,7 +51,10 @@ export default async function PatientAppointmentsPage() {
 
   let services: Service[] = []
   try {
-    services = await fetchServices()
+    services = (await fetchServices()).map((svc) => ({
+      ...svc,
+      durationMin: svc.durationMin ?? 30,
+    }))
   } catch (error) {
     console.error("Unable to load services for booking", error)
   }
