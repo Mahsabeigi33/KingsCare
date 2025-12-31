@@ -72,7 +72,7 @@ export default async function HomePage() {
       <Nav />
       <Hero cards={scrollerCards} />
       <WhyChoose />
-      <main className="mx-auto max-w-6xl px-4 py-12">
+      <main className="mx-auto px-4 py-12">
         <AboutTeaser />
   {/* Team Section */}
       <TeamMember />

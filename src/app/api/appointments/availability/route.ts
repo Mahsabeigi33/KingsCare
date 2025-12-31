@@ -130,7 +130,7 @@ export async function GET(request: Request) {
       slots: slots ?? [],
       service: {
         id: selectedService.id,
-        durationMin: selectedService.durationMin,
+        durationMin: selectedService.durationMin ?? 30,
         name: selectedService.name,
       },
     })
@@ -147,6 +147,7 @@ function buildDayAvailability(
   serviceMap: Map<string, AdminService>,
   now: Date,
 ): DayAvailability {
+  const serviceDuration = selectedService.durationMin ?? 30
   const dayStart = startOfDay(day)
   const close = addMinutes(dayStart, CLINIC_CLOSE_MINUTES)
 
@@ -155,11 +156,11 @@ function buildDayAvailability(
 
   for (
     let offset = CLINIC_OPEN_MINUTES;
-    offset + selectedService.durationMin <= CLINIC_CLOSE_MINUTES;
+    offset + serviceDuration <= CLINIC_CLOSE_MINUTES;
     offset += SLOT_INTERVAL_MINUTES
   ) {
     const slotStart = addMinutes(dayStart, offset)
-    const slotEnd = addMinutes(slotStart, selectedService.durationMin)
+    const slotEnd = addMinutes(slotStart, serviceDuration)
 
     if (slotEnd > close) {
       continue
@@ -172,7 +173,7 @@ function buildDayAvailability(
     }
 
     const hasConflict = appointments.some((appointment) =>
-      overlaps(slotStart, slotEnd, appointment, serviceMap, selectedService.durationMin),
+      overlaps(slotStart, slotEnd, appointment, serviceMap, serviceDuration),
     )
 
     if (!hasConflict) {

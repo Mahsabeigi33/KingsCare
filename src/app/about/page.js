@@ -28,13 +28,7 @@ const AboutPage = () => {
     }
   ];
 
-  const stats = [
-    { number: '15+', label: 'Years of Service' },
-    { number: '50K+', label: 'Patients Served' },
-    { number: '98%', label: 'Satisfaction Rate' },
-    { number: '24/7', label: 'Support Available' }
-  ];
-
+  
   return (
      <div>
          <Nav />
@@ -53,7 +47,7 @@ const AboutPage = () => {
                       </p>
                       <p className="mt-4 max-w-3xl text-sm text-white/80 sm:text-base">
                       We focus on accessible healthcare, offering same-day appointments, walk-in visits, and coordinated care to support patients at every stage of life.                   </p>
-                     <div className="mt-6 flex flex-wrap gap-3">            
+                     <div className="mt-6 flex flex-wrap gap-3 items-center justify-center lg:justify-start">            
                      <Link
                        href="/contact"
                        className="inline-flex items-center justify-center rounded-full bg-[#D9C89E] border border-white/70 px-5 py-4 text-sm font-semibold text-[#0E2A47] transition hover:bg-[#C7B57A] hover:border-white/90 focus:outline-none focus:ring-2 focus:ring-[#D9C89E] focus:ring-offset-2 hover:shadow-lg shadow-xl shadow-[#D9C89E]/30"
@@ -88,21 +82,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="bg-white py-16 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-[#0E2A47] mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-gray-600 font-medium">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Values Section */}
       <section className="py-16 px-4">

@@ -68,11 +68,11 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section ref={ref} className="bg-[#E6E8EB]">
+    <section ref={ref} className="bg-[#d9b356] w-full overflow-hidden  shadow-2xl  rounded-3xl">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16 lg:py-20">
         <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 items-center">
           <div
-            className="order-2 md:order-1 relative h-120 w-full"
+            className="order-2 md:order-1 relative w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px]"
             style={{
               opacity: visible ? 1 : 0,
               transform: visible ? "translateY(0)" : "translateY(30px)",
@@ -82,10 +82,10 @@ const AboutSection = () => {
             <Image
               src="/website/about.png"
               alt="Kings Care Medical Clinic team providing personalized care"
-              className="w-full rounded-xl shadow-lg object-cover aspect-[4/3]"
-              loading="lazy"
               fill
-              style={{ objectFit: "cover" }}
+              className="rounded-xl shadow-lg object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+              priority={true}
             />
           </div>
 

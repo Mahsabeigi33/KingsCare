@@ -44,6 +44,7 @@ export default function Nav() {
   const bookingHref = isAuthenticated ? bookingPath : `/login?next=${encodeURIComponent(bookingPath)}`
 
   const closeMobileMenu = () => setMobileMenuOpen(false)
+  const logoSrc = scrolled ? "/website/Logo-solid.png" : "/website/Logo.png"
 
   return (
     <>
@@ -58,12 +59,19 @@ export default function Nav() {
           <div className="flex h-16 items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 transition-transform hover:scale-105">
-              <div className="rounded-full border-4  border-[#0E2A47] relative h-40 w-40 mt-20  p-2 sm:p-0 bg-[#0E2A47]/50 ">
-              <Image
-                src="/website/Logo.png" 
-                alt="Kings Care Medical Clinic logo" 
-                fill  priority className="  object-contain"
-              />
+              <div
+                className={cn(
+                  "relative  transition-all duration-300",
+                  scrolled ? "h-35 w-60" : "rounded-full border-2  border-[#d9b356] relative h-40 w-40 mt-20  p-2 sm:p-0 bg-[#0E2A47]/50",
+                )}
+              >
+                <Image
+                  src={logoSrc}
+                  alt="Kings Care Medical Clinic logo"
+                  fill
+                  priority
+                  className="object-contain"
+                />
               </div>
             </Link>
 
@@ -74,7 +82,7 @@ export default function Nav() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "text-large font-bold transition-all duration-200 hover:text-[#D9C89E]",
+                    "text-large font-bold transition-all duration-200 hover:text-[#d9b356]",
                     "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#D9C89E] after:transition-all after:duration-300 hover:after:w-full",
                     pathname === link.href && "text-[#D9C89E] after:w-full",
                   )}
@@ -86,43 +94,19 @@ export default function Nav() {
 
             {/* Desktop Auth Buttons */}
             <div className="hidden items-center gap-3 lg:flex">
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    href="/user/profile"
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#D9C89E] px-5 py-2.5 text-sm font-semibold text-[#0E2A47] shadow-lg shadow-[#D9C89E]/30 transition-all hover:bg-[#C7B57A] hover:shadow-xl hover:shadow-[#C7B57A]/40 hover:scale-105"
-                  >
-                    <LucideUser2 className="h-4 w-4" />
-                    <span>Profile</span>
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    className="inline-flex items-center gap-2 rounded-xl border-2 border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:border-white hover:bg-white/10 hover:scale-105"
-                  >
-                    <LogOutIcon className="h-4 w-4 text-[#D9C89E]" />
-                    <span>Sign Out</span>
-                  </button>
-                </>
-              ) : (
+              
                 <>
                   <Link
                     href={bookingHref}
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#D9C89E] px-5 py-2.5 text-sm font-semibold text-[#0E2A47] shadow-lg shadow-[#D9C89E]/30 transition-all hover:bg-[#C7B57A] hover:shadow-xl hover:shadow-[#C7B57A]/40 hover:scale-105"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#d9b356] px-5 py-2.5 text-sm font-semibold text-[#0E2A47] shadow-lg shadow-[#d9b356]/70 transition-all hover:bg-[#C7B57A] hover:shadow-xl hover:shadow-[#C7B57A]/40 hover:scale-105"
                   >
                     <CalendarSearchIcon className="h-4 w-4" />
                     <span className="hidden sm:inline">Book Appointment</span>
                     <span className="sm:hidden">Book</span>
                   </Link>
-                  <Link
-                    href="/login"
-                    className="inline-flex items-center gap-2 rounded-xl border-2 border-white/40 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:border-white hover:bg-white/10 hover:scale-105"
-                  >
-                    <LogInIcon className="h-4 w-4" />
-                    <span className="hidden sm:inline">Sign In</span>
-                  </Link>
+              
                 </>
-              )}
+             
             </div>
 
             {/* Mobile Hamburger Menu Button */}
@@ -207,48 +191,19 @@ export default function Nav() {
             <p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wider text-[#D9C89E]/80">
               Account
             </p>
-            {isAuthenticated ? (
-              <>
-                <Link
-                  href="/user/profile"
-                  onClick={closeMobileMenu}
-                  className="inline-flex items-center justify-center gap-3 rounded-xl bg-[#D9C89E] px-6 py-4 text-base font-bold text-[#0E2A47] shadow-lg shadow-[#D9C89E]/30 transition-all hover:bg-[#C7B57A] active:scale-95"
-                >
-                  <LucideUser2 className="h-5 w-5" />
-                  View Profile
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => {
-                    closeMobileMenu()
-                    signOut({ callbackUrl: "/" })
-                  }}
-                  className="inline-flex items-center justify-center gap-3 rounded-xl border-2 border-white/30 bg-white/5 px-6 py-4 text-base font-bold text-white transition-all hover:border-white/50 hover:bg-white/10 active:scale-95"
-                >
-                  <LogOutIcon className="h-5 w-5 text-[#D9C89E]" />
-                  Sign Out
-                </button>
-              </>
-            ) : (
+           
               <>
                 <Link
                   href={bookingHref}
                   onClick={closeMobileMenu}
-                  className="inline-flex items-center justify-center gap-3 rounded-xl bg-[#D9C89E] px-6 py-4 text-base font-bold text-[#0E2A47] shadow-lg shadow-[#D9C89E]/30 transition-all hover:bg-[#C7B57A] active:scale-95"
+                  className="inline-flex items-center justify-center gap-3 rounded-xl bg-[#d9b356] px-6 py-4 text-base font-bold text-[#0E2A47] shadow-lg shadow-[#D9C89E]/30 transition-all hover:bg-[#C7B57A] active:scale-95"
                 >
                   <CalendarSearchIcon className="h-5 w-5" />
                   Book An Appointment
                 </Link>
-                <Link
-                  href="/login"
-                  onClick={closeMobileMenu}
-                  className="inline-flex items-center justify-center gap-3 rounded-xl border-2 border-white/30 bg-white/5 px-6 py-4 text-base font-bold text-white transition-all hover:border-white/50 hover:bg-white/10 active:scale-95"
-                >
-                  <LogInIcon className="h-5 w-5" />
-                  Sign In
-                </Link>
+                
               </>
-            )}
+            
           </div>
 
           {/* Mobile Menu Footer */}

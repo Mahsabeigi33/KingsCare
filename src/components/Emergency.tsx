@@ -10,7 +10,8 @@ export default function Emergency() {
                 href="tel:+14039840255"
                 className="inline-block text-[#E6E8EB] font-semibold px-6 py-3 rounded-full "
               >
-                <LucidePhoneCall className=" h-10 w-10 text-[#D9C89E]" />
+                <span className="mb-2 text-[#D9C89E]">Call Us</span>
+                <LucidePhoneCall className=" h-10 w-10 text-[#d9b356]" />
                 
               </Link>
         </div>

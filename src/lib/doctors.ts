@@ -18,6 +18,7 @@ export type AdminDoctor = {
   languages?: string[]
   photoUrl?: string | null
   gallery?: string[]
+  priority?: number | null
   active: boolean
   featured: boolean
   createdAt?: string
@@ -65,6 +66,12 @@ export async function fetchDoctors(options?: { featured?: boolean; active?: bool
   if (!Array.isArray(body)) return []
   const items = body as AdminDoctor[]
   return [...items].sort((a, b) => {
+    const aPriority = a.priority ?? Number.POSITIVE_INFINITY
+    const bPriority = b.priority ?? Number.POSITIVE_INFINITY
+    if (aPriority !== bPriority) return aPriority - bPriority
+
+    if (a.featured !== b.featured) return Number(b.featured) - Number(a.featured)
+
     const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0
     const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
     return bTime - aTime

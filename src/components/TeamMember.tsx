@@ -15,7 +15,15 @@ export default async function TeamMember() {
   }
 
   const visible = doctors.length
-    ? [...doctors].sort((a, b) => Number(b.featured) - Number(a.featured))
+    ? [...doctors].sort((a, b) => {
+        const aPriority = a.priority ?? Number.POSITIVE_INFINITY
+        const bPriority = b.priority ?? Number.POSITIVE_INFINITY
+        if (aPriority !== bPriority) return aPriority - bPriority
+        if (a.featured !== b.featured) return Number(b.featured) - Number(a.featured)
+        const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0
+        const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0
+        return bTime - aTime
+      })
     : []
 
   return (
@@ -31,32 +39,30 @@ export default async function TeamMember() {
             Our physician profiles are coming soon.
           </div>
         ) : (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((member) => (
               <Link
                 key={member.id}
                 href={`/doctors/${member.id}`}
-                className="rounded-2xl border border-gray-100 bg-gray-50/60 p-6 text-center shadow-sm transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-md"
+                className="rounded-2xl border border-gray-100 bg-gray-50/60 p-2 text-center shadow-sm transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-md"
               >
-                <div className="mx-auto mb-4 h-32 w-32 overflow-hidden rounded-full bg-[#E6E8EB] relative">
+                <div className="mx-auto mb-4 h-60 w-full overflow-hidden rounded-xl bg-[#E6E8EB] relative">
                   <Image
                     src={resolveMediaUrl(member.photoUrl, { placeholder })}
                     alt={member.fullName}
                     fill
                     className="object-cover transition duration-300 group-hover:scale-105"
-                    sizes="128px"
+                    sizes="150vw"
                     priority={false}
                   />
                 </div>
-                <h3 className="mb-1 text-xl font-bold text-gray-900">{member.fullName}</h3>
+                <h3 className="mb-1 text-medium sm:text-sm font-bold text-gray-900">
+                  {member.fullName}  {[member.title, member.specialty].filter(Boolean).join("  ") || "Physician"}
+                </h3>
                 <p className="text-[#0E2A47] font-medium">
-                  {[member.title, member.specialty].filter(Boolean).join("  ") || "Physician"}
+                 
                 </p>
-                {member.languages?.length ? (
-                  <p className="mt-2 text-sm text-gray-600">
-                    Speaks: {member.languages.join(", ")}
-                  </p>
-                ) : null}
+               
               </Link>
             ))}
           </div>
