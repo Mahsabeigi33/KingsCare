@@ -8,9 +8,7 @@ import { cn } from "@/lib/cn"
 type ServiceSummary = {
   id: string
   name: string
-  durationMin: number
   description?: string | null
-  priceCents?: number
 }
 
 type DayAvailability = {
