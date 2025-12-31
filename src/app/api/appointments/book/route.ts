@@ -1,22 +1,22 @@
-import { getServerSession } from "next-auth"
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
 import { createPublicAppointment } from "@/lib/appointments"
-import { authOptions } from "@/lib/auth/options"
 
 const payloadSchema = z.object({
-  serviceId: z.string().min(1, "Service is required"),
+  doctorId: z.string().min(1, "Doctor is required"),
   datetime: z.string().min(1, "Appointment time is required"),
+  fullName: z.string().trim().min(1, "Full name is required"),
+  healthNumber: z.string().trim().min(4, "Health Number is required"),
+  phone: z.string().trim().min(7, "Phone number is required"),
+  birthDate: z
+    .string()
+    .trim()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Birth Date must be formatted as YYYY-MM-DD"),
   notes: z.string().trim().max(500).optional(),
 })
 
 export async function POST(request: Request) {
-  const session = await getServerSession(authOptions)
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
   let json: unknown
   try {
     json = await request.json()
@@ -40,10 +40,13 @@ export async function POST(request: Request) {
 
   try {
     const result = await createPublicAppointment({
-      patientId: session.user.patientId,
-      patientName: session.user.name ?? undefined,
-      serviceId: parsed.data.serviceId,
+      doctorId: parsed.data.doctorId,
+      patientName: parsed.data.fullName,
+      serviceId: parsed.data.doctorId,
       date: appointmentDate.toISOString(),
+      healthNumber: parsed.data.healthNumber,
+      phone: parsed.data.phone,
+      birthDate: parsed.data.birthDate,
       notes: parsed.data.notes?.trim() || undefined,
     })
 

@@ -75,11 +75,11 @@ export default async function HomePage() {
       <main className="mx-auto px-4 py-12">
         <AboutTeaser />
   {/* Team Section */}
-      <TeamMember />
+      
         <div className="mt-12">
           <ServicesGrid services={serviceCards} />
         </div>
-
+        <TeamMember />
         <div className="mt-12">
           {/* <BlogList posts={blogEntries} /> */}
         </div>
@@ -92,7 +92,7 @@ export default async function HomePage() {
           <div className="w-full">
             <Link
               href="/contact"
-              className="flex w-full items-center justify-center rounded-full bg-[#0E2A47] px-5 py-4 text-sm font-semibold text-white text-center shadow-xl shadow-[#0E2A47]/30 transition hover:bg-[#C7B57A] hover:text-[#0E2A47] hover:shadow-[#C7B57A]/30"
+              className="flex max-w-5xl items-center mx-auto justify-center rounded-full bg-[#0E2A47] px-5 py-4 text-sm font-semibold text-white text-center shadow-xl shadow-[#0E2A47]/30 transition hover:bg-[#C7B57A] hover:text-[#0E2A47] hover:shadow-[#C7B57A]/30"
             >
               Contact Us
             </Link>

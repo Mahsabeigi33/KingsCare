@@ -44,7 +44,7 @@ export default async function TeamMember() {
               <Link
                 key={member.id}
                 href={`/doctors/${member.id}`}
-                className="rounded-2xl border border-gray-100 bg-gray-50/60 p-2 text-center shadow-sm transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-md"
+                className="rounded-2xl border border-gray-100 bg-gray-50/60 p-2 text-center shadow-sm transition hover:-translate-y-2 hover:-translate-x-2  hover:border-[#d9b356] hover:shadow-xl hover:shadow-[#0E2A47]/50 group"
               >
                 <div className="mx-auto mb-4 h-100 w-full overflow-hidden rounded-xl bg-[#E6E8EB] relative ">
                   <Image

@@ -45,10 +45,10 @@ export default function ServiceCard({
     <Link
       href={href}
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-soft transition hover:-translate-y-1 hover:shadow-lg",
+        "group flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-gray-50 shadow-soft transition hover:-translate-y-2  hover:shadow-xl hover:shadow-[#0E2A47]/50 group",
       )}
     >
-      <div className="relative w-full overflow-hidden bg-gradient-to-r from-[#D9C89E]/20 to-[#0E2A47]/10 aspect-[4/3] md:aspect-[16/10]">
+      <div className="relative w-full overflow-hidden bg-gradient-to-r from-[#D9C89E]/20 to-[#0E2A47]/10 aspect-[4/4] ">
         {image ? (
           <Image
             src={resolveMediaUrl(image)}
@@ -57,7 +57,7 @@ export default function ServiceCard({
             loading="lazy"
             fill
             style={{ objectFit: "cover" }}
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            sizes="(max-width: 640px) 150vw, (max-width: 1024px) 50vw, 360px"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-4xl text-[#0E2A47]/30">

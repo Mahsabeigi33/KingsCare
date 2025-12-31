@@ -47,7 +47,8 @@ export default function ServicesGrid({ services }: { services: ServicesListItem[
   const items = services.length > 0 ? services : fallbackServices
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 bg-white/40 rounded-xl shadow-lg shadow-[#0E2A47]/10">
+    <section className="bg-white/50 py-16 px-4 sm:px-6 lg:px-8 border-t border-gray-200 rounded-2xl shadow-sm my-12">
+      <div className="mx-auto max-w-6xl">
       <h2 className="text-3xl font-bold text-center text-[#0E2A47]">
         Our Services
       </h2>
@@ -55,10 +56,11 @@ export default function ServicesGrid({ services }: { services: ServicesListItem[
         Comprehensive care tailored to your needs.
       </p>
 
-      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
         {items.map((service) => (
           <ServiceCard key={service.title} {...service} />
         ))}
+      </div>
       </div>
     </section>
   )

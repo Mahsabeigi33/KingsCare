@@ -1,27 +1,16 @@
 ﻿import type { Metadata } from "next"
 import Link from "next/link"
-import { redirect } from "next/navigation"
-import { getServerSession } from "next-auth"
-
-type Service = {
-  id: string
-  name: string
-  active: boolean
-  durationMin: number
-  description?: string | null
-  images?: string[] | null
-}
-
 import { AppointmentBooking } from "@/components/appointments/AppointmentBooking"
-import { authOptions } from "@/lib/auth/options"
-import { fetchServices } from "@/lib/services"
+import { fetchDoctors } from "@/lib/doctors"
+import type { AdminDoctor } from "@/lib/doctors"
+import Nav from "@/components/Nav"
+
 
 const HOW_IT_WORKS_STEPS = [
   {
     id: "01",
     title: "Reserve your visit",
-    description:
-      "Pick a service and time that works for you. Availability updates instantly as other patients book.",
+    description: "Pick your doctor and time. Availability updates instantly as other patients book.",
   },
   {
     id: "02",
@@ -40,38 +29,30 @@ const HOW_IT_WORKS_STEPS = [
 export const metadata: Metadata = {
   title: "Book an Appointment | Kings Care Medical Clinic",
   description:
-    "Secure a visit with Kings Care Medical Clinic's clinical team. Choose a service, pick a time, and confirm your appointment in minutes.",
+    "Secure a visit with Kings Care Medical Clinic's physicians. Choose your doctor, pick a time, and confirm your appointment in minutes.",
 }
 
 export default async function PatientAppointmentsPage() {
-  const session = await getServerSession(authOptions)
-  if (!session?.user) {
-    redirect(`/login?next=${encodeURIComponent("/user/appointments")}`)
-  }
-
-  let services: Service[] = []
+  let doctors: AdminDoctor[] = []
   try {
-    services = (await fetchServices()).map((svc) => ({
-      ...svc,
-      durationMin: svc.durationMin ?? 30,
-    }))
+    doctors = await fetchDoctors({ active: true })
   } catch (error) {
-    console.error("Unable to load services for booking", error)
+    console.error("Unable to load doctors for booking", error)
   }
 
-
-  const activeServices = services.filter((service) => service.active)
-  const simplified = activeServices.map((service) => ({
-    id: service.id,
-    name: service.name,
-    durationMin: service.durationMin,
-    description: service.description,
-    images: service.images ?? undefined,
-  }))
+  const simplified = doctors
+    .filter((doctor) => doctor.active)
+    .map((doctor) => ({
+      id: doctor.id,
+      name: doctor.fullName,
+      specialty: doctor.specialty,
+    }))
 
   return (
-    <div className="space-y-8 pb-6 lg:space-y-12">
-      <header className="rounded-3xl border border-white/10 bg-slate-600/70 p-6 text-center backdrop-blur lg:p-10 lg:text-left">
+    
+    <div className="space-y-8 pb-6 lg:space-y-12 mx-auto max-w-7xl">
+      <Nav/>
+      <div className="rounded-3xl border border-white/10 bg-slate-600/70 p-6 text-center backdrop-blur lg:p-10 lg:text-left">
         <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-200/80">
           Patient appointments
         </p>
@@ -79,12 +60,12 @@ export default async function PatientAppointmentsPage() {
           Manage your visits in one place
         </h1>
         <p className="mt-3 text-sm text-slate-300 sm:text-base">
-          Book new appointments, review your upcoming visits, and keep track of past consultations .
+          Book new appointments without signing in—choose your doctor, day, and time in seconds.
         </p>
-      </header>
+      </div>
 
       <div className="rounded-3xl border border-white/10 bg-slate-600/70 p-6 text-center backdrop-blur lg:p-10 lg:text-left">
-          <AppointmentBooking services={simplified} />
+          <AppointmentBooking doctors={simplified} />
           {/* <HowItWorksSection /> */}
       </div>
     </div>
