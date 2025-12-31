@@ -10,7 +10,13 @@ import { fetchServices, type AdminService } from "@/lib/services"
 
 const querySchema = z
   .object({
-    serviceId: z.string().min(1, "serviceId is required"),
+    serviceId: z.string().trim().optional(),
+    doctorId: z.string().trim().optional(),
+    durationMin: z
+      .string()
+      .trim()
+      .regex(/^\d+$/, "durationMin must be a number of minutes")
+      .optional(),
     date: z
       .string()
       .regex(/^\d{4}-\d{2}-\d{2}$/, "date must be formatted as YYYY-MM-DD")
@@ -24,6 +30,7 @@ const querySchema = z
       .regex(/^\d{4}-\d{2}-\d{2}$/, "to must be formatted as YYYY-MM-DD")
       .optional(),
   })
+  .refine((value) => Boolean(value.serviceId) || Boolean(value.doctorId), "Provide a doctorId or serviceId")
   .refine(
     (value) => Boolean(value.date) || (Boolean(value.from) && Boolean(value.to)),
     "Provide a single date or a date range using from/to",
@@ -34,6 +41,7 @@ const CLINIC_CLOSE_MINUTES = 18 * 60
 const SLOT_INTERVAL_MINUTES = 15
 const SAME_DAY_LEAD_MINUTES = 60
 const MAX_RANGE_DAYS = 60
+const DEFAULT_DURATION_MINUTES = 30
 
 type DayAvailability = {
   totalSlots: number
@@ -51,7 +59,7 @@ export async function GET(request: Request) {
     )
   }
 
-  const { serviceId, date, from, to } = parsed.data
+  const { serviceId, doctorId, durationMin: durationRaw, date, from, to } = parsed.data
   const rangeStartRaw = from ?? date
   const rangeEndRaw = to ?? date
 
@@ -73,7 +81,7 @@ export async function GET(request: Request) {
 
   try {
     const [services, appointments] = await Promise.all([
-      fetchServices(),
+      serviceId ? fetchServices() : Promise.resolve<AdminService[]>([]),
       fetchAppointments({
         from: startOfDay(rangeStart),
         to: endOfDay(rangeEnd),
@@ -83,24 +91,29 @@ export async function GET(request: Request) {
     const serviceMap = new Map<string, AdminService>()
     services.forEach((service) => serviceMap.set(service.id, service))
 
-    const selectedService = serviceMap.get(serviceId)
-    if (!selectedService) {
+    const selectedService = serviceId ? serviceMap.get(serviceId) ?? null : null
+    if (serviceId && !selectedService) {
       return NextResponse.json({ error: "Service not found." }, { status: 404 })
     }
 
-    const appointmentsByDate = groupAppointmentsByDay(appointments)
+    const appointmentsByDate = groupAppointmentsByDay(appointments, doctorId)
     const availabilityByDay: Record<string, { totalSlots: number; availableSlots: number }> = {}
     let slots: string[] | undefined
 
     const today = new Date()
+    const appliedDuration =
+      selectedService?.durationMin ?? normalizeDuration(durationRaw) ?? DEFAULT_DURATION_MINUTES
+
     for (let day = new Date(rangeStart); day <= rangeEnd; day = addDays(day, 1)) {
       const key = formatDateKey(day)
       const dayAppointments = appointmentsByDate.get(key) ?? []
       const dayAvailability = buildDayAvailability(
         day,
-        selectedService,
-        dayAppointments,
-        serviceMap,
+        {
+          serviceDuration: appliedDuration,
+          appointments: dayAppointments,
+          serviceMap,
+        },
         today,
       )
 
@@ -119,7 +132,15 @@ export async function GET(request: Request) {
       const targetDay = parseDateOnly(date)
       if (targetDay) {
         const dayAppointments = appointmentsByDate.get(date) ?? []
-        slots = buildDayAvailability(targetDay, selectedService, dayAppointments, serviceMap, today).availableSlots
+        slots = buildDayAvailability(
+          targetDay,
+          {
+            serviceDuration: appliedDuration,
+            appointments: dayAppointments,
+            serviceMap,
+          },
+          today,
+        ).availableSlots
       } else {
         slots = []
       }
@@ -128,11 +149,8 @@ export async function GET(request: Request) {
     return NextResponse.json({
       availability: availabilityByDay,
       slots: slots ?? [],
-      service: {
-        id: selectedService.id,
-        durationMin: selectedService.durationMin ?? 30,
-        name: selectedService.name,
-      },
+      provider: serviceId ? { type: "service", id: serviceId } : { type: "doctor", id: doctorId },
+      durationMin: appliedDuration,
     })
   } catch (error) {
     console.error("GET /api/appointments/availability", error)
@@ -142,12 +160,14 @@ export async function GET(request: Request) {
 
 function buildDayAvailability(
   day: Date,
-  selectedService: AdminService,
-  appointments: AdminAppointment[],
-  serviceMap: Map<string, AdminService>,
+  options: {
+    serviceDuration: number
+    appointments: AdminAppointment[]
+    serviceMap: Map<string, AdminService>
+  },
   now: Date,
 ): DayAvailability {
-  const serviceDuration = selectedService.durationMin ?? 30
+  const { serviceDuration, appointments, serviceMap } = options
   const dayStart = startOfDay(day)
   const close = addMinutes(dayStart, CLINIC_CLOSE_MINUTES)
 
@@ -202,9 +222,15 @@ function overlaps(
   return appointmentStart < slotEnd && appointmentEnd > slotStart
 }
 
-function groupAppointmentsByDay(appointments: AdminAppointment[]) {
+function groupAppointmentsByDay(appointments: AdminAppointment[], doctorId?: string | null) {
   const map = new Map<string, AdminAppointment[]>()
   appointments.forEach((appointment) => {
+    if (doctorId) {
+      if (appointment.staffId && appointment.staffId !== doctorId) {
+        return
+      }
+    }
+
     const key = formatDateKey(new Date(appointment.date))
     if (!map.has(key)) {
       map.set(key, [])
@@ -212,6 +238,14 @@ function groupAppointmentsByDay(appointments: AdminAppointment[]) {
     map.get(key)!.push(appointment)
   })
   return map
+}
+
+function normalizeDuration(raw?: string | null) {
+  if (!raw) return null
+  const value = Number.parseInt(raw, 10)
+  if (!Number.isFinite(value)) return null
+  const clamped = Math.min(Math.max(value, 10), 180)
+  return clamped
 }
 
 function parseDateOnly(value: string | undefined) {

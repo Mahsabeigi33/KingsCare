@@ -4,6 +4,7 @@ import { fetchDoctorById } from "@/lib/doctors"
 import Nav from "@/components/Nav"
 import Footer from "@/components/Footer"
 import { resolveMediaUrl } from "@/lib/media"
+import { AppointmentBooking } from "@/components/appointments/AppointmentBooking"
 
 const placeholder =
   "https://images.unsplash.com/photo-1502989642968-94fbdc9eace4?auto=format&fit=crop&w=800&q=80"
@@ -21,6 +22,14 @@ export default async function DoctorPage({ params }: PageProps) {
 
   const imageUrl = resolveMediaUrl(doctor.photoUrl, { placeholder })
   const gallery = (doctor.gallery ?? []).map((url) => resolveMediaUrl(url, { placeholder }))
+  const bookingDoctors = [
+    {
+      id: doctor.id,
+      name: doctor.fullName,
+      specialty: doctor.specialty ?? null,
+      durationMin: 30,
+    },
+  ]
 
   return (
     <div className="min-h-screen">
@@ -78,6 +87,16 @@ export default async function DoctorPage({ params }: PageProps) {
             </div>
           </div>
         ) : null}
+
+        <div className="mt-14">
+          <h2 className="text-2xl font-semibold text-[#0E2A47]">Book with {doctor.fullName}</h2>
+          <p className="mt-2 text-gray-700">
+            Share your details and pick a time that works for you—no sign-in required.
+          </p>
+          <div className="mt-6">
+            <AppointmentBooking doctors={bookingDoctors} initialDoctorId={doctor.id} />
+          </div>
+        </div>
       </div>
       <Footer />
     </div>

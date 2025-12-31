@@ -40,8 +40,8 @@ export default function Nav() {
   }, [mobileMenuOpen])
 
   const isAuthenticated = Boolean(session?.user)
-  const bookingPath = "/user/appointments"
-  const bookingHref = isAuthenticated ? bookingPath : `/login?next=${encodeURIComponent(bookingPath)}`
+  const bookingPath = "/appointments"
+  const bookingHref = "/appointments"
 
   const closeMobileMenu = () => setMobileMenuOpen(false)
   const logoSrc = scrolled ? "/website/Logo-solid.png" : "/website/Logo.png"

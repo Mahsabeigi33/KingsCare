@@ -1,16 +1,13 @@
 ﻿"use client"
 
 import { Fragment, useEffect, useMemo, useState } from "react"
-import { useSession } from "next-auth/react"
-
 import { cn } from "@/lib/cn"
 
-type ServiceSummary = {
+type DoctorSummary = {
   id: string
   name: string
-  durationMin: number
-  description?: string | null
-  images?: string[]
+  specialty?: string | null
+  durationMin?: number | null
 }
 
 type DayAvailability = {
@@ -21,8 +18,9 @@ type DayAvailability = {
 type AvailabilityRecord = Record<string, DayAvailability>
 
 type AppointmentBookingProps = {
-  services: ServiceSummary[]
+  doctors: DoctorSummary[]
   refreshKey?: number
+  initialDoctorId?: string
 }
 
 type SlotsCache = Record<string, string[]>
@@ -30,16 +28,10 @@ type SlotsCache = Record<string, string[]>
 type BookingSuccess = {
   id: string
   date: string
-  serviceName: string
+  doctorName: string
 }
 
 const DISPLAY_RANGE_DAYS = 28
-const currencyFormatter = new Intl.NumberFormat("en-CA", {
-  style: "currency",
-  currency: "CAD",
-  minimumFractionDigits: 0,
-})
-
 const timeFormatter = new Intl.DateTimeFormat("en-CA", {
   hour: "numeric",
   minute: "2-digit",
@@ -55,10 +47,9 @@ const fullDateFormatter = new Intl.DateTimeFormat("en-CA", {
   day: "numeric",
 })
 
-export function AppointmentBooking({ services }: AppointmentBookingProps) {
-  const { data: session } = useSession()
-  const [selectedServiceId, setSelectedServiceId] = useState(() => services[0]?.id ?? "")
-  const [serviceSearch, setServiceSearch] = useState("")
+export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBookingProps) {
+  const [selectedDoctorId, setSelectedDoctorId] = useState(() => initialDoctorId ?? doctors[0]?.id ?? "")
+  const [doctorSearch, setDoctorSearch] = useState("")
   const [availability, setAvailability] = useState<AvailabilityRecord>({})
   const [availabilityLoading, setAvailabilityLoading] = useState(false)
   const [availabilityError, setAvailabilityError] = useState<string | null>(null)
@@ -67,6 +58,10 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
   const [slotsLoading, setSlotsLoading] = useState(false)
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
   const [notes, setNotes] = useState("")
+  const [fullName, setFullName] = useState("")
+  const [healthNumber, setHealthNumber] = useState("")
+  const [phone, setPhone] = useState("")
+  const [birthDate, setBirthDate] = useState("")
   const [bookingError, setBookingError] = useState<string | null>(null)
   const [bookingSuccess, setBookingSuccess] = useState<BookingSuccess | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -84,27 +79,28 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
     })
   }, [refreshCounter])
 
-  const selectedService = services.find((service) => service.id === selectedServiceId) ?? services[0] ?? null
+  const selectedDoctor = doctors.find((doctor) => doctor.id === selectedDoctorId) ?? doctors[0] ?? null
 
-  const filteredServices = useMemo(() => {
-    const query = serviceSearch.trim().toLowerCase()
-    if (!query) return services
+  const filteredDoctors = useMemo(() => {
+    const query = doctorSearch.trim().toLowerCase()
+    if (!query) return doctors
 
-    return services.filter((service) => {
-      const name = service.name.toLowerCase()
-      const description = (service.description ?? "").toLowerCase()
-      return name.includes(query) || description.includes(query)
+    return doctors.filter((doctor) => {
+      const name = doctor.name.toLowerCase()
+      const specialty = (doctor.specialty ?? "").toLowerCase()
+      return name.includes(query) || specialty.includes(query)
     })
-  }, [services, serviceSearch])
+  }, [doctors, doctorSearch])
 
   useEffect(() => {
-    if (!selectedServiceId || dayRange.length === 0) {
+    if (!selectedDoctorId || dayRange.length === 0) {
       return
     }
 
     const controller = new AbortController()
     const from = formatDateKey(dayRange[0])
     const to = formatDateKey(dayRange[dayRange.length - 1])
+    const duration = (selectedDoctor?.durationMin ?? 30).toString()
 
     setAvailabilityLoading(true)
     setAvailabilityError(null)
@@ -115,9 +111,10 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
     async function loadAvailability() {
       try {
         const params = new URLSearchParams({
-          serviceId: selectedServiceId,
+          doctorId: selectedDoctorId,
           from,
           to,
+          durationMin: duration,
         })
 
         const response = await fetch(`/api/appointments/availability?${params.toString()}`, {
@@ -142,7 +139,6 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
 
         if (initialDate) {
           setSelectedDate(initialDate)
-          // Prefill slots cache if included (should be empty when fetching range)
           if (Array.isArray(data.slots) && data.slots.length) {
             setSlotsCache((prev) => ({ ...prev, [initialDate]: data.slots ?? [] }))
           } else {
@@ -167,20 +163,22 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
       controller.abort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedServiceId, dayRange])
+  }, [selectedDoctorId, selectedDoctor?.durationMin, dayRange])
 
   const currentSlots = selectedDate ? slotsCache[selectedDate] ?? [] : []
 
   async function loadSlots(dateKey: string | null, options?: { suppressSelection?: boolean }) {
-    if (!selectedServiceId || !dateKey) return
+    if (!selectedDoctorId || !dateKey) return
     if (slotsCache[dateKey]) {
       return
     }
 
     setSlotsLoading(true)
     try {
+      const duration = (selectedDoctor?.durationMin ?? 30).toString()
       const params = new URLSearchParams({
-        serviceId: selectedServiceId,
+        doctorId: selectedDoctorId,
+        durationMin: duration,
         date: dateKey, // `dateKey` is now guaranteed to be a string here
       })
 
@@ -227,8 +225,24 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    if (!selectedServiceId) {
-      setBookingError("Please select a service.")
+    if (!selectedDoctorId) {
+      setBookingError("Please select a doctor.")
+      return
+    }
+    if (!fullName.trim()) {
+      setBookingError("Please enter your full name.")
+      return
+    }
+    if (!healthNumber.trim()) {
+      setBookingError("Health Number is required.")
+      return
+    }
+    if (!phone.trim()) {
+      setBookingError("Please enter a phone number.")
+      return
+    }
+    if (!birthDate.trim()) {
+      setBookingError("Please add your birth date (YYYY-MM-DD).")
       return
     }
     if (!selectedDate) {
@@ -247,8 +261,12 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          serviceId: selectedServiceId,
+          doctorId: selectedDoctorId,
           datetime: selectedSlot,
+          fullName: fullName.trim(),
+          healthNumber: healthNumber.trim(),
+          phone: phone.trim(),
+          birthDate: birthDate.trim(),
           notes: notes.trim() ? notes.trim() : undefined,
         }),
       })
@@ -264,14 +282,18 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
         return
       }
 
-      const serviceName = selectedService?.name ?? "Selected service"
+      const doctorName = selectedDoctor?.name ?? "Selected doctor"
       setBookingSuccess({
         id: payload?.appointment?.id ?? "",
         date: selectedSlot,
-        serviceName,
+        doctorName,
       })
 
       setNotes("")
+      setFullName("")
+      setHealthNumber("")
+      setPhone("")
+      setBirthDate("")
       setSelectedSlot(null)
       setSelectedDate(null)
       setSlotsCache({})
@@ -284,12 +306,12 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
     }
   }
 
-  if (!services.length) {
+  if (!doctors.length) {
     return (
       <section className="rounded-3xl border border-white/10 bg-white/5 p-8 text-white backdrop-blur">
         <h2 className="text-2xl font-semibold">Booking temporarily unavailable</h2>
         <p className="mt-4 text-base text-slate-200">
-          We&rsquo;re getting our services ready for online booking. Please check back soon or contact our team for
+          We&rsquo;re getting our physicians ready for online booking. Please check back soon or contact our team for
           assistance.
         </p>
       </section>
@@ -304,25 +326,21 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
       <div className="relative flex flex-col gap-3 pb-8 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-300/80">Step inside better care</p>
-          <h1 className="mt-2 text-3xl font-semibold lg:text-4xl">
-            {session?.user?.firstName
-              ? `Hi ${session.user.firstName}, let’s plan your visit`
-              : "Book your next appointment"}
-          </h1>
+          <h1 className="mt-2 text-3xl font-semibold lg:text-4xl">Book with a doctor in minutes</h1>
           <p className="mt-2 max-w-2xl text-base text-slate-300">
-            Choose a service, pick a day with available times, and confirm the appointment that fits your schedule. Your
-            clinical team will follow up with any preparation details.
+            Choose a doctor, pick a day with available times, and confirm your visit without creating an account. Our
+            team will follow up with any preparation details.
           </p>
         </div>
-        {selectedService ? (
+        {selectedDoctor ? (
           <div className="relative min-w-[220px] rounded-2xl border border-white/15 bg-white/10 p-4 text-sm text-slate-200 backdrop-blur">
-            <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">Selected service</p>
-            <h2 className="mt-2 text-lg font-semibold text-white">{selectedService.name}</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">Selected doctor</p>
+            <h2 className="mt-2 text-lg font-semibold text-white">{selectedDoctor.name}</h2>
             <div className="mt-3 flex flex-wrap gap-3 text-sm text-slate-200/90">
-              <span className="rounded-full border border-white/20 px-3 py-1">
-                {selectedService.durationMin} min visit
-              </span>
-              
+              {selectedDoctor.specialty ? (
+                <span className="rounded-full border border-white/20 px-3 py-1">{selectedDoctor.specialty}</span>
+              ) : null}
+             
             </div>
           </div>
         ) : null}
@@ -331,32 +349,32 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
       <div className="relative grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.2fr)]">
         <div className="flex flex-col gap-8">
           <section>
-            <h3 className="text-sm uppercase tracking-[0.3em] text-cyan-200/80">1. Pick a service</h3>
+            <h3 className="text-sm uppercase tracking-[0.3em] text-cyan-200/80">1. Pick a doctor</h3>
             <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-slate-300">
-                Start typing to quickly find your service.
+                Start typing to quickly find your doctor.
               </p>
               <input
                 type="text"
-                value={serviceSearch}
-                onChange={(event) => setServiceSearch(event.target.value)}
-                placeholder="Search services by name or description..."
+                value={doctorSearch}
+                onChange={(event) => setDoctorSearch(event.target.value)}
+                placeholder="Search doctors by name or specialty..."
                 className="w-full max-w-xs rounded-full border border-white/15 bg-slate-950/40 px-3 py-2 text-sm text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300/40"
               />
             </div>
 
             <div className="mt-4 max-h-[20rem] space-y-4 overflow-y-auto pr-1">
               <div className="grid gap-4 lg:grid-cols-2">
-                {filteredServices.length ? (
-                  filteredServices.map((service) => {
-                    const isActive = service.id === selectedServiceId
+                {filteredDoctors.length ? (
+                  filteredDoctors.map((doctor) => {
+                    const isActive = doctor.id === selectedDoctorId
                     return (
                       <button
-                        key={service.id}
+                        key={doctor.id}
                         type="button"
                         onClick={() => {
-                          if (service.id !== selectedServiceId) {
-                            setSelectedServiceId(service.id)
+                          if (doctor.id !== selectedDoctorId) {
+                            setSelectedDoctorId(doctor.id)
                             setBookingSuccess(null)
                             setBookingError(null)
                           }
@@ -369,19 +387,17 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
                         )}
                       >
                         <div className="flex items-start justify-between gap-3">
-                          <h4 className="text-lg font-semibold">{service.name}</h4>
-                          <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-cyan-100/90">
-                            {service.durationMin} min
-                          </span>
+                          <h4 className="text-lg font-semibold">{doctor.name}</h4>
+                         
                         </div>
-                        {service.description ? (
-                          <p className="mt-2 line-clamp-2 text-sm text-slate-300/90">{service.description}</p>
+                        {doctor.specialty ? (
+                          <p className="mt-2 line-clamp-2 text-sm text-slate-300/90">{doctor.specialty}</p>
                         ) : null}
                       </button>
                     )
                   })
                 ) : (
-                  <p className="text-sm text-slate-300">No services match your search.</p>
+                  <p className="text-sm text-slate-300">No doctors match your search.</p>
                 )}
               </div>
             </div>
@@ -502,15 +518,60 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
             </p>
           </div>
 
+          <div className="grid gap-4 sm:grid-cols-2">
+            <label className="flex flex-col gap-2 text-sm text-slate-200">
+              <span>Full name</span>
+              <input
+                value={fullName}
+                onChange={(event) => setFullName(event.target.value)}
+                required
+                className="rounded-2xl border border-white/15 bg-slate-950/40 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300/40"
+                placeholder="Enter your full legal name"
+              />
+            </label>
+            <label className="flex flex-col gap-2 text-sm text-slate-200">
+              <span>Health Number</span>
+              <input
+                value={healthNumber}
+                onChange={(event) => setHealthNumber(event.target.value)}
+                required
+                className="rounded-2xl border border-white/15 bg-slate-950/40 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300/40"
+                placeholder="Provincial health number"
+              />
+            </label>
+            <label className="flex flex-col gap-2 text-sm text-slate-200">
+              <span>Phone</span>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                required
+                className="rounded-2xl border border-white/15 bg-slate-950/40 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300/40"
+                placeholder="(587) 327-6106"
+              />
+            </label>
+            <label className="flex flex-col gap-2 text-sm text-slate-200">
+              <span>Birth date</span>
+              <input
+                type="date"
+                value={birthDate}
+                onChange={(event) => setBirthDate(event.target.value)}
+                required
+                placeholder="YYYY-MM-DD"
+                className="rounded-2xl border border-white/15 bg-slate-950/40 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-300/40"
+              />
+            </label>
+          </div>
+
           <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-200">
-            <SummaryRow label="Patient">
-              {session?.user?.name ?? "Logged-in patient"}
+            <SummaryRow label="Patient">{fullName.trim() || "Enter your full name"}</SummaryRow>
+            <SummaryRow label="Health #">{healthNumber.trim() || "Add your health number"}</SummaryRow>
+            <SummaryRow label="Phone">{phone.trim() || "Add your phone number"}</SummaryRow>
+            <SummaryRow label="Birth date">{birthDate.trim() || "Add birth date (YYYY-MM-DD)"}</SummaryRow>
+            <SummaryRow label="Doctor">{selectedDoctor?.name ?? "Select a doctor"}</SummaryRow>
+            <SummaryRow label="Visit length">
+              {selectedDoctor ? `${selectedDoctor}` : "-"}
             </SummaryRow>
-            <SummaryRow label="Service">{selectedService?.name ?? "Select a service"}</SummaryRow>
-            <SummaryRow label="Duration">
-              {selectedService ? `${selectedService.durationMin} minutes` : "—"}
-            </SummaryRow>
-            
             <SummaryRow label="Date">
               {selectedDate ? fullDateFormatter.format(new Date(selectedDate)) : "Choose a day"}
             </SummaryRow>
@@ -541,7 +602,7 @@ export function AppointmentBooking({ services }: AppointmentBookingProps) {
             <div className="rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-100">
               <p className="font-semibold">Appointment confirmed!</p>
               <p className="mt-1">
-                We&rsquo;ve held your {bookingSuccess.serviceName.toLowerCase()} for{" "}
+                We&rsquo;ve held your visit with {bookingSuccess.doctorName.toLowerCase()} for{" "}
                 {timeFormatter.format(new Date(bookingSuccess.date))} on{" "}
                 {fullDateFormatter.format(new Date(bookingSuccess.date))}.
               </p>

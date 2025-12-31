@@ -42,7 +42,7 @@ export default async function ServicesPage() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href="/user/appointments"
+              href="/appointments"
               className="inline-flex items-center justify-center rounded-full bg-[#D9C89E] px-5 py-4 text-sm font-semibold text-[#0E2A47] shadow hover:bg-[#C7B57A]"
             >
               Book an appointment

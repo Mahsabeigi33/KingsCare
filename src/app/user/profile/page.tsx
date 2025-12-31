@@ -186,7 +186,7 @@ export default async function UserProfilePage() {
             </p>
           </div>
           <Link
-            href="/user/appointments"
+            href="/appointments"
             className="inline-flex h-11 items-center justify-center rounded-full border border-cyan-400/40 bg-cyan-500/20 px-6 text-sm font-semibold text-white shadow-lg shadow-cyan-500/10 transition hover:border-cyan-300/60 hover:bg-cyan-500/30"
           >
             Book an appointment

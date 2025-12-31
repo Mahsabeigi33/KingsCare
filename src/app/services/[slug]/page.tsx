@@ -78,14 +78,14 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     <div>
       <Nav/>
     
-      <div className="relative isolate overflow-hidden bg-slate-900 text-white max-h-500 h-200">
+      <div className="relative isolate overflow-hidden bg-slate-900 text-white  ">
         <Image
           src={resolvedHeroImage}
           alt=""
           fill
           priority
           sizes="100vw"
-          className="absolute inset-0 object-cover opacity-40"
+          className="absolute inset-0 object-cover opacity-40 aspect-[3/4] "
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/90 via-[#0E2A47]/60 to-transparent" />
         <div className="relative mx-auto max-w-6xl px-4 py-20">
@@ -100,33 +100,26 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 {service.shortDescription ?? "Personalized medical clinic care tailored to your goals."}
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/90">
-                <span className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2">
-                  <strong className="text-white">Duration:</strong> {service.durationMin} minutes
-                </span>
+              
                
                
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link
-                  href="/user/appointments"
-                  className="inline-flex items-center justify-center rounded-full bg-[#D9C89E]  px-6 py-4 text-sm font-semibold text-[#0E2A47] transition hover:bg-[#C7B57A]"
-                >
-                  Book this service
-                </Link>
+               
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-4 text-sm font-semibold text-white transition hover:bg-white/20 bg-white/10"
+                  className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-4 text-sm font-semibold text-[#0E2A47] hover:text-white transition hover:bg-white/10 bg-[#D9C89E]"
                 >
                   Ask a question
                 </Link>
               </div>
             </div>
-            <div className="relative h-[260px] w-full overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm sm:h-[320px]">
+            <div className="relative w-full overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm aspect-[4/4]">
               <Image
                 src={resolvedHeroImage}
                 alt={`${service.name} hero`}
                 fill
-                className="object-cover"
+                className="object-cover sm:aspect-[3/2] lg:aspect-[16/9] "
                 priority
                 sizes="(min-width: 1024px) 45vw, 100vw"
               />

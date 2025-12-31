@@ -79,7 +79,7 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
             }}
           >
             <Link
-              href="/user/appointments"
+              href="/appointments"
               className="inline-flex items-center gap-2 rounded-full bg-[#D9C89E] px-6 py-3 text-base font-semibold text-[#0E2A47] shadow-lg shadow-[#0E2A47] transition hover:-translate-y-0.5 hover:bg-[#C7B57A] hover:shadow-xl"
             >
               <CalendarSearchIcon className="h-5 w-5" />

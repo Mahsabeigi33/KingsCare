@@ -30,9 +30,13 @@ export type AdminAppointment = {
 export type CreatePublicAppointmentInput = {
   patientId?: string
   patientName?: string
-  serviceId: string
+  serviceId?: string
+  doctorId?: string
   date: string
   notes?: string
+  healthNumber?: string
+  phone?: string
+  birthDate?: string
 }
 
 const buildUrl = (path: string) => {
