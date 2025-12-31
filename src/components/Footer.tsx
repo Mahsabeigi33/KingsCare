@@ -4,10 +4,10 @@ import { LucideClipboardClock, LucideHouse, LucideLocate, LucideMapPin, LucidePh
 export default function Footer() {
   return (
     // <footer className="bg-gradient-to-br from-[#0E2A47] to-[#4B5563] text-white mt-20">
-    <footer className="bg-[#0E2A47] text-white ">
+    <footer className="bg-[#0E2A47] text-white pl-4 pt-10 rounded-t-3xl shadow-2xl shadow-[#D9C89E]/30">
       <div className="mx-auto max-w-7xl px-4 py-10 grid gap-6 md:grid-cols-2 sm:grid-cols-3 lg:grid-cols-3">
         <div>
-          <div className="text-white font-semibold"><Image height={200} width={200} className="border-4 rounded-full border-[#d9b356]" src="/website/Logo.png" alt="Kings Care Medical Clinic" /></div>
+          <div className="text-white font-semibold"><Image height={200} width={200} className="border-4 border rounded-full border-[#d9b356] shadow-[#d9b356]/70 shadow-lg transition-all" src="/website/Logo.png" alt="Kings Care Medical Clinic" /></div>
           <p className="mt-2 text-larg"></p>
         </div>
         <div className="text-xl sm:text-center">
@@ -22,7 +22,7 @@ export default function Footer() {
         </div>
         <div className="text-larg sm:text-center mt-6 ">
           <div className="flex mb-4 "><LucideClipboardClock className="text-[#d9b356] mr-2 text-xl"/> <p>Mon–Fri 8:30-17:00 • Sat 9:00-14:00</p> </div>
-          <div  className="flex mb-4 "><LucideMapPin className="text-[#d9b356] mr-2 text-xl"/> <p>7712 Elbow Dr. SW, Calgary, AB, T2V 1K2</p></div>
+          <div  className="flex mb-4 "><LucideMapPin className="text-[#d9b356] mr-2 text-xl"/> <a href="https://maps.app.goo.gl/U2fuSG5iXC1xCcKF7">7712 Elbow Dr. SW, Calgary, AB, T2V 1K2</a></div>
           <div  className="flex mb-4 "><LucidePhone className="text-[#d9b356] mr-2 text-xl"/><a className="hover:text-[#D9C89E]" href="tel:5876">+1 (403) 984-0255</a> </div>
           
           <div  className="flex"><LucidePrinter className="text-[#d9b356] mr-2 text-xl"/><a className="hover:text-[#D9C89E]" href="tel:5876">+1 (403) 984-0256</a></div>

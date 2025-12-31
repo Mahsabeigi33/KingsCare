@@ -8,7 +8,7 @@ export default function ContactPage() {
     <div>
      <Nav />
         <div  className="bg-gradient-to-br from-[#0E2A47] to-[#4B5563] text-white lg:px-20 sm:px-4 py-20 ">
-           <div className="max-w-6xl mx-auto px-4 text-center lg:text-left">
+           <div className="max-w-7xl mx-auto px-4 text-center lg:text-left">
             <h2 className="text-xl font-semibold uppercase tracking-[0.35em] text-white/70">
               Contact Us
               </h2>

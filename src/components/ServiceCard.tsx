@@ -68,7 +68,7 @@ export default function ServiceCard({
 
       <div className="flex flex-1 flex-col gap-4 p-6">
         <div className="flex items-start gap-3 text-[#0E2A47]">
-          <span className="text-3xl">{iconDisplay}</span>
+          
           <div>
             <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
             <p className="mt-2 text-sm text-gray-600">{text}</p>

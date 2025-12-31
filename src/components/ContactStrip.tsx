@@ -79,12 +79,10 @@ export default function ContactStrip() {
           <iframe
             title="Kings Care Medical Clinic Map"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2511.68015293935!2d-114.0823235!3d50.9851024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5371710529a2581d%3A0x7a8d33ecae953db0!2s7712%20Elbow%20Dr%20SW%2C%20Calgary%2C%20AB%20T2V%201K1!5e0!3m2!1sen!2sca!4v1766524119611!5m2!1sen!2sca"
-            className="relative w-full aspect-[33/30] rounded-3xl"
+            className="relative w-full aspect-[33/24] rounded-3xl"
             loading="lazy"
           />
-          <div className="absolute bottom-4 left-4 rounded-full bg-white/90 px-4 py-2 text-sm font-semibold text-[#0E2A47] shadow-lg backdrop-blur">
-            Find us downtown Calgary
-          </div>
+          
           
         </div>
 

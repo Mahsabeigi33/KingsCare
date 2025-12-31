@@ -282,7 +282,13 @@ const ContactForm = () => {
      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
-        <div className="text-left  mb-12">
+        
+
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          {/* Left Side - Image and Contact Info */}
+          
+          <div className="space-y-6">
+            <div className="text-left  mb-12">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold  mb-4 text-[#0E2A47]">
             Get in Touch
           </h2>
@@ -290,10 +296,6 @@ const ContactForm = () => {
             Have questions about our services? We are here to help. Send us a message and we will respond as soon as possible.
           </p>
         </div>
-
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-          {/* Left Side - Image and Contact Info */}
-          <div className="space-y-6">
             {/* Image */}
             <div className=" rounded-2xl w-full  overflow-hidden shadow-lg">
               <Image

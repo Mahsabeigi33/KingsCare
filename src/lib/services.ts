@@ -9,8 +9,8 @@ export const revalidate = 600;
 export type AdminService = {
   id: string
   name: string
-  durationMin: number
-  priceCents: number
+  durationMin?: number
+  priceCents?: number
   description?: string | null
   shortDescription?: string | null
   images?: string[]
@@ -73,7 +73,11 @@ export async function fetchServices(): Promise<AdminService[]> {
     return []
   }
 
-  const list = body as AdminService[]
+  const list = (body as AdminService[]).map((item) => ({
+    ...item,
+    durationMin: item.durationMin ?? 30,
+    priceCents: item.priceCents ?? 0,
+  }))
 
   // Sort by createdAt (desc), fallback to updatedAt, then name
   const stamp = (s?: string) => (s ? Date.parse(s) || 0 : 0)
@@ -109,7 +113,12 @@ export async function fetchServiceById(id: string): Promise<AdminService | null>
     throw new Error("Unable to retrieve service details from admin API")
   }
 
-  return (await response.json()) as AdminService
+  const svc = (await response.json()) as AdminService
+  return {
+    ...svc,
+    durationMin: svc.durationMin ?? 30,
+    priceCents: svc.priceCents ?? 0,
+  }
 }
 
 export async function fetchServiceBySlug(slug: string) {

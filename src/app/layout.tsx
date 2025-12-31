@@ -9,12 +9,12 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["600", "700"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
 
 export const metadata: Metadata = {
-  title: "Kings Care Medical Clinic & Travel Health",
+  title: "Kings Care Medical Clinic",
   description:
     "Book appointments medical clinic , family doctor .",
   icons: [
-    { rel: "icon", url: "/website/logo-footer.png" },
-    { rel: "shortcut icon", url: "/website/logo-footer.png" },
+    { rel: "icon", url: "/website/Logo.png" },
+    { rel: "shortcut icon", url: "/website/Logo.png" },
   ],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"),
 };
