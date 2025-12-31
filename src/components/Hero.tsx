@@ -111,7 +111,7 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
           </div>
         </div>
 
-        <div className="flex w-full justify-end md:justify-center lg:w-auto shadow-2xl ring-1 ring-white/20 rounded-3xl overflow-hidden shadow-[#D9C89E] mt-6 lg:mt-90 md:mt-16  ">
+        <div className="flex w-full justify-end md:justify-center lg:w-auto shadow-2xl ring-1 ring-white/20 rounded-3xl overflow-hidden shadow-[#D9C89E] mt-6 lg:mt-120 md:mt-16  ">
           <div
             className="w-full max-w-sm rounded-2xl border border-white/15 bg-white/70 p-6 text-[#0E2A47] shadow-2xl backdrop-blur-lg"
             style={{

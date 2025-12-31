@@ -46,21 +46,22 @@ export default async function TeamMember() {
                 href={`/doctors/${member.id}`}
                 className="rounded-2xl border border-gray-100 bg-gray-50/60 p-2 text-center shadow-sm transition hover:-translate-y-1 hover:border-indigo-200 hover:shadow-md"
               >
-                <div className="mx-auto mb-4 h-60 w-full overflow-hidden rounded-xl bg-[#E6E8EB] relative">
+                <div className="mx-auto mb-4 h-100 w-full overflow-hidden rounded-xl bg-[#E6E8EB] relative ">
                   <Image
                     src={resolveMediaUrl(member.photoUrl, { placeholder })}
                     alt={member.fullName}
                     fill
-                    className="object-cover transition duration-300 group-hover:scale-105"
-                    sizes="150vw"
+                    className="object-cover transition duration-300 group-hover:scale-105  aspect-[4/5] sm:aspect-[3/4] lg:aspect-[3/4]" 
+                    sizes="(max-width: 640px) 150vw, (max-width: 1024px) 50vw, 360px"
                     priority={false}
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="mb-1 text-medium sm:text-sm font-bold text-gray-900">
-                  {member.fullName}  {[member.title, member.specialty].filter(Boolean).join("  ") || "Physician"}
+                  <strong>{member.fullName} {member.title || "Physician"}</strong>  
                 </h3>
                 <p className="text-[#0E2A47] font-medium">
-                 
+                 {member.specialty || ""}
                 </p>
                
               </Link>
