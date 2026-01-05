@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins, Roboto } from "next/font/google";
-import { AuthProvider } from "@/components/providers/AuthProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/options";
+import Providers from "./providers";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["600", "700"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["300", "400", "500"] });
@@ -24,12 +24,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={`${roboto.className} ${poppins.className}`} suppressHydrationWarning>
       <body className="min-h-screen">
-        <AuthProvider session={session}>
-          
-          {children}
-        </AuthProvider>
+        <Providers session={session}>{children}</Providers>
       </body>
     </html>
   );
 }
-      
