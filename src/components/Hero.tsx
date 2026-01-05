@@ -43,10 +43,10 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
       </div>
 
       <div className="relative mx-auto flex min-h-[70vh] max-w-10xl flex-col  gap-12 px-2 sm:px-6 pt-24 pl-4  pb-16 md:pt-4 md:px-0 md:pb-12 lg:pt-4 lg:pb-12 lg:flex-row lg:items-center md:px-6 lg:pl-20 xl:pl-60 lg:md:justify-start">
-        <div className="max-w-3xl text-white space-y-6 sm:space-y-6 md:max-w-2xl lg:max-w-xl lg:space-y-8  sm:px-4 md:px-6">
+        <div className="max-w-4xl text-white space-y-6 sm:space-y-6  lg:space-y-8  sm:px-4 md:px-6">
 
           <h1
-            className="text-shadow-xl  text-shadow-[#D9C89E] text-4xl font-bold leading-tight  sm:text-5xl lg:text-6xl sm:pt-16 sm:mt-8 md:p-4 lg:pt-16 md:pt-12 "
+            className="text-shadow-xl  text-shadow-[#D9C89E] text-4xl font-bold leading-tight  sm:text-5xl lg:text-6xl sm:pt-16 sm:mt-8 md:p-4 lg:pt-16 md:pt-12  tracking-widest "
             style={{
               opacity: entered ? 1 : 0,
               transform: entered ? "translateY(0)" : "translateY(24px)",
@@ -54,13 +54,14 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
               fontFamily: "Playfair Display,serif",
             }}
           >
-            Family Medical Care,
-            <br />
-           Focused on Your <span className="tracking-widest text-[#D9C89E]">Health</span>
+            Welcome to 
+           <br />
+            <span className="tracking-widest text-[#D9C89E]"> KingCare </span>
+             Medical Clinic
           </h1>
 
           <p
-            className="text-lg text-white/85 sm:text-xl p-2"
+            className="text-lg text-white/85 sm:text-xl p-2 hidden "
             style={{
               opacity: entered ? 1 : 0,
               transform: entered ? "translateY(0)" : "translateY(20px)",
@@ -96,7 +97,7 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
           </div>
 
           <div
-            className="flex items-center gap-4 text-sm text-white/80"
+            className="flex items-center gap-4 text-sm text-white/80 hidden"
             style={{
               opacity: entered ? 1 : 0,
               transform: entered ? "translateY(0)" : "translateY(14px)",
@@ -111,7 +112,7 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
           </div>
         </div>
 
-        <div className="flex w-full justify-end md:justify-center lg:w-auto shadow-2xl ring-1 ring-white/20 rounded-3xl overflow-hidden shadow-[#D9C89E] mt-6 lg:mt-120 md:mt-16  ">
+        <div className="flex w-full justify-end md:justify-center lg:w-auto shadow-2xl ring-1 ring-white/20 rounded-3xl overflow-hidden shadow-[#D9C89E] mt-6 lg:mt-120 md:mt-16 hidden  ">
           <div
             className="w-full max-w-sm rounded-2xl border border-white/15 bg-white/70 p-6 text-[#0E2A47] shadow-2xl backdrop-blur-lg"
             style={{
