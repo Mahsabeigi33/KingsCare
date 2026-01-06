@@ -7,13 +7,13 @@ export default function Footer() {
     <footer className="bg-[#0E2A47] text-white pl-4 pt-10 rounded-t-3xl shadow-2xl shadow-[#D9C89E]/30">
       <div className="mx-auto max-w-7xl px-4 py-10 grid gap-6 md:grid-cols-2 sm:grid-cols-3 lg:grid-cols-3">
         <div>
-          <div className="text-white font-semibold"><Image height={200} width={200} className="border-4 border rounded-full border-[#d9b356] shadow-[#d9b356]/70 shadow-lg transition-all" src="/website/Logo.png" alt="Kings Care Medical Clinic" /></div>
+          <div className="text-white font-semibold"><Link href="/"><Image height={200} width={200} className="border-4 border rounded-full border-[#d9b356] shadow-[#d9b356]/70 shadow-lg transition-all" src="/website/Logo.png" alt="Kings Care Medical Clinic" /></Link></div>
           <p className="mt-2 text-larg"></p>
         </div>
         <div className="text-xl sm:text-center">
           <h3 className="font-semibold text-2xl text-[#d9b356] mb-2">Links</h3>
           <ul>
-            <li className="mb-4"><Link href="/" className="hover:text-[#D9C89E]">Home</Link></li>
+            <li className="mb-4"><Link href="/team" className="hover:text-[#D9C89E]">Our Team</Link></li>
             <li className="mb-4" ><Link href="/about" className="hover:text-[#D9C89E]">About</Link></li>
             <li className="mb-4"><Link href="/services" className="hover:text-[#D9C89E]">Services</Link></li>
             {/* <li><Link href="/blog" className="hover:text-[#D9C89E]">Blogs</Link></li> */}

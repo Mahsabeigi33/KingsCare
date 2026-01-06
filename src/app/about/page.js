@@ -94,7 +94,7 @@ const AboutPage = () => {
             {values.map((value, index) => {
               const Icon = value.icon;
               return (
-                <div key={index} className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                <div key={index} className="bg-white/80 rounded-xl p-8  hover:shadow-xl hover:transition duration-150 motion-reduce:duration-0 motion-reduce:duration-0">
                   <div className="w-14 h-14 bg-[#E6E8EB] rounded-lg flex items-center justify-center mb-4">
                     <Icon className="w-7 h-7 text-[#0E2A47]" />
                   </div>
@@ -108,7 +108,6 @@ const AboutPage = () => {
       </section>
 
       {/* Team Section */}
-      <TeamMember />
             <Footer />
 
     </div>

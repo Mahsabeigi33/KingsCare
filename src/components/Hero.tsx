@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 type ScrollCard = { title: string; text: string; href: string; emoji?: string; image?: string | null };
 
 const HERO_IMAGE_DESKTOP = "/website/header.png";
-const HERO_IMAGE_MOBILE = "/website/hero.png";
+const HERO_IMAGE_MOBILE = "/website/header.png";
 
 export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
   // cards prop preserved for compatibility with the home page, even though the new hero is static
@@ -49,14 +49,14 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
             className="text-shadow-xl  text-shadow-[#D9C89E] text-4xl font-bold leading-tight  sm:text-5xl lg:text-6xl sm:pt-16 sm:mt-8 md:p-4 lg:pt-16 md:pt-12  tracking-widest "
             style={{
               opacity: entered ? 1 : 0,
-              transform: entered ? "translateY(0)" : "translateY(24px)",
+              transform: entered ? "translateX(0)" : "translateX(-24px)",
               transition: "opacity 1.2s ease 0.15s, transform 1.2s ease 0.15s",
               fontFamily: "Playfair Display,serif",
             }}
           >
             Welcome to 
            <br />
-            <span className="tracking-widest text-[#D9C89E]"> KingCare </span>
+            <span className="tracking-widest text-[#D9C89E]"> KingsCare </span>
              Medical Clinic
           </h1>
 
