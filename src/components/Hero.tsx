@@ -46,12 +46,12 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
         <div className="max-w-4xl text-white space-y-6 sm:space-y-6  lg:space-y-8  sm:px-4 md:px-6">
 
           <h1
-            className="text-shadow-xl  text-shadow-[#D9C89E] text-4xl font-bold leading-tight  sm:text-5xl lg:text-6xl sm:pt-16 sm:mt-8 md:p-4 lg:pt-16 md:pt-12  tracking-widest "
+            className="text-shadow-xl  text-shadow-[#D9C89E] text-4xl font-bold leading-tight  sm:text-5xl lg:text-6xl sm:pt-16 sm:mt-8 md:p-4 lg:pt-16 md:pt-12   "
             style={{
               opacity: entered ? 1 : 0,
               transform: entered ? "translateX(0)" : "translateX(-24px)",
               transition: "opacity 1.2s ease 0.15s, transform 1.2s ease 0.15s",
-              fontFamily: "Playfair Display,serif",
+              fontFamily: "CalistoMT ,serif",
             }}
           >
             Welcome to 

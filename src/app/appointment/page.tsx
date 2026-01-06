@@ -3,6 +3,8 @@ import Link from "next/link"
 import { AppointmentBooking } from "@/components/appointments/AppointmentBooking"
 import { fetchDoctors } from "@/lib/doctors"
 import type { AdminDoctor } from "@/lib/doctors"
+import { fetchServices } from "@/lib/services"
+import type { AdminService } from "@/lib/services"
 import Nav from "@/components/Nav"
 
 
@@ -34,10 +36,16 @@ export const metadata: Metadata = {
 
 export default async function PatientAppointmentsPage() {
   let doctors: AdminDoctor[] = []
+  let services: AdminService[] = []
   try {
     doctors = await fetchDoctors({ active: true })
   } catch (error) {
     console.error("Unable to load doctors for booking", error)
+  }
+  try {
+    services = await fetchServices()
+  } catch (error) {
+    console.error("Unable to load services for booking", error)
   }
 
   const simplified = doctors
@@ -47,6 +55,8 @@ export default async function PatientAppointmentsPage() {
       name: doctor.fullName,
       specialty: doctor.specialty,
     }))
+
+  const defaultServiceId = services.find((service) => service.active)?.id ?? services[0]?.id ?? ""
 
   return (
     
@@ -64,8 +74,8 @@ export default async function PatientAppointmentsPage() {
         </p>
       </div>
 
-      <div className="rounded-3xl border border-white/10 bg-slate-600/70 p-6 text-center backdrop-blur lg:p-10 lg:text-left">
-          <AppointmentBooking doctors={simplified} />
+      <div className="rounded-3xl border border-white/10  text-center backdrop-blur  lg:text-left">
+          <AppointmentBooking doctors={simplified} serviceId={defaultServiceId} />
           {/* <HowItWorksSection /> */}
       </div>
     </div>

@@ -5,6 +5,7 @@ import { createPublicAppointment } from "@/lib/appointments"
 
 const payloadSchema = z.object({
   doctorId: z.string().min(1, "Doctor is required"),
+  serviceId: z.string().min(1, "Service is required"),
   datetime: z.string().min(1, "Appointment time is required"),
   fullName: z.string().trim().min(1, "Full name is required"),
   healthNumber: z.string().trim().min(4, "Health Number is required"),
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
     const result = await createPublicAppointment({
       doctorId: parsed.data.doctorId,
       patientName: parsed.data.fullName,
-      serviceId: parsed.data.doctorId,
+      serviceId: parsed.data.serviceId,
       date: appointmentDate.toISOString(),
       healthNumber: parsed.data.healthNumber,
       phone: parsed.data.phone,

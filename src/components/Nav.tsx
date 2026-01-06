@@ -12,6 +12,7 @@ const links = [
   { href: "/about", label: "About" },
   { href: "/team", label: "Our Team" },
   { href: "/services", label: "Services" },
+  { href: "/specialty-clinic", label: "Specialty Clinic" },
   { href: "/contact", label: "Contact Us" },
 ]
 

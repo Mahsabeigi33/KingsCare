@@ -21,6 +21,7 @@ type AppointmentBookingProps = {
   doctors: DoctorSummary[]
   refreshKey?: number
   initialDoctorId?: string
+  serviceId?: string
 }
 
 type SlotsCache = Record<string, string[]>
@@ -47,7 +48,7 @@ const fullDateFormatter = new Intl.DateTimeFormat("en-CA", {
   day: "numeric",
 })
 
-export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBookingProps) {
+export function AppointmentBooking({ doctors, initialDoctorId, serviceId }: AppointmentBookingProps) {
   const [selectedDoctorId, setSelectedDoctorId] = useState(() => initialDoctorId ?? doctors[0]?.id ?? "")
   const [doctorSearch, setDoctorSearch] = useState("")
   const [availability, setAvailability] = useState<AvailabilityRecord>({})
@@ -229,6 +230,10 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
       setBookingError("Please select a doctor.")
       return
     }
+    if (!serviceId) {
+      setBookingError("Online booking is temporarily unavailable. Please call the clinic.")
+      return
+    }
     if (!fullName.trim()) {
       setBookingError("Please enter your full name.")
       return
@@ -262,6 +267,7 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           doctorId: selectedDoctorId,
+          serviceId,
           datetime: selectedSlot,
           fullName: fullName.trim(),
           healthNumber: healthNumber.trim(),
@@ -308,7 +314,7 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
 
   if (!doctors.length) {
     return (
-      <section className="rounded-3xl border border-white/10 bg-white/5 p-8 text-white backdrop-blur">
+      <section className="rounded-3xl border border-white/10 p-8 text-white backdrop-blur">
         <h2 className="text-2xl font-semibold">Booking temporarily unavailable</h2>
         <p className="mt-4 text-base text-slate-200">
           We&rsquo;re getting our physicians ready for online booking. Please check back soon or contact our team for
@@ -319,13 +325,12 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
   }
 
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/70 p-6 text-white shadow-2xl shadow-slate-900/50 backdrop-blur border-cyan-400/70 lg:p-10">
-      <div className="pointer-events-none absolute -left-24 top-0 h-80 w-80 rounded-full bg-cyan-500/30 blur-3xl" />
-      <div className="pointer-events-none absolute -right-32 bottom-0 h-90 w-90 rounded-full bg-cyan-500/30 blur-3xl" />
+    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-600 p-6 text-white shadow-2xl shadow-slate-900/50 backdrop-blur border-cyan-400/70 lg:p-10">
+      <div className="pointer-events-none absolute -left-24 top-0 h-60 w-60 rounded-full bg-[#d9b356]/60 blur-3xl" />
+      <div className="pointer-events-none absolute -right-32 bottom-0 h-90 w-90 rounded-full bg-[#d9b356]/30 blur-3xl" />
 
       <div className="relative flex flex-col gap-3 pb-8 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-sm uppercase tracking-[0.3em] text-cyan-300/80">Step inside better care</p>
           <h1 className="mt-2 text-3xl font-semibold lg:text-4xl">Book with a doctor in minutes</h1>
           <p className="mt-2 max-w-2xl text-base text-slate-300">
             Choose a doctor, pick a day with available times, and confirm your visit without creating an account. Our
@@ -349,7 +354,7 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
       <div className="relative grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1.2fr)]">
         <div className="flex flex-col gap-8">
           <section>
-            <h3 className="text-sm uppercase tracking-[0.3em] text-cyan-200/80">1. Pick a doctor</h3>
+            <h3 className="text-sm uppercase tracking-[0.2em] text-white">1. Pick a doctor</h3>
             <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-slate-300">
                 Start typing to quickly find your doctor.
@@ -380,10 +385,10 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
                           }
                         }}
                         className={cn(
-                          "group relative overflow-hidden rounded-2xl border px-5 py-4 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300",
+                          "group relative overflow-hidden rounded-2xl border px-5 py-4 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d9b356]",
                           isActive
-                            ? "border-cyan-400/70 bg-cyan-500/20 text-white shadow-lg shadow-cyan-500/20"
-                            : "border-white/10 bg-white/5 text-slate-200 hover:border-cyan-200/40 hover:bg-white/10",
+                            ? "border-[#d9b356]/10 bg-[#d9b356]/20 text-white shadow-xs shadow-[#d9b356]"
+                            : "border-white/10 bg-white/5 text-slate-200 hover:border-[#d9b356] hover:bg-white/10",
                         )}
                       >
                         <div className="flex items-start justify-between gap-3">
@@ -404,7 +409,7 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
           </section>
 
           <section>
-            <h3 className="text-sm uppercase tracking-[0.3em] text-cyan-200/80">2. Choose a day</h3>
+            <h3 className="text-sm uppercase tracking-[0.2em] text-white">2. Choose a day</h3>
             <p className="mt-2 text-sm text-slate-300">
               Available days glow softly. Tap a date to reveal appointment times.
             </p>
@@ -424,16 +429,16 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
                       disabled={isDisabled || availabilityLoading}
                       className={cn(
                         "flex w-[140px] flex-col items-center gap-2 rounded-2xl border px-4 py-3 text-center transition",
-                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300",
+                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d9b356]",
                         isDisabled
                           ? "border-white/5 bg-white/5 text-slate-500/70"
-                          : "border-white/10 bg-white/10 text-slate-100 hover:border-cyan-200/40 hover:bg-white/20",
+                          : "border-white/10 bg-white/10 text-slate-100 hover:border-[#d9b356] hover:bg-white/20",
                         isSelected && !isDisabled
-                          ? "border-cyan-400/70 bg-cyan-500/20 text-white shadow-lg shadow-cyan-500/20"
+                          ? "border-[#d9b356]/10 bg-[#d9b356]/20 text-white shadow-xs shadow-[#d9b356]"
                           : null,
                       )}
                     >
-                      <span className="text-xs uppercase tracking-[0.3em] text-cyan-200/80">
+                      <span className="text-xs uppercase tracking-[0.3em] text-white">
                         {dayFormatter.format(date)}
                       </span>
                       <span className="text-2xl font-semibold">{date.getDate()}</span>
@@ -454,7 +459,7 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
           </section>
 
           <section>
-            <h3 className="text-sm uppercase tracking-[0.3em] text-cyan-200/80">3. Pick a time</h3>
+            <h3 className="text-sm uppercase tracking-[0.2em] text-white">3. Pick a time</h3>
             <p className="mt-2 text-sm text-slate-300">
               Times are displayed in your local timezone.
             </p>
@@ -483,10 +488,10 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
                               setBookingError(null)
                             }}
                             className={cn(
-                              "rounded-full border px-5 py-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300",
+                              "rounded-full border px-5 py-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d9b356]",
                               isActive
-                                ? "border-cyan-400/70 bg-cyan-500/20 text-white shadow-lg shadow-cyan-500/30"
-                                : "border-white/10 bg-white/10 text-slate-100 hover:border-cyan-200/50 hover:bg-white/20",
+                                ? "border-[#d9b356]/10 bg-[#d9b356]/20 text-white shadow-xs shadow-[#d9b356]"
+                                : "border-white/10 bg-white/10 text-slate-100 hover:border-[#d9b356]/50 hover:bg-white/20",
                             )}
                           >
                             {timeFormatter.format(new Date(slot))}
@@ -625,14 +630,14 @@ export function AppointmentBooking({ doctors, initialDoctorId }: AppointmentBook
           <button
             type="submit"
             disabled={isSubmitting || availabilityLoading}
-            className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-cyan-500 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-[#d9b356] px-6 py-3 text-sm font-semibold uppercase tracking-[0.1em] text-slate-950 transition hover:bg-[#d9b356]/80 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isSubmitting ? "Booking..." : "Confirm appointment"}
           </button>
 
           <p className="text-xs text-slate-400">
             You&rsquo;ll receive a confirmation email with visit instructions after booking. Need immediate support?
-            Call our team at <span className="font-medium text-white">(587) 327-6106</span>.
+            Call our team at <span className="font-medium text-white">(403) 984-0255</span>.
           </p>
         </form>
       </div>
