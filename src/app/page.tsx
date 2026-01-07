@@ -74,7 +74,7 @@ export default async function HomePage() {
       <WhyChoose />
       <main className="mx-auto px-4 py-12">
         <AboutTeaser />
-  {/* Team Section */}
+        {/* Team Section */}
       
         <div className="mt-12">
           <ServicesGrid services={serviceCards} />

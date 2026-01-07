@@ -288,7 +288,7 @@ const ContactForm = () => {
           {/* Left Side - Image and Contact Info */}
           
           <div className="space-y-6">
-            <div className="text-left  mb-12">
+            <div className="text-left  mb-12 mt-10">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold  mb-4 text-[#0E2A47]">
             Get in Touch
           </h2>

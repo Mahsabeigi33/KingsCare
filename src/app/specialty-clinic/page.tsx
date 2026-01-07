@@ -50,7 +50,7 @@ export default function SpecialtyClinicPage() {
     <div className="bg-slate-50">
       <Nav />
 
-      <section className="relative h-[100vh] min-h-[450px] lg:h-[50vh] w-full overflow-hidden">
+      <section className="relative  w-full overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/website/setethoscope.png"
@@ -58,12 +58,12 @@ export default function SpecialtyClinicPage() {
             fill
             priority
             className="object-cover"
-            sizes="200vw"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0E2A47]/95 via-[#0E2A47]/75 to-transparent" />
         </div>
 
-        <div className="max-w-6xl relative mx-auto flex min-h-[40vh]  flex-col justify-center px-4 py-16 text-white mt-12">
+        <div className="max-w-6xl relative mx-auto flex min-h-[40vh]  flex-col justify-center px-4  text-white mt-12">
          
           <h1 className="mt-4 text-4xl font-semibold sm:text-5xl">Specialty Clinic</h1>
           <p className="mt-3 max-w-2xl text-base text-white/85 sm:text-lg">

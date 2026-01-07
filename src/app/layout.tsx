@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   description:
     "Book appointments medical clinic , family doctor .",
   icons: [
-    { rel: "icon", url: "/website/Logo.png" },
-    { rel: "shortcut icon", url: "/website/Logo.png" },
+    { rel: "icon", url: "/favicon.png" },
+    { rel: "shortcut icon", url: "/favicon.png" },
   ],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001"),
 };
