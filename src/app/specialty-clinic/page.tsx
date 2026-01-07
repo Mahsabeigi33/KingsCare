@@ -29,8 +29,8 @@ const SPECIALTIES = [
      cta: { label: "Contact Us", href: "/contact" },
   },
   {
-    id: "psychotherapist",
-    title: "Psychotherapist",
+    id: "psychotherapy",
+    title: "Psychotherapy",
     subtitle: "Mental Health & Wellness",
     description:
       "Confidential support for stress, anxiety, mood changes, and life transitions. Sessions focus on practical tools, coping strategies, and long-term wellbeing.",
