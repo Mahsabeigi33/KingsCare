@@ -56,7 +56,7 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
           >
             Welcome to 
            <br />
-            <span className="tracking-widest text-[#D9C89E]"> KingsCare </span>
+            <span className="text-[#D9C89E]"> KingsCare </span>
              Medical Clinic
           </h1>
 
