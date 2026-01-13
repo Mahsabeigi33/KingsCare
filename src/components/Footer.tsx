@@ -23,10 +23,9 @@ export default function Footer() {
         <div className="text-larg sm:text-center mt-6 ">
           <div className="flex mb-4 "><LucideClipboardClock className="text-[#d9b356] mr-2 text-xl"/> <p>Mon–Fri 8:30-17:00 • Sat 9:00-14:00</p> </div>
           <div  className="flex mb-4 "><LucideMapPin className="text-[#d9b356] mr-2 text-xl"/> <a href="https://maps.app.goo.gl/U2fuSG5iXC1xCcKF7">7712 Elbow Dr. SW, Calgary, AB, T2V 1K2</a></div>
-          <div  className="flex mb-4 "><LucidePhone className="text-[#d9b356] mr-2 text-xl"/><a className="hover:text-[#D9C89E]" href="tel:+14039840255">+1 (403) 984-0255</a> </div>
-          <div  className="flex mb-4 "><LucideMail className="text-[#d9b356] mr-2 text-xl"/><a className="hover:text-[#D9C89E]" href="mailto:info@kingscare.ca">info@kingscare.ca</a> </div>
-          
-          <div  className="flex"><LucidePrinter className="text-[#d9b356] mr-2 text-xl"/><a className="hover:text-[#D9C89E]" href="tel:5876">+1 (403) 984-0256</a></div>
+          <div  className="flex mb-4 "><LucidePhone className="text-[#d9b356] mr-2 text-xl"/><a className="hover:text-[#D9C89E]" href="tel:+14039840255">+1 (403) 984-0255</a> </div>        
+          <div  className="flex mb-4"><LucidePrinter className="text-[#d9b356] mr-2 text-xl"/><a className="hover:text-[#D9C89E]" href="tel:+14039840256">+1 (403) 984-0256</a></div>
+           <div  className="flex  "><LucideMail className="text-[#d9b356] mr-2 text-xl"/><a className="hover:text-[#D9C89E]" href="mailto:info@kingscare.ca">info@kingscare.ca</a> </div>
         </div>
         
       </div>
