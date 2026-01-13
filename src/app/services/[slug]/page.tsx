@@ -132,7 +132,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
       <div className="mx-auto max-w-5xl px-4 py-16 text-slate-700">     
         {service.subServices && service.subServices.length > 0 ? (
           <section className="mt-12">
-            <h3 className="text-xl font-semibold text-slate-900">Included support</h3>
+            <h3 className="text-xl font-semibold text-slate-900">Included services</h3>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           
                 {service.subServices

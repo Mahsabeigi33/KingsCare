@@ -17,8 +17,8 @@ const CONTACT_INFO = [
   {
     icon: Mail,
     title: "Email",
-    content: "info@kingscare.com",
-    href: "mailto:info@kingscare.com",
+    content: "info@kingscare.ca",
+    href: "mailto:info@kingscare.ca",
   },
   {
     icon: MapPin,
