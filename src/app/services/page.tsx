@@ -29,9 +29,9 @@ export default async function ServicesPage() {
   return (
     <div>
       <Nav/>
-        <div  className="bg-gradient-to-br from-[#0E2A47] to-[#4B5563] text-white lg:px-20 sm:px-4 py-20 ">
+        <div  className="hidden bg-gradient-to-br from-[#0E2A47] to-[#4B5563] text-white lg:px-20 sm:px-4 py-20 ">
           <div className="max-w-6xl mx-auto px-4 text-center lg:text-left">
-          <h1 className="text-xl font-semibold uppercase tracking-[0.35em] text-white/70">
+          <h1 className="text-xl  font-semibold uppercase tracking-[0.35em] text-white/70">
             Clinical services
           </h1>
           <p className="mt-3 text-3xl font-semibold sm:text-4xl">
@@ -42,7 +42,7 @@ export default async function ServicesPage() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              href="/appointments"
+              href="/not-available"
               className="inline-flex items-center justify-center rounded-full bg-[#D9C89E] px-5 py-4 text-sm font-semibold text-[#0E2A47] shadow hover:bg-[#C7B57A]"
             >
               Book an appointment
@@ -65,7 +65,7 @@ export default async function ServicesPage() {
             We are preparing our service list. Please check back soon or contact the clinic for the latest offerings.
           </p>
         ) : (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4  md:grid-cols-3">
             {activeServices.map((service) => (
               <ServiceCard
                 key={service.id}

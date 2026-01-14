@@ -41,7 +41,7 @@ export default function NavUser() {
   }, [mobileMenuOpen])
 
   const isAuthenticated = Boolean(session?.user)
-  const bookingPath = "/appointments"
+  const bookingPath = "/not-available"
   const bookingHref = isAuthenticated ? bookingPath : `/login?next=${encodeURIComponent(bookingPath)}`
 
   const closeMobileMenu = () => setMobileMenuOpen(false)

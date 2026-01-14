@@ -10,10 +10,12 @@ import Footer from "@/components/Footer";
 import type { ServicesListItem } from "@/components/ServicesGrid";
 import { fetchPublishedBlogs } from "@/lib/blogs";
 import { buildServiceSlug, fetchServices } from "@/lib/services";
+import { fetchSiteSettings } from "@/lib/site-settings";
 import WhyChoose from "@/components/WhyChoose";
 import TeamMember from "@/components/TeamMember";
 export const revalidate = 1800;
 import Link from "next/link";
+import ContactInfo from "@/components/ContactInfo";
 export const metadata: Metadata = {
   title: "Kings Care Medical Clinic - Telemedicine & Travel Health",
   description:
@@ -47,11 +49,13 @@ function buildBlogPreview(post: Awaited<ReturnType<typeof fetchPublishedBlogs>>[
 export default async function HomePage() {
   let services: Awaited<ReturnType<typeof fetchServices>> = [];
   let blogPosts: Awaited<ReturnType<typeof fetchPublishedBlogs>> = [];
+  let siteSettings: Awaited<ReturnType<typeof fetchSiteSettings>> = null;
 
   try {
-    [services, blogPosts] = await Promise.all([
+    [services, blogPosts, siteSettings] = await Promise.all([
       fetchServices(),
       fetchPublishedBlogs(3),
+      fetchSiteSettings(),
     ]);
   } catch (error) {
     console.error("Failed to load marketing content", error);
@@ -70,10 +74,13 @@ export default async function HomePage() {
   return (
     <>
       <Nav />
-      <Hero cards={scrollerCards} />
-      <WhyChoose />
+      <Hero cards={scrollerCards} announcement={siteSettings?.homeHeroAnnouncement ?? null} />
+      
       <main className="mx-auto px-4 py-12">
-        <AboutTeaser />
+        <div className="w-full mx-auto scroll-mt-24" id="about">
+           <AboutTeaser  />
+        </div>
+       
         {/* Team Section */}
       
         <div className="mt-12">
@@ -84,12 +91,16 @@ export default async function HomePage() {
           {/* <BlogList posts={blogEntries} /> */}
         </div>
 
-        <section aria-labelledby="contact-heading" className="mt-12">
+        <section aria-labelledby="contact-heading" className="mt-12 mx-auto max-w-7xl px-4 ">
           <h2 id="contact-heading" className="sr-only">
             Contact & Hours
           </h2>
+          <div className="grid lg:grid-cols-2 gap-8  items-start">            
+            <ContactInfo/>
+            
           <ContactStrip />
-          <div className="w-full">
+          </div>
+          <div className="w-full mt-8">
             <Link
               href="/contact"
               className="flex max-w-5xl items-center mx-auto justify-center rounded-full bg-[#0E2A47] px-5 py-4 text-sm font-semibold text-white text-center shadow-xl shadow-[#0E2A47]/30 transition hover:bg-[#C7B57A] hover:text-[#0E2A47] hover:shadow-[#C7B57A]/30"

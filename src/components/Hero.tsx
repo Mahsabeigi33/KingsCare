@@ -10,7 +10,13 @@ type ScrollCard = { title: string; text: string; href: string; emoji?: string; i
 const HERO_IMAGE_DESKTOP = "/website/header.png";
 const HERO_IMAGE_MOBILE = "/website/header.png";
 
-export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
+export default function Hero({
+  cards = [],
+  announcement,
+}: {
+  cards?: ScrollCard[]
+  announcement?: string | null
+}) {
   // cards prop preserved for compatibility with the home page, even though the new hero is static
   void cards;
   const [entered, setEntered] = useState(false);
@@ -44,9 +50,21 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
 
       <div className="relative mx-auto flex min-h-[70vh] max-w-10xl flex-col  gap-12 px-2 sm:px-6 pt-24 pl-4  pb-16 md:pt-4 md:px-0 md:pb-12 lg:pt-4 lg:pb-12 lg:flex-row lg:items-center md:px-6 lg:pl-20 xl:pl-60 lg:md:justify-start">
         <div className="max-w-4xl text-white space-y-6 sm:space-y-6  lg:space-y-8  sm:px-4 md:px-6">
+          {announcement ? (
+            <div
+              className="inline-flex items-center text-red-800 justify-center rounded-full border border-white/30 lg:mt-24  mt-16 sm:mt-10   px-4 py-2 text-xl font-semibold uppercase tracking-[0.2em] shadow-lg shadow-[#d9b356] hover:border-[#D9C89E] "
+              style={{
+                opacity: entered ? 1 : 0,
+                transform: entered ? "translateX(0)" : "translateX(-16px)",
+                transition: "opacity 1s ease 0.05s, transform 1s ease 0.05s",
+              }}
+            >
+              {announcement}
+            </div>
+          ) : null}
 
           <h1
-            className="text-shadow-xl  text-shadow-[#D9C89E] text-4xl font-bold leading-tight  sm:text-5xl lg:text-6xl sm:pt-16 sm:mt-8 md:p-4 lg:pt-16 md:pt-12   "
+            className="text-shadow-xl  text-shadow-[#D9C89E] text-4xl font-bold leading-tight  sm:text-5xl lg:text-6xl pt-8  md:p-4   "
             style={{
               opacity: entered ? 1 : 0,
               transform: entered ? "translateX(0)" : "translateX(-24px)",
@@ -80,7 +98,7 @@ export default function Hero({ cards = [] }: { cards?: ScrollCard[] }) {
             }}
           >
             <Link
-              href="/appointments"
+              href="/not-available"
               className="inline-flex items-center gap-2 rounded-full bg-[#D9C89E] px-6 py-3 text-base font-semibold text-[#0E2A47] shadow-lg shadow-[#0E2A47] transition hover:-translate-y-0.5 hover:bg-[#C7B57A] hover:shadow-xl"
             >
               <CalendarSearchIcon className="h-5 w-5" />
