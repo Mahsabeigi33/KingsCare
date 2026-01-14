@@ -78,25 +78,25 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
     <div>
       <Nav/>
     
-      <div className="relative isolate overflow-hidden bg-slate-900 text-white  ">
+      <div className="relative isolate overflow-hidden bg-slate-900 text-white p-20  ">
         <Image
           src={resolvedHeroImage}
           alt=""
           fill
           priority
           sizes="100vw"
-          className="absolute inset-0 object-cover opacity-40 aspect-[3/4] "
+          className="absolute inset-0 object-cover opacity-40 aspect-[4/4] "
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/90 via-[#0E2A47]/60 to-transparent" />
-        <div className="relative mx-auto max-w-6xl px-4 py-20">
-          <div className="grid items-center gap-10 lg:grid-cols-[1.3fr,0.9fr]">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/90 via-[#0E2A47]/69 to-transparent " />
+        <div className="relative mx-auto max-w-6xl  ">
+          <div className="grid items-center gap-5 lg:grid-cols-2">
             <div>
               <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
               <h1 className="mt-4 text-3xl font-semibold sm:text-5xl">{service.name}</h1>
-              <p className="mt-4 max-w-3xl text-base text-white/80 sm:text-lg">
+              <p className="mt-4 max-w-3xl text-lg text-white/80 ">
                 {service.description ?? "Personalized medical clinic care tailored to your goals."}
               </p>
-              <p className="mt-4 max-w-3xl text-base text-white/80 sm:text-lg">
+              <p className="mt-4 max-w-5xl text-lg text-white/80 ">
                 {service.shortDescription ?? "Personalized medical clinic care tailored to your goals."}
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/90">
@@ -104,24 +104,16 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                
                
               </div>
-              <div className="mt-8 flex flex-wrap gap-3">
-               
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-4 text-sm font-semibold text-[#0E2A47] hover:text-white transition hover:bg-white/10 bg-[#D9C89E]"
-                >
-                  Ask a question
-                </Link>
-              </div>
+             
             </div>
-            <div className="relative w-full overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm aspect-[4/4]">
+            <div className="relative w-full overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm aspect-[4/4] sm:aspect-[3/4] lg:aspect-[4/4]">
               <Image
                 src={resolvedHeroImage}
                 alt={`${service.name} hero`}
                 fill
-                className="object-cover sm:aspect-[3/2] lg:aspect-[16/9] "
+                className="object-cover sm:aspect-[4/4] lg:aspect-[4/4] "
                 priority
-                sizes="(min-width: 1024px) 45vw, 100vw"
+                sizes="(min-width: 1024px) 45vw, 90vw"
               />
               <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/10 via-transparent to-transparent" />
             </div>

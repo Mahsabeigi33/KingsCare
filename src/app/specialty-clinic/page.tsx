@@ -16,12 +16,11 @@ const SPECIALTIES = [
   {
     id: "ent",
     title: "ENT Clinic",
-    subtitle: "Ear, Nose, and Throat Care",
+    subtitle: "Nose, and Throat Care",
     description:
-      "Comprehensive ENT assessments for sinus concerns, hearing issues, allergies, throat irritation, and voice changes. Our team coordinates testing, imaging, and referrals when needed.",
+      "Comprehensive ENT assessments for sinus concerns, allergies, throat irritation, and voice changes. Our team coordinates testing, imaging, and referrals when needed.",
     highlights: [
       "Chronic sinus and nasal congestion",
-      "Hearing checks and ear infections",
       "Sore throat and voice evaluation",
       "Allergy and breathing concerns",
     ],
