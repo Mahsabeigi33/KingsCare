@@ -42,12 +42,7 @@ const AboutPage = () => {
                    <h1 className="mt-3 text-3xl font-semibold sm:text-4xl">
                     About Kings Care Medical Clinic
                    </h1>
-                   <p className="mt-4 max-w-3xl text-sm text-white/80 sm:text-base">
-                      Kings Care Medical Clinic is a locally operated family medical clinic dedicated to providing comprehensive, patient-centered care for individuals and families in our community. Our experienced physicians offer a wide range of services, from routine check-ups to specialized care, all delivered with compassion and professionalism.
-                      </p>
-                      <p className="mt-4 max-w-3xl text-sm text-white/80 sm:text-base">
-                      We focus on accessible healthcare, offering same-day appointments, walk-in visits, and coordinated care to support patients at every stage of life.                   </p>
-                     <div className="mt-6 flex flex-wrap gap-3 items-center justify-center lg:justify-start">            
+                  <div className="mt-6 flex flex-wrap gap-3 items-center justify-center lg:justify-start">            
                      <Link
                        href="/contact"
                        className="inline-flex items-center justify-center rounded-full bg-[#D9C89E] border border-white/70 px-5 py-4 text-sm font-semibold text-[#0E2A47] transition hover:bg-[#C7B57A] hover:border-white/90 focus:outline-none focus:ring-2 focus:ring-[#D9C89E] focus:ring-offset-2 hover:shadow-lg shadow-xl shadow-[#D9C89E]/30"

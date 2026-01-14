@@ -14,6 +14,7 @@ export type AdminService = {
   description?: string | null
   shortDescription?: string | null
   images?: string[]
+  priority?: number | null
   active: boolean
   parent?: { id: string; name: string } | null
   subServices?: { id: string; name: string; active: boolean; images?: string[]; shortDescription?: string | null }[]
@@ -79,14 +80,17 @@ export async function fetchServices(): Promise<AdminService[]> {
     priceCents: item.priceCents ?? 0,
   }))
 
-  // Sort by createdAt (desc), fallback to updatedAt, then name
+  // Sort by priority (asc), then createdAt (desc), fallback to updatedAt, then name
   const stamp = (s?: string) => (s ? Date.parse(s) || 0 : 0)
-  const sorted = [...list].sort((b, a) => {
+  const sorted = [...list].sort((a, b) => {
+    const aPriority = a.priority ?? Number.POSITIVE_INFINITY
+    const bPriority = b.priority ?? Number.POSITIVE_INFINITY
+    if (aPriority !== bPriority) return aPriority - bPriority
     const aTime = stamp(a.createdAt) || stamp(a.updatedAt)
     const bTime = stamp(b.createdAt) || stamp(b.updatedAt)
     if (aTime !== bTime) return bTime - aTime
     // Stable fallback by name to avoid jitter when timestamps equal/missing
-    return (b.name || "").localeCompare(a.name || "")
+    return (a.name || "").localeCompare(b.name || "")
   })
 
   return sorted
@@ -128,3 +132,4 @@ export async function fetchServiceBySlug(slug: string) {
   }
   return fetchServiceById(id)
 }
+

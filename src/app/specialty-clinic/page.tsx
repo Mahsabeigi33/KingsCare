@@ -28,21 +28,21 @@ const SPECIALTIES = [
     image: "/website/ENT.png",
      cta: { label: "Contact Us", href: "/contact" },
   },
-  {
-    id: "psychotherapy",
-    title: "Psychotherapy",
-    subtitle: "Mental Health & Wellness",
-    description:
-      "Confidential support for stress, anxiety, mood changes, and life transitions. Sessions focus on practical tools, coping strategies, and long-term wellbeing.",
-    highlights: [
-      "Stress, burnout, and anxiety support",
-      "Depression and mood management",
-      "Grief, life transitions, and relationships",
-      "Goal-setting and coping strategies",
-    ],
-    image: "/website/psychotherapist.png",
-    cta: { label: "Contact Us", href: "/contact" },
-  },
+  // {
+  //   id: "psychotherapy",
+  //   title: "Psychotherapy",
+  //   subtitle: "Mental Health & Wellness",
+  //   description:
+  //     "Confidential support for stress, anxiety, mood changes, and life transitions. Sessions focus on practical tools, coping strategies, and long-term wellbeing.",
+  //   highlights: [
+  //     "Stress, burnout, and anxiety support",
+  //     "Depression and mood management",
+  //     "Grief, life transitions, and relationships",
+  //     "Goal-setting and coping strategies",
+  //   ],
+  //   image: "/website/psychotherapist.png",
+  //   cta: { label: "Contact Us", href: "/contact" },
+  // },
 ];
 
 export default function SpecialtyClinicPage() {
@@ -50,7 +50,7 @@ export default function SpecialtyClinicPage() {
     <div className="bg-slate-50">
       <Nav />
 
-      <section className="relative  w-full overflow-hidden">
+      <section className="relative  w-full overflow-hidden hidden">
         <div className="absolute inset-0">
           <Image
             src="/website/setethoscope.png"

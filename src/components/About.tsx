@@ -6,13 +6,7 @@ import { LucideCheck, ChevronLeft, ChevronRight, CheckCircle, ArrowRight } from 
 import Image from "next/image";
 const DAYS_OF_WEEK = ["S", "M", "T", "W", "T", "F", "S"] as const;
 
-const ABOUT_FEATURES = [
-  "Same-day and walk-in appointments available",
-  "Comprehensive family and preventative care",
-  "Women’s health and prenatal services",
-  "Travel medicine and WCB injury assessments",
-  "Compassionate, diverse, and multilingual medical team",
-] as const;
+ 
 
 interface CalendarDay {
   day: number;
@@ -68,11 +62,11 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section ref={ref} className="bg-[#d9b356] w-full overflow-hidden  shadow-2xl  rounded-3xl">
+    <section ref={ref}  className="bg-[#d9b356] w-full overflow-hidden  shadow-2xl  rounded-3xl">
       <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16 lg:py-20">
         <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 items-center">
           <div
-            className="order-2 md:order-1 relative w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px]"
+            className="order-2 md:order-1 relative w-full aspect-[4/4] h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-xl shadow-lg shadow-gray-800 overflow-hidden hover:translate-x-2 hover:translate-y-2 transition-transform"
             style={{
               opacity: visible ? 1 : 0,
               transform: visible ? "translateY(0)" : "translateY(30px)",
@@ -90,7 +84,7 @@ const AboutSection = () => {
           </div>
 
           <div
-            className="order-1 md:order-2"
+            className="order-1 md:order-2 "
             style={{
               opacity: visible ? 1 : 0,
               transform: visible ? "translateY(0)" : "translateY(20px)",
@@ -100,25 +94,17 @@ const AboutSection = () => {
             <h2 className="text-3xl sm:text-3xl lg:text-3xl font-bold text-[#0E2A47] mb-4">
               About Kings Care Medical Clinic
             </h2>
-            <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-6">
+            <p className="xl:lg:text-xl sm:text-lg text-gray-700 leading-relaxed mb-6">
             Kings Care Medical Clinic provides trusted family medicine and specialized medical services in a welcoming, professional environment. Our team is committed to accessible, high-quality care for patients of all ages, with same-day appointments and comprehensive health services under one roof.  
             </p>
-            <ul className="space-y-3 text-gray-700 mb-8" role="list">
-              {ABOUT_FEATURES.map((feature, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="text-[#0E2A47] mr-2 font-bold">
-                    <LucideCheck />
-                  </span>
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/about"
-              className="inline-block rounded-full border-2 border-[#0E2A47] px-6 py-3 font-semibold text-white hover:bg-[#D9C89E] hover:text-[#0E2A47] transition-all duration-200 bg-[#0E2A47] shadow-lg hover:shadow-xl shadow-[#0E2A47]/50 hover:shadow-[#0E2A47]/70"
-            >
-              More About Us
-            </Link>
+             <p className="mt-4 max-w-3xl xl:lg:text-xl sm:text-base">
+                
+                 Kings Care Medical Clinic is a locally operated family medical clinic dedicated to providing comprehensive, patient-centered care for individuals and families in our community. Our experienced physicians offer a wide range of services, from routine check-ups to specialized care, all delivered with compassion and professionalism.
+              </p>
+                <p className="mt-4 max-w-3xl xl:lg:text-xl sm:text-base">
+                  We focus on accessible healthcare, offering same-day appointments, walk-in visits, and coordinated care to support patients at every stage of life.   
+                </p>
+             
           </div>
         </div>
       </div>

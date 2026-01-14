@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn"
 import Image from "next/image"
 const links = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
+  { href: "/#about", label: "About" },
   { href: "/team", label: "Our Team" },
   { href: "/services", label: "Services" },
   { href: "/specialty-clinic", label: "Specialty Clinic" },
@@ -42,8 +42,8 @@ export default function Nav() {
   }, [mobileMenuOpen])
 
   const isAuthenticated = Boolean(session?.user)
-  const bookingPath = "/appointments"
-  const bookingHref = "/appointments"
+  const bookingPath = "/not-available"
+  const bookingHref = "/not-available"
 
   const closeMobileMenu = () => setMobileMenuOpen(false)
   const logoSrc = scrolled ? "/website/Logo-solid.png" : "/website/Logo.png"

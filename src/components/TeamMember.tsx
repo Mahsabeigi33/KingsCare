@@ -29,11 +29,7 @@ export default async function TeamMember() {
   return (
     <section className="bg-white/50 py-16 px-4 sm:px-6 lg:px-8 border-t border-gray-200 rounded-2xl shadow-sm my-12">
       <div className="mx-auto max-w-6xl">
-        <h2 className="mb-4 text-3xl font-bold text-[#0E2A47] md:text-4xl">Meet Our Team</h2>
-        <p className="mb-12 text-gray-900">
-          Our experienced healthcare professionals are dedicated to providing you with expert
-          guidance and compassionate care.
-        </p>
+       
         {visible.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-6 py-10 text-center text-gray-600">
             Our physician profiles are coming soon.
