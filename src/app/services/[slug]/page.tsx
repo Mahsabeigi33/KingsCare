@@ -8,6 +8,7 @@ import Emergency from "@/components/Emergency";
 import Image from "next/image";
 import ServiceCard from "@/components/ServiceCard";
 import { resolveMediaUrl } from "@/lib/media";
+import { parseMarkdown } from "@/lib/markdown";
 
 // Force this route to run dynamically to avoid static-generation conflicts with auth/session usage in the root layout.
 export const dynamic = "force-dynamic";
@@ -73,6 +74,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
 
   const heroImage = service.images?.[0] ?? "/website/Pharmacists.jpg";
   const resolvedHeroImage = resolveMediaUrl(heroImage);
+  const descriptionBlocks = parseMarkdown(service.description ?? "");
 
   return (
     <div>
@@ -93,9 +95,25 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             <div>
               <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
               <h1 className="mt-4 text-3xl font-semibold sm:text-5xl">{service.name}</h1>
-              <p className="mt-4 max-w-3xl text-lg text-white/80 ">
-                {service.description ?? "Personalized medical clinic care tailored to your goals."}
-              </p>
+              {descriptionBlocks.length ? (
+                <div className="mt-4 max-w-3xl text-lg text-white/85 space-y-3">
+                  {descriptionBlocks.map((block, index) =>
+                    block.type === "list" ? (
+                      <ul key={`list-${index}`} className="list-disc pl-6 space-y-1">
+                        {block.items.map((item, itemIndex) => (
+                          <li key={`item-${index}-${itemIndex}`}>{item}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p key={`para-${index}`}>{block.text}</p>
+                    ),
+                  )}
+                </div>
+              ) : (
+                <p className="mt-4 max-w-3xl text-lg text-white/80 ">
+                  Personalized medical clinic care tailored to your goals.
+                </p>
+              )}
               <p className="mt-4 max-w-5xl text-lg text-white/80 ">
                 {service.shortDescription ?? "Personalized medical clinic care tailored to your goals."}
               </p>

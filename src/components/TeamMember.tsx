@@ -53,7 +53,7 @@ export default async function TeamMember() {
                     loading="lazy"
                   />
                 </div>
-                <h3 className="mb-1 text-medium sm:text-sm font-bold text-gray-900">
+                <h3 className="mb-1 text-medium sm:text-sm font-medium text-gray-900">
                   <strong>{member.fullName} {member.title || " "}</strong>  
                 </h3>
                 <p className="text-[#0E2A47] font-medium">

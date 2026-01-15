@@ -22,14 +22,15 @@ const ContactForm = () => {
           </p>
         </div>
             {/* Image */}
-            <div className=" rounded-2xl w-full  overflow-hidden shadow-lg">
+           <div className="relative aspect-[4/3]  rounded-2xl w-full  overflow-hidden shadow-lg shadow-gray-400 border border-gray-200/20">
               <Image
                 src="/website/contact.png"
                 alt="Kings Care Medical Clinic contact "
-                className="w-full cover"
+                className="w-full cover absolute object-cover aspect-[4/3]"
                 priority
                 width={600}
-                height={600}
+                height={800}
+               
               />
             </div>
 
