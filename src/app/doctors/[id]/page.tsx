@@ -88,15 +88,7 @@ export default async function DoctorPage({ params }: PageProps) {
           </div>
         ) : null}
 
-        <div className="mt-14">
-          <h2 className="text-2xl font-semibold text-[#0E2A47]">Book with {doctor.fullName}</h2>
-          <p className="mt-2 text-gray-700">
-            Share your details and pick a time that works for you—no sign-in required.
-          </p>
-          <div className="mt-6">
-            <AppointmentBooking doctors={bookingDoctors} initialDoctorId={doctor.id} />
-          </div>
-        </div>
+       
       </div>
       <Footer />
     </div>

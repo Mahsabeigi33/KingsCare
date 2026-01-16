@@ -1,16 +1,16 @@
-"use client";
 import ContactForm from '@/components/ContactForm';
 import ContactStrip from '@/components/ContactStrip';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
-export default function ContactPage() {
+export default async function ContactPage() {
+
+
   return (
     <div>
-     <Nav />
-        
+      <Nav />
       <ContactForm />
-       <ContactStrip />
-       <Footer />
+      <ContactStrip />
+      <Footer />
     </div>
   );
 }

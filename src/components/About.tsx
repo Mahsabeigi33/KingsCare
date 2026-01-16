@@ -66,7 +66,7 @@ const AboutSection = () => {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16 lg:py-20">
         <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 items-center">
           <div
-            className="order-2 md:order-1 relative w-full aspect-[4/4] h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-xl shadow-lg shadow-gray-800 overflow-hidden hover:translate-x-2 hover:translate-y-2 transition-transform"
+            className="order-2 md:order-1 relative w-full aspect-[4/4] h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-xl shadow-lg shadow-gray-800 overflow-hidden   transition-transform"
             style={{
               opacity: visible ? 1 : 0,
               transform: visible ? "translateY(0)" : "translateY(30px)",
@@ -94,7 +94,7 @@ const AboutSection = () => {
             <h2 className="text-3xl sm:text-3xl lg:text-3xl font-bold text-[#0E2A47] mb-4">
               About Kings Care Medical Clinic
             </h2>
-            <p className="xl:lg:text-xl sm:text-lg text-gray-700 leading-relaxed mb-6">
+            <p className="xl:lg:text-xl sm:text-lg leading-relaxed mb-6">
             Kings Care Medical Clinic provides trusted family medicine and specialized medical services in a welcoming, professional environment. Our team is committed to accessible, high-quality care for patients of all ages, with same-day appointments and comprehensive health services under one roof.  
             </p>
              <p className="mt-4 max-w-3xl xl:lg:text-xl sm:text-base">
