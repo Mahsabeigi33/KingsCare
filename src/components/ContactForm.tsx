@@ -1,13 +1,27 @@
 import Image from "next/image";
 import ContactInfo from "./ContactInfo";
-// Types
+import { fetchSiteSettings } from '@/lib/site-settings';
 
+// Types
+  const siteSettings = await fetchSiteSettings();
+  const announcement = siteSettings?.homeHeroAnnouncement ?? null;
 const ContactForm = () => {
   return (
      <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
       <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
-        
+          {announcement ? (
+        <div
+          className="mb-8 p-8 inline-flex items-center text-[#0E2A47] justify-center rounded-full border border-white/30  px-6 py-4 shadow-xl shadow-red-600 hover:border-[#D9C89E] text-4xl lg:text-5xl pl-20 pt-10 pb-10 font-semibold bg-[#0E2A47]/10 backdrop-blur-lg"
+          style={{ fontFamily: 'CalistoMT, serif',
+             boxShadow: "0 -16px 30px rgba(255, 56, 56, 0.36), 0 16px 30px rgba(248, 46, 46, 0.63)",
+           }}
+        >
+         {announcement
+            .split(/<\/?br\s*\/?>|\\n|\r?\n/i)
+            .map((line, index) => (index === 0 ? line : [<br key={`br-${index}`} />, line]))}
+        </div>
+      ) : null}
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Left Side - Image and Contact Info */}
@@ -33,9 +47,6 @@ const ContactForm = () => {
                
               />
             </div>
-
-
-           
           </div>
 
           {/* Right Side - Contact Form */}

@@ -34,6 +34,10 @@ export default function Hero({
     return () => clearTimeout(id);
   }, []);
 
+  const announcementLines = announcement
+    ? announcement.split(/<\/?br\s*\/?>|\\n|\r?\n/i)
+    : [];
+
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
@@ -48,18 +52,31 @@ export default function Hero({
         <div className="absolute inset-0 bg-gradient-to-r from-[#0E2A47] via-[#0E2A47]/80 to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[70vh] max-w-10xl flex-col  gap-12 px-2 sm:px-6 pt-24 pl-4  pb-16 md:pt-4 md:px-0 md:pb-12 lg:pt-4 lg:pb-12 lg:flex-row lg:items-center md:px-6 lg:pl-20 xl:pl-60 lg:md:justify-start">
-        <div className="max-w-4xl text-white space-y-6 sm:space-y-6  lg:space-y-8  sm:px-4 md:px-6">
+      <div className="relative mx-auto flex min-h-[70vh]  flex-col  gap-12 px-2   md:pt-4 md:px-0 md:pb-12 lg:pt-4 lg:pb-12 lg:flex-row lg:items-center md:px-6 lg:pl-20 xl:pl-60 lg:md:justify-start">
+        <div className="max-w-8xl text-white space-y-6  md:px-6 p-8">
           {announcement ? (
             <div
-              className="inline-flex items-center text-red-800 justify-center rounded-full border border-white/30 lg:mt-24  mt-16 sm:mt-10   px-4 py-2 text-xl font-semibold uppercase tracking-[0.2em] shadow-lg shadow-[#d9b356] hover:border-[#D9C89E] "
+              className="pl-12 pt-12 py-10  sm:pl-16 sm:py-8 md:pl-16 md:pr-6 md:pt-10 lg:xl:px-20 sm:pl-10 sm:pt-6 lg:pt-10 lg:pb-10 
+              inline-flex items-center justify-center
+              rounded-full border border-white/30
+              mt-8 lg:mt-10
+              text-4xl lg:text-5xl font-semibold
+              text-[#d9b356]
+              bg-[#0E2A47]/30 backdrop-blur-lg
+              hover:border-[#D9C89E]
+              transition-all duration-1000 ease-in-out delay-[50ms]
+              ${entered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'}"
               style={{
                 opacity: entered ? 1 : 0,
                 transform: entered ? "translateX(0)" : "translateX(-16px)",
                 transition: "opacity 1s ease 0.05s, transform 1s ease 0.05s",
+                boxShadow: "0 -16px 30px rgba(255, 56, 56, 0.35), 0 16px 30px rgba(255, 56, 56, 0.69)",
+                fontFamily: "CalistoMT ,serif",
               }}
             >
-              {announcement}
+              {announcementLines.map((line, index) =>
+                index === 0 ? line : [<br key={`br-${index}`} />, line],
+              )}
             </div>
           ) : null}
 
