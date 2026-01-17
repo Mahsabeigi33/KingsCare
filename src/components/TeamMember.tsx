@@ -27,7 +27,7 @@ export default async function TeamMember() {
     : []
 
   return (
-    <section className="bg-white/50 py-16 px-4 sm:px-6 lg:px-8 border-t border-gray-200 rounded-2xl shadow-sm my-12">
+    <section className="bg-white/50 py-8 px-4 sm:px-6 lg:px-8 border-t border-gray-200 rounded-2xl shadow-sm my-12">
       <div className="mx-auto max-w-6xl">
        
         {visible.length === 0 ? (
@@ -53,10 +53,10 @@ export default async function TeamMember() {
                     loading="lazy"
                   />
                 </div>
-                <h3 className="mb-1 font-medium text-[#0E2A47]  ">
-                  <strong>{member.fullName} {member.title || " "}</strong>  
+                <h3 className="mb-2   text-[#0E2A47]  text-xl ">
+                  {member.fullName} {member.title || " "}
                 </h3>
-                <p className="text-[#0E2A47] font-medium">
+                <p className="text-[#0E2A47] text-lg">
                  {member.specialty || ""}
                 </p>
                
