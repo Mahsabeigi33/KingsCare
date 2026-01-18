@@ -19,6 +19,101 @@ type ServicePageProps = {
 
 export const revalidate = 600;
 
+const containsHtml = (value: string) => /<\/?[a-z][\s\S]*>/i.test(value);
+const stripHtml = (value: string) =>
+  value.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+const safeParse = (value: string) => {
+  if (!value) return null;
+  const trimmed = value.trim();
+  const tryParse = (input: string) => {
+    try {
+      return JSON.parse(input);
+    } catch {
+      return null;
+    }
+  };
+  const cleaned = trimmed.replace(/\\+$/, "");
+  const parsed = tryParse(trimmed) ?? tryParse(cleaned);
+  if (typeof parsed === "string") {
+    const nested = tryParse(parsed) ?? tryParse(parsed.replace(/\\+$/, ""));
+    return nested ?? parsed;
+  }
+  return parsed;
+};
+const isEditorJs = (value: string) => {
+  const parsed = safeParse(value);
+  return Boolean(parsed && Array.isArray(parsed.blocks));
+};
+const plainTextFromEditor = (value: string) => {
+  const parsed = safeParse(value);
+  if (!parsed || !Array.isArray(parsed.blocks)) return stripHtml(value);
+  const text = parsed.blocks
+    .map((block: { data?: { text?: string; items?: string[] } }) => {
+      if (block?.data?.text) return stripHtml(String(block.data.text));
+      if (Array.isArray(block?.data?.items)) {
+        return block.data.items
+          .map((item) => {
+            if (typeof item === "string") return stripHtml(item);
+            if (item && typeof item === "object" && "content" in item) {
+              return stripHtml(String((item as { content?: string }).content ?? ""));
+            }
+            return stripHtml(String(item));
+          })
+          .join(" ");
+      }
+      return "";
+    })
+    .join(" ");
+  return stripHtml(text);
+};
+const renderEditorBlocks = (blocks: Array<{ type: string; data?: { text?: string; level?: number; items?: string[]; style?: string } }>) =>
+  blocks.map((block, index) => {
+    if (block.type === "paragraph") {
+      return (
+        <p
+          key={`para-${index}`}
+          dangerouslySetInnerHTML={{ __html: block.data?.text ?? "" }}
+        />
+      );
+    }
+    if (block.type === "header") {
+      const level = Math.min(Math.max(block.data?.level ?? 3, 2), 4);
+      const Tag = (`h${level}` as "h2" | "h3" | "h4");
+      return (
+        <Tag
+          key={`header-${index}`}
+          className="font-semibold text-white/95"
+          dangerouslySetInnerHTML={{ __html: block.data?.text ?? "" }}
+        />
+      );
+    }
+    if (block.type === "list") {
+      const isOrdered = block.data?.style === "ordered";
+      const Tag = (isOrdered ? "ol" : "ul") as "ol" | "ul";
+      const items = block.data?.items ?? [];
+      const listClass = isOrdered ? "list-decimal" : "list-disc";
+      return (
+        <Tag key={`list-${index}`} className={`${listClass} pl-6 space-y-1`}>
+          {items.map((item, itemIndex) => {
+            const content =
+              typeof item === "string"
+                ? item
+                : item && typeof item === "object" && "content" in item
+                  ? String((item as { content?: string }).content ?? "")
+                  : String(item);
+            return (
+              <li
+                key={`item-${index}-${itemIndex}`}
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
+            );
+          })}
+        </Tag>
+      );
+    }
+    return null;
+  });
+
 async function resolveService(slug: string) {
   try {
     return await fetchServiceBySlug(slug);
@@ -39,7 +134,9 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
 
   return {
     title: `${service.name} | Kings Care Medical Clinic`,
-    description: service.description ?? `Learn more about ${service.name} at Kings Care Medical Clinic.`,
+    description: plainTextFromEditor(
+      service.description ?? `Learn more about ${service.name} at Kings Care Medical Clinic.`,
+    ),
   };
 }
 
@@ -70,7 +167,11 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   const resolvedHeroImage = resolveMediaUrl(heroImage, {
     cacheKey: service.updatedAt ?? service.createdAt ?? null,
   });
-  const descriptionBlocks = parseMarkdown(service.description ?? "");
+  const description = service.description ?? "";
+  const isEditorDescription = isEditorJs(description);
+  const isHtmlDescription = !isEditorDescription && containsHtml(description);
+  const descriptionBlocks = isEditorDescription || isHtmlDescription ? [] : parseMarkdown(description);
+  const editorData = isEditorDescription ? safeParse(description) : null;
 
   return (
     <div>
@@ -91,7 +192,16 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
             <div className="space-y-5">
               <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
               <h1 className="text-2xl font-semibold leading-tight  md:lg:text-4xl">{service.name}</h1>
-              {descriptionBlocks.length ? (
+              {isEditorDescription && editorData?.blocks ? (
+                <div className="max-w-3xl text-base text-white/85 sm:text-lg space-y-3">
+                  {renderEditorBlocks(editorData.blocks)}
+                </div>
+              ) : isHtmlDescription ? (
+                <div
+                  className="max-w-3xl text-base text-white/85 sm:text-lg space-y-3"
+                  dangerouslySetInnerHTML={{ __html: description }}
+                />
+              ) : descriptionBlocks.length ? (
                 <div className="max-w-3xl text-base text-white/85 sm:text-lg space-y-3">
                   {descriptionBlocks.map((block, index) =>
                     block.type === "list" ? (
