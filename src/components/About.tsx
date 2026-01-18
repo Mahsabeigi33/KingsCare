@@ -105,6 +105,7 @@ const AboutSection = () => {
               </p>
                 <p className="mt-4 max-w-3xl xl:lg:text-xl sm:text-base">
                 We are proud to serve patients of all ages - from children to seniors - supporting them through every stage of life with compassion, professionalism, and clinical excellence. Our mission is to build long-term relationships with our patients based on trust, integrity, and a shared commitment to health and well-being.
+                We are proud to serve patients of all ages - from children to seniors - supporting them through every stage of life with compassion, professionalism, and clinical excellence. Our mission is to build long-term relationships with our patients based on trust, integrity, and a shared commitment to health and well-being.
                 </p>
              
           </div>
