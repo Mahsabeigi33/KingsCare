@@ -11,6 +11,40 @@ type Card = {
   image?: string | null;
 };
 
+const stripHtml = (value: string) =>
+  value.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+const safeParse = (value: string) => {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+};
+const plainTextFromEditor = (value: string) => {
+  const parsed = safeParse(value);
+  if (!parsed || !Array.isArray(parsed.blocks)) {
+    return stripHtml(value);
+  }
+  const text = parsed.blocks
+    .map((block: { data?: { text?: string; items?: Array<string | { content?: string }> } }) => {
+      if (block?.data?.text) return stripHtml(String(block.data.text));
+      if (Array.isArray(block?.data?.items)) {
+        return block.data.items
+          .map((item) => {
+            if (typeof item === "string") return stripHtml(item);
+            if (item && typeof item === "object" && "content" in item) {
+              return stripHtml(String(item.content ?? ""));
+            }
+            return stripHtml(String(item));
+          })
+          .join(" ");
+      }
+      return "";
+    })
+    .join(" ");
+  return stripHtml(text);
+};
+
 // Responsive Slider with background image per service
 export default function ServiceScroller({ cards }: { cards: Card[] }) {
   const count = cards?.length ?? 0;
@@ -208,7 +242,7 @@ export default function ServiceScroller({ cards }: { cards: Card[] }) {
                     leading-relaxed
                     mb-2 sm:mb-3
                   ">
-                    {c.text}
+                    {plainTextFromEditor(c.text)}
                   </p>
                   
                   {/* CTA */}

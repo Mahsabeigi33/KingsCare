@@ -8,6 +8,69 @@ import { AppointmentBooking } from "@/components/appointments/AppointmentBooking
 
 const placeholder =
   "https://images.unsplash.com/photo-1502989642968-94fbdc9eace4?auto=format&fit=crop&w=800&q=80"
+const containsHtml = (value: string) => /<\/?[a-z][\s\S]*>/i.test(value)
+const stripHtml = (value: string) =>
+  value.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim()
+const safeParse = (value: string) => {
+  try {
+    return JSON.parse(value)
+  } catch {
+    return null
+  }
+}
+const isEditorJs = (value: string) => {
+  const parsed = safeParse(value)
+  return Boolean(parsed && Array.isArray(parsed.blocks))
+}
+const renderEditorBlocks = (
+  blocks: Array<{ type: string; data?: { text?: string; level?: number; items?: string[]; style?: string } }>,
+) =>
+  blocks.map((block, index) => {
+    if (block.type === "paragraph") {
+      return (
+        <p
+          key={`para-${index}`}
+          dangerouslySetInnerHTML={{ __html: block.data?.text ?? "" }}
+        />
+      )
+    }
+    if (block.type === "header") {
+      const level = Math.min(Math.max(block.data?.level ?? 3, 2), 4)
+      const Tag = (`h${level}` as keyof JSX.IntrinsicElements)
+      return (
+        <Tag
+          key={`header-${index}`}
+          className="font-semibold text-[#0E2A47]"
+          dangerouslySetInnerHTML={{ __html: block.data?.text ?? "" }}
+        />
+      )
+    }
+    if (block.type === "list") {
+      const isOrdered = block.data?.style === "ordered"
+      const Tag = (isOrdered ? "ol" : "ul") as "ol" | "ul"
+      const items = block.data?.items ?? []
+      const listClass = isOrdered ? "list-decimal" : "list-disc"
+      return (
+        <Tag key={`list-${index}`} className={`${listClass} pl-6 space-y-1`}>
+          {items.map((item, itemIndex) => {
+            const content =
+              typeof item === "string"
+                ? item
+                : item && typeof item === "object" && "content" in item
+                  ? String((item as { content?: string }).content ?? "")
+                  : String(item)
+            return (
+              <li
+                key={`item-${index}-${itemIndex}`}
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
+            )
+          })}
+        </Tag>
+      )
+    }
+    return null
+  })
 
 // Force dynamic rendering to avoid static-generation conflicts coming from session handling in the root layout.
 export const dynamic = "force-dynamic"
@@ -58,9 +121,20 @@ export default async function DoctorPage({ params }: PageProps) {
            
             </div>
             {doctor.bio ? (
-              <div className="rounded-2xl border border-gray-100 bg-gray-50 p-6 text-gray-700 leading-relaxed">
-                {doctor.bio}
-              </div>
+              isEditorJs(doctor.bio) ? (
+                <div className="rounded-2xl border border-gray-100 bg-gray-50 p-6 text-gray-700 leading-relaxed space-y-3">
+                  {renderEditorBlocks(safeParse(doctor.bio)?.blocks ?? [])}
+                </div>
+              ) : containsHtml(doctor.bio) ? (
+                <div
+                  className="rounded-2xl border border-gray-100 bg-gray-50 p-6 text-gray-700 leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: doctor.bio }}
+                />
+              ) : (
+                <div className="rounded-2xl border border-gray-100 bg-gray-50 p-6 text-gray-700 leading-relaxed">
+                  {stripHtml(doctor.bio)}
+                </div>
+              )
             ) : null}
           </div>
           <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] lg:aspect-[3/4] overflow-hidden rounded-2xl bg-gray-100 shadow-xl">

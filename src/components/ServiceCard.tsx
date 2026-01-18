@@ -42,6 +42,44 @@ export default function ServiceCard({
         {toInitials(title)}
       </span>
     );
+  const plainText = text ? plainTextFromEditor(text) : "";
+
+  function plainTextFromEditor(value: string) {
+    const parsed = safeParse(value);
+    if (!parsed || !Array.isArray(parsed.blocks)) {
+      return stripHtml(value);
+    }
+    const textBlocks = parsed.blocks
+      .map((block: { data?: { text?: string; items?: Array<string | { content?: string }> } }) => {
+        if (block?.data?.text) return stripHtml(String(block.data.text));
+        if (Array.isArray(block?.data?.items)) {
+          return block.data.items
+            .map((item) => {
+              if (typeof item === "string") return stripHtml(item);
+              if (item && typeof item === "object" && "content" in item) {
+                return stripHtml(String(item.content ?? ""));
+              }
+              return stripHtml(String(item));
+            })
+            .join(" ");
+        }
+        return "";
+      })
+      .join(" ");
+    return stripHtml(textBlocks);
+  }
+
+  function stripHtml(value: string) {
+    return value.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  function safeParse(value: string) {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return null;
+    }
+  }
 
   return (
     <Link
@@ -73,7 +111,7 @@ export default function ServiceCard({
           
           <div>
             <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-            <p className="mt-2 text-sm text-gray-600">{text}</p>
+            <p className="mt-2 text-sm text-gray-600">{plainText}</p>
           </div>
         </div>
 
