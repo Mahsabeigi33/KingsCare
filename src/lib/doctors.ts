@@ -3,7 +3,6 @@ import "server-only"
 const baseUrl = process.env.ADMIN_API_BASE_URL
 const doctorsPath = process.env.ADMIN_API_DOCTORS_PATH ?? "/api/doctors"
 const authHeaderValue = process.env.ADMIN_API_KEY
-export const revalidate = 600
 
 export type AdminDoctor = {
   id: string
@@ -53,8 +52,7 @@ export async function fetchDoctors(options?: { featured?: boolean; active?: bool
 
   const response = await fetch(url, {
     headers: buildHeaders(),
-    next: { revalidate },
-    cache: "force-cache",
+    cache: "no-store",
   })
 
   if (!response.ok) {
@@ -83,7 +81,10 @@ export async function fetchDoctorById(id: string) {
   const url = buildUrl(`${doctorsPath}/${id}`)
   if (!url) throw new Error("Admin API base URL is not configured")
 
-  const response = await fetch(url, { headers: buildHeaders() })
+  const response = await fetch(url, {
+    headers: buildHeaders(),
+    cache: "no-store",
+  })
   if (response.status === 404) return null
   if (!response.ok) {
     console.error("Failed to fetch doctor by id", response.status)

@@ -10,6 +10,7 @@ export type ServicesListItem = {
   href: string
   icon?: ReactNode
   image?: string | null
+  imageCacheKey?: string | number | null
 }
 
 const fallbackServices: ServicesListItem[] = [

@@ -12,12 +12,14 @@ export default function ServiceCard({
   href,
   icon,
   image,
+  imageCacheKey,
 }: {
   title: string;
   text: string;
   href: string;
   icon?: ReactNode;
   image?: string | null;
+  imageCacheKey?: string | number | null;
 }) {
   const toInitials = (val: string) => {
     try {
@@ -51,7 +53,7 @@ export default function ServiceCard({
       <div className="relative w-full overflow-hidden bg-gradient-to-r from-[#D9C89E]/20 to-[#0E2A47]/10 aspect-[4/4] ">
         {image ? (
           <Image
-            src={resolveMediaUrl(image)}
+            src={resolveMediaUrl(image, { cacheKey: imageCacheKey })}
             alt={`${title} service illustration`}
             className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
             loading="lazy"

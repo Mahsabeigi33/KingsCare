@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import Nav from "@/components/Nav";
 import { buildServiceSlug, fetchServiceBySlug, fetchServices, fetchServiceById } from "@/lib/services";
@@ -13,11 +12,6 @@ import { parseMarkdown } from "@/lib/markdown";
 // Force this route to run dynamically to avoid static-generation conflicts with auth/session usage in the root layout.
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
-const currencyFormatter = new Intl.NumberFormat("en-CA", {
-  style: "currency",
-  currency: "CAD",
-  maximumFractionDigits: 0,
-});
 
 type ServicePageProps = {
   params: Promise<{ slug: string }>;
@@ -73,30 +67,32 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   }
 
   const heroImage = service.images?.[0] ?? "/website/Pharmacists.jpg";
-  const resolvedHeroImage = resolveMediaUrl(heroImage);
+  const resolvedHeroImage = resolveMediaUrl(heroImage, {
+    cacheKey: service.updatedAt ?? service.createdAt ?? null,
+  });
   const descriptionBlocks = parseMarkdown(service.description ?? "");
 
   return (
     <div>
       <Nav/>
     
-      <div className="relative isolate overflow-hidden bg-slate-900 text-white p-20  ">
+      <div className="relative isolate min-h-screen overflow-hidden bg-slate-900 text-white">
         <Image
           src={resolvedHeroImage}
           alt=""
           fill
           priority
           sizes="100vw"
-          className="absolute inset-0 object-cover opacity-40 aspect-[4/4] "
+          className="absolute inset-0 object-cover opacity-35 hidden"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/90 via-[#0E2A47]/69 to-transparent " />
-        <div className="relative mx-auto max-w-6xl  ">
-          <div className="grid items-center gap-5 lg:grid-cols-2">
-            <div>
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/95 via-[#0E2A47]/75 to-transparent" />
+        <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-4 pt-20">
+          <div className="grid w-full items-center gap-16 lg:grid-cols-2">
+            <div className="space-y-5">
               <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
-              <h1 className="mt-4 text-3xl font-semibold sm:text-5xl">{service.name}</h1>
+              <h1 className="text-2xl font-semibold leading-tight  md:lg:text-4xl">{service.name}</h1>
               {descriptionBlocks.length ? (
-                <div className="mt-4 max-w-3xl text-lg text-white/85 space-y-3">
+                <div className="max-w-3xl text-base text-white/85 sm:text-lg space-y-3">
                   {descriptionBlocks.map((block, index) =>
                     block.type === "list" ? (
                       <ul key={`list-${index}`} className="list-disc pl-6 space-y-1">
@@ -110,21 +106,12 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   )}
                 </div>
               ) : (
-                <p className="mt-4 max-w-3xl text-lg text-white/80 ">
+                <p className="max-w-3xl text-base text-white/80 sm:text-lg">
                   Personalized medical clinic care tailored to your goals.
                 </p>
               )}
-              <p className="mt-4 max-w-5xl text-lg text-white/80 ">
-                {service.shortDescription ?? "Personalized medical clinic care tailored to your goals."}
-              </p>
-              <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/90">
-              
-               
-               
-              </div>
-             
             </div>
-            <div className="relative w-full overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm aspect-[4/4] sm:aspect-[3/4] lg:aspect-[4/4]">
+               <div className="relative w-full overflow-hidden rounded-3xl  shadow-2xl aspect-[4/4] sm:aspect-[3/4] lg:aspect-[4/4]">
               <Image
                 src={resolvedHeroImage}
                 alt={`${service.name} hero`}
@@ -133,14 +120,15 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 priority
                 sizes="(min-width: 1024px) 45vw, 90vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/10 via-transparent to-transparent" />
+             
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl px-4 py-16 text-slate-700">     
+         
         {service.subServices && service.subServices.length > 0 ? (
+           <div className="mx-auto max-w-5xl px-4 py-16 text-slate-700"> 
           <section className="mt-12">
             <h3 className="text-xl font-semibold text-slate-900">Included services</h3>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -158,26 +146,10 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   ))}
             </div>
           </section>
+            </div>
         ) : null}
 
-        {otherServices.length > 0 ? (
-          <section className="mt-12">
-            <h3 className="text-xl font-semibold text-slate-900">You might also be interested in</h3>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {otherServices.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/services/${buildServiceSlug(item)}`}
-                  className="group rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600 transition hover:-translate-y-1 hover:border-[#0E2A47]/60 hover:shadow-lg"
-                >
-                  <p className="text-base font-semibold text-slate-900 group-hover:text-[#0E2A47]">{item.name}</p>
-                  <p className="mt-2 line-clamp-3">{item.shortDescription ?? item.description ?? "Comprehensive medical clinic-led care."}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        ) : null}
-      </div>
+    
     
     <Emergency />
     <Footer/>

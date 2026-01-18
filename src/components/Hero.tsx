@@ -39,7 +39,7 @@ export default function Hero({
     : [];
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative min-h-screen overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src={isMobile ? HERO_IMAGE_MOBILE : HERO_IMAGE_DESKTOP}
@@ -52,15 +52,30 @@ export default function Hero({
         <div className="absolute inset-0 bg-gradient-to-r from-[#0E2A47] via-[#0E2A47]/80 to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[70vh]  flex-col  gap-12 px-2   md:pt-4 md:px-0 md:pb-12 lg:pt-4 lg:pb-12 lg:flex-row lg:items-center md:px-6 lg:pl-20 xl:pl-60 lg:md:justify-start">
-        <div className="max-w-8xl text-white space-y-6  md:px-6 p-8">
+      <div className="relative mx-auto flex min-h-screen flex-col justify-center mt-6  max-w-7xl lg:mt-0 md:mt-0 lg:pt-0 ">
+        <div className=" text-white space-y-6  md:px-6 ">
+          
+
+          <h1
+            className="text-shadow-xl text-shadow-[#D9C89E] text-4xl font-bold leading-tight pl-8 sm:text-4xl lg:text-6xl lg:text-6xl pt-8  md:p-4 lg:p-2"
+            style={{
+              opacity: entered ? 1 : 0,
+              transform: entered ? "translateX(0)" : "translateX(-24px)",
+              transition: "opacity 1.2s ease 0.15s, transform 1.2s ease 0.15s",
+              fontFamily: "CalistoMT ,serif",
+            }}
+          >
+            Welcome to 
+           <br />
+            <span className="text-[#D9C89E]"> KingsCare </span>
+             Medical Clinic
+          </h1>
           {announcement ? (
             <div
-              className="pl-12 pt-12 py-10  sm:pl-16 sm:py-8 md:pl-16 md:pr-6 md:pt-10 lg:xl:px-20 sm:pl-10 sm:pt-6 lg:pt-10 lg:pb-10 
+              className="pl-12 py-10 sm:pl-16  md:pl-16 md:pr-6 md:pt-8 sm:pl-10 sm:pt-6 lg:pt-8 lg:pb-10 
               inline-flex items-center justify-center
               rounded-full border border-white/30
-              mt-8 lg:mt-10
-              text-4xl lg:text-5xl font-semibold
+              text-xl pr-4  md:text-2xl lg:text-3xl xl:text-4xl font-semibold
               text-[#d9b356]
               bg-[#0E2A47]/30 backdrop-blur-lg
               hover:border-[#D9C89E]
@@ -79,22 +94,6 @@ export default function Hero({
               )}
             </div>
           ) : null}
-
-          <h1
-            className="text-shadow-xl  text-shadow-[#D9C89E] text-4xl font-bold leading-tight  sm:text-5xl lg:text-6xl pt-8  md:p-4   "
-            style={{
-              opacity: entered ? 1 : 0,
-              transform: entered ? "translateX(0)" : "translateX(-24px)",
-              transition: "opacity 1.2s ease 0.15s, transform 1.2s ease 0.15s",
-              fontFamily: "CalistoMT ,serif",
-            }}
-          >
-            Welcome to 
-           <br />
-            <span className="text-[#D9C89E]"> KingsCare </span>
-             Medical Clinic
-          </h1>
-
           <p
             className="text-lg text-white/85 sm:text-xl p-2 hidden "
             style={{
