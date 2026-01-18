@@ -73,6 +73,7 @@ export default async function ServicesPage() {
                 text={service.shortDescription ?? service.shortDescription ?? "Personalized medical clinic care."}
                 href={`/services/${buildServiceSlug(service)}`}
                 image={service.images?.[0] ? `${service.images[0]}` : null}
+                imageCacheKey={service.updatedAt ?? service.createdAt ?? null}
               />
             ))}
           </div>

@@ -73,7 +73,9 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
   }
 
   const heroImage = service.images?.[0] ?? "/website/Pharmacists.jpg";
-  const resolvedHeroImage = resolveMediaUrl(heroImage);
+  const resolvedHeroImage = resolveMediaUrl(heroImage, {
+    cacheKey: service.updatedAt ?? service.createdAt ?? null,
+  });
   const descriptionBlocks = parseMarkdown(service.description ?? "");
 
   return (
@@ -94,7 +96,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           <div className="grid items-center gap-5 lg:grid-cols-2">
             <div>
               <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
-              <h1 className="mt-4 text-3xl font-semibold sm:text-5xl">{service.name}</h1>
+              <h1 className="mt-4 text-2xl font-semibold sm:text-2xl">{service.name}</h1>
               {descriptionBlocks.length ? (
                 <div className="mt-4 max-w-3xl text-lg text-white/85 space-y-3">
                   {descriptionBlocks.map((block, index) =>
@@ -114,9 +116,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   Personalized medical clinic care tailored to your goals.
                 </p>
               )}
-              <p className="mt-4 max-w-5xl text-lg text-white/80 ">
-                {service.shortDescription ?? "Personalized medical clinic care tailored to your goals."}
-              </p>
+              
               <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-white/90">
               
                
@@ -124,7 +124,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               </div>
              
             </div>
-            <div className="relative w-full overflow-hidden rounded-3xl border border-white/15 bg-white/10 shadow-2xl backdrop-blur-sm aspect-[4/4] sm:aspect-[3/4] lg:aspect-[4/4]">
+            <div className="relative w-full overflow-hidden rounded-3xl  shadow-2xl aspect-[4/4] sm:aspect-[3/4] lg:aspect-[4/4]">
               <Image
                 src={resolvedHeroImage}
                 alt={`${service.name} hero`}
@@ -139,8 +139,9 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         </div>
       </div>
 
-      <div className="mx-auto max-w-5xl px-4 py-16 text-slate-700">     
+         
         {service.subServices && service.subServices.length > 0 ? (
+           <div className="mx-auto max-w-5xl px-4 py-16 text-slate-700"> 
           <section className="mt-12">
             <h3 className="text-xl font-semibold text-slate-900">Included services</h3>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -158,26 +159,10 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                   ))}
             </div>
           </section>
+            </div>
         ) : null}
 
-        {otherServices.length > 0 ? (
-          <section className="mt-12">
-            <h3 className="text-xl font-semibold text-slate-900">You might also be interested in</h3>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {otherServices.map((item) => (
-                <Link
-                  key={item.id}
-                  href={`/services/${buildServiceSlug(item)}`}
-                  className="group rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600 transition hover:-translate-y-1 hover:border-[#0E2A47]/60 hover:shadow-lg"
-                >
-                  <p className="text-base font-semibold text-slate-900 group-hover:text-[#0E2A47]">{item.name}</p>
-                  <p className="mt-2 line-clamp-3">{item.shortDescription ?? item.description ?? "Comprehensive medical clinic-led care."}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        ) : null}
-      </div>
+    
     
     <Emergency />
     <Footer/>

@@ -63,7 +63,7 @@ const AboutSection = () => {
 
   return (
     <section ref={ref}  className="bg-[#d9b356] w-full overflow-hidden  shadow-2xl  rounded-3xl">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16 lg:py-20">
+      <div className="mx-auto w-full px-4 py-12 sm:py-16 lg:py-20">
         <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 items-center">
           <div
             className="order-2 md:order-1 relative w-full aspect-[4/4] h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-xl shadow-lg shadow-gray-800 overflow-hidden   transition-transform"
@@ -94,15 +94,17 @@ const AboutSection = () => {
             <h2 className="text-3xl sm:text-3xl lg:text-3xl font-bold text-[#0E2A47] mb-4">
               About Kings Care Medical Clinic
             </h2>
-            <p className="xl:lg:text-xl sm:text-lg leading-relaxed mb-6">
-            Kings Care Medical Clinic provides trusted family medicine and specialized medical services in a welcoming, professional environment. Our team is committed to accessible, high-quality care for patients of all ages, with same-day appointments and comprehensive health services under one roof.  
+            <p className="xl:lg:text-xl sm:text-lg leading-relaxed ">
+            KingsCare Medical Clinic is a locally operated family medical practice dedicated to delivering comprehensive, high-quality, and patient-centered healthcare to individuals and families in our community. We are committed to creating a welcoming, respectful, and professional environment where patients feel heard, supported, and confident in their care.
             </p>
-             <p className="mt-4 max-w-3xl xl:lg:text-xl sm:text-base">
-                
-                 Kings Care Medical Clinic is a locally operated family medical clinic dedicated to providing comprehensive, patient-centered care for individuals and families in our community. Our experienced physicians offer a wide range of services, from routine check-ups to specialized care, all delivered with compassion and professionalism.
+            <p className="xl:lg:text-xl sm:text-lg leading-relaxed ">
+            Our team of experienced physicians and healthcare professionals work collaboratively to provide a broad range of medical services, including preventive care, routine check-ups, chronic disease management, minor surgeries and some specialized medical support. We take a holistic approach to health, recognizing that every patient's medical needs are unique and require personalized attention.
+            </p>
+             <p className="mt-4 max-w-3xl xl:lg:text-xl sm:text-base"> 
+              At KingsCare Medical Clinic, accessibility and convenience are central to our model of care. We offer same-day appointments and walk-in services whenever possible, ensuring timely access to medical attention when our patients need it most. Our coordinated care approach enables seamless communication among healthcare providers, improving continuity of care and overall patient outcomes.
               </p>
                 <p className="mt-4 max-w-3xl xl:lg:text-xl sm:text-base">
-                  We focus on accessible healthcare, offering same-day appointments, walk-in visits, and coordinated care to support patients at every stage of life.   
+                We are proud to serve patients of all ages - from children to seniors - supporting them through every stage of life with compassion, professionalism, and clinical excellence. Our mission is to build long-term relationships with our patients based on trust, integrity, and a shared commitment to health and well-being.
                 </p>
              
           </div>

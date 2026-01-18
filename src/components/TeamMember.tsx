@@ -44,7 +44,10 @@ export default async function TeamMember() {
               >
                 <div className="mx-auto mb-4 h-100 w-full overflow-hidden rounded-xl bg-[#E6E8EB] relative ">
                   <Image
-                    src={resolveMediaUrl(member.photoUrl, { placeholder })}
+                    src={resolveMediaUrl(member.photoUrl, {
+                      placeholder,
+                      cacheKey: member.updatedAt ?? member.createdAt ?? null,
+                    })}
                     alt={member.fullName}
                     fill
                     className="object-cover transition duration-300 group-hover:scale-105  aspect-[4/5] sm:aspect-[3/4] lg:aspect-[3/4]" 

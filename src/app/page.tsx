@@ -33,6 +33,7 @@ function buildServiceCard(service: Awaited<ReturnType<typeof fetchServices>>[num
     text: service.shortDescription ?? service.shortDescription ?? "Personalized care from Kings Care Medical Clinic.",
     href: `/services/${buildServiceSlug(service)}`,
     image: service.images?.[0] ?? null,
+    imageCacheKey: service.updatedAt ?? service.createdAt ?? null,
   };
 }
 
@@ -68,6 +69,7 @@ export default async function HomePage() {
     text: service.shortDescription ?? "Personalized care from Kings Care Medical Clinic.",
     href: `/services/${buildServiceSlug(service)}`,
     image: service.images?.[0] ?? null,
+    imageCacheKey: service.updatedAt ?? service.createdAt ?? null,
   }));
   const blogEntries = blogPosts.map(buildBlogPreview);
 
@@ -77,7 +79,7 @@ export default async function HomePage() {
       <Hero cards={scrollerCards} announcement={siteSettings?.homeHeroAnnouncement ?? null} />
       
       <main className="mx-auto px-4 py-12">
-        <div className="w-full mx-auto scroll-mt-24" id="about">
+        <div className="w-full mx-auto scroll-mt-12" id="about">
            <AboutTeaser  />
         </div>
        

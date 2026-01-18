@@ -20,8 +20,11 @@ export default async function DoctorPage({ params }: PageProps) {
   const doctor = await fetchDoctorById(id)
   if (!doctor) return notFound()
 
-  const imageUrl = resolveMediaUrl(doctor.photoUrl, { placeholder })
-  const gallery = (doctor.gallery ?? []).map((url) => resolveMediaUrl(url, { placeholder }))
+  const cacheKey = doctor.updatedAt ?? doctor.createdAt ?? null
+  const imageUrl = resolveMediaUrl(doctor.photoUrl, { placeholder, cacheKey })
+  const gallery = (doctor.gallery ?? []).map((url) =>
+    resolveMediaUrl(url, { placeholder, cacheKey }),
+  )
   const bookingDoctors = [
     {
       id: doctor.id,

@@ -5,7 +5,6 @@ import { toSlug } from "./slug"
 const baseUrl = process.env.ADMIN_API_BASE_URL
 const servicesPath = process.env.ADMIN_API_SERVICES_PATH ?? "/api/services"
 const authHeaderValue = process.env.ADMIN_API_KEY
-export const revalidate = 600;
 export type AdminService = {
   id: string
   name: string
@@ -60,8 +59,7 @@ export async function fetchServices(): Promise<AdminService[]> {
 
   const response = await fetch(url, {
     headers: buildHeaders(),
-    next: { revalidate },      
-    cache: "force-cache", 
+    cache: "no-store",
   })
 
   if (!response.ok) {
@@ -105,7 +103,7 @@ export async function fetchServiceById(id: string): Promise<AdminService | null>
 
   const response = await fetch(url, {
     headers: buildHeaders(),
-    
+    cache: "no-store",
   })
 
   if (response.status === 404) {
