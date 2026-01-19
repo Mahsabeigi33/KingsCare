@@ -28,3 +28,7 @@ body {
 .scrollbar-thin::-webkit-scrollbar { height: 8px; }
 .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,.25); border-radius: 9999px; }
 .capsule-cursor-hide * { cursor: none !important; }
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 14px rgba(218, 4, 4, 0.712), 0 0 28px rgba(235, 1, 1, 0.644); }
+  50% { box-shadow: 0 0 22px rgba(255, 244, 199, 0.75), 0 0 44px rgba(255, 244, 199, 0.4); }
+}

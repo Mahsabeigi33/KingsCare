@@ -79,7 +79,7 @@ export default async function HomePage() {
       <Hero cards={scrollerCards} announcement={siteSettings?.homeHeroAnnouncement ?? null} />
       
       <main className="mx-auto px-4 py-12">
-        <div className="w-full mx-auto scroll-mt-12" id="about">
+        <div className="w-full mx-auto scroll-mt-16" id="about">
            <AboutTeaser  />
         </div>
        
@@ -105,10 +105,28 @@ export default async function HomePage() {
           <h2 id="contact-heading" className="sr-only">
             Contact & Hours
           </h2>
+          <div className="bg-[#d9b356] rounded-full py-8 px-4  text-center mb-8 backdrop-blur-lg "  style={{
+              transition: "opacity 1s ease 0.05s, transform 1s ease 0.05s",
+              boxShadow: "0 0 18px rgba(173, 38, 38, 0.77), 0 0 36px rgba(240, 8, 20, 0.35)",
+              animation: "glowPulse 2.2s ease-in-out infinite",
+              fontFamily: "CalistoMT ,serif",
+            }}>
+             <p className=" text-[#0E2A47] text-xl md:text-3xl lg:text-4xl  font-semibold
+            hover:border-[#D9C89E] "
+           
+            >
+              Please note that our email and phone lines are not currently operational.
+              </p>
+            </div>
+          
           <div className="grid lg:grid-cols-2 gap-8  items-start">            
             <ContactInfo/>
-            
+            <div>
+           
           <ContactStrip />
+            </div>
+           
+          
           </div>
           <div className="w-full mt-8">
             <Link
