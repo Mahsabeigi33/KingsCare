@@ -63,8 +63,13 @@ const AboutSection = () => {
 
   return (
     <section ref={ref}  className="bg-[#d9b356] w-full overflow-hidden  shadow-2xl  rounded-3xl">
-      <div className="mx-auto w-full px-4 py-12 sm:py-16 lg:py-20">
-        <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 items-center">
+     
+      <div className="mx-auto w-full px-4 py-12 sm:py-16 lg:py-10">
+          <h2 className="pb-8 text-3xl sm:text-3xl lg:text-3xl font-bold text-[#0E2A47]  text-center">
+        
+              About Kings Care Medical Clinic
+            </h2>
+        <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 items-stretch">
           <div
             className="order-2 md:order-1 relative w-full aspect-[4/4] h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-xl shadow-lg shadow-gray-800 overflow-hidden   transition-transform"
             style={{
@@ -84,16 +89,16 @@ const AboutSection = () => {
           </div>
 
           <div
-            className="order-1 md:order-2 "
+            className="order-1 md:order-2 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] overflow-y-auto pr-2 [&::-webkit-scrollbar]:hidden"
             style={{
               opacity: visible ? 1 : 0,
               transform: visible ? "translateY(0)" : "translateY(20px)",
               transition: "opacity 1.4s ease 0.15s, transform 1.4s ease 0.15s",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
             }}
           >
-            <h2 className="text-3xl sm:text-3xl lg:text-3xl font-bold text-[#0E2A47] mb-4">
-              About Kings Care Medical Clinic
-            </h2>
+           
             <p className="xl:lg:text-xl sm:text-lg leading-relaxed ">
             KingsCare Medical Clinic is a locally operated family medical practice dedicated to delivering comprehensive, high-quality, and patient-centered healthcare to individuals and families in our community. We are committed to creating a welcoming, respectful, and professional environment where patients feel heard, supported, and confident in their care.
             </p>

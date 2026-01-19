@@ -188,8 +188,11 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/95 via-[#0E2A47]/75 to-transparent" />
         <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-4 pt-20">
-          <div className="grid w-full items-center gap-16 lg:grid-cols-2">
-            <div className="space-y-5">
+          <div className="grid w-full items-stretch gap-4 lg:gap-12 md:gap-10 lg:grid-cols-2 pb-8">
+            <div
+              className="space-y-5 h-[280px] sm:h-[360px] md:h-[360px] lg:h-[520px] overflow-y-auto pl-4 [&::-webkit-scrollbar]:hidden "
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
               <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
               <h1 className="text-2xl font-semibold leading-tight  md:lg:text-4xl">{service.name}</h1>
               {isEditorDescription && editorData?.blocks ? (
@@ -221,12 +224,12 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </p>
               )}
             </div>
-               <div className="relative w-full overflow-hidden rounded-3xl  shadow-2xl aspect-[4/4] sm:aspect-[3/4] lg:aspect-[4/4]">
+               <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl h-[280px] sm:h-[360px] md:h-[360px] lg:h-[520px] bg-slate-900/30">
               <Image
                 src={resolvedHeroImage}
                 alt={`${service.name} hero`}
                 fill
-                className="object-cover sm:aspect-[4/4] lg:aspect-[4/4] "
+                className="object-contain"
                 priority
                 sizes="(min-width: 1024px) 45vw, 90vw"
               />

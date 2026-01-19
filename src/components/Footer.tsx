@@ -4,7 +4,7 @@ import { LucideClipboardClock, LucideHouse, LucideLocate, LucideMail, LucideMapP
 export default function Footer() {
   return (
     // <footer className="bg-gradient-to-br from-[#0E2A47] to-[#4B5563] text-white mt-20">
-    <footer className="bg-[#0E2A47] text-white pl-4 pt-10 rounded-t-3xl shadow-2xl shadow-[#D9C89E]/30">
+    <footer className="bg-[#0E2A47] text-white pl-4 pt-10  shadow-2xl shadow-[#D9C89E]/30">
       <div className="mx-auto max-w-7xl px-4 py-10 grid gap-6 md:grid-cols-2 sm:grid-cols-3 lg:grid-cols-3">
         <div>
           <div className="text-white font-semibold"><Link href="/"><Image height={200} width={200} className="border-4 border rounded-full border-[#d9b356] shadow-[#d9b356]/70 shadow-lg transition-all" src="/website/Logo.png" alt="Kings Care Medical Clinic" /></Link></div>

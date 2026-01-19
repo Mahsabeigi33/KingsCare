@@ -16,14 +16,10 @@ const SPECIALTIES = [
   {
     id: "ent",
     title: "ENT Clinic",
-    subtitle: "Nose, and Throat Care",
+    subtitle: "Nasal and Sinus Care",
     description:
-      "Comprehensive ENT assessments for sinus concerns, allergies, throat irritation, and voice changes. Our team coordinates testing, imaging, and referrals when needed.",
-    highlights: [
-      "Chronic sinus and nasal congestion",
-      "Sore throat and voice evaluation",
-      "Allergy and breathing concerns",
-    ],
+      "KingsCare Medical Clinic is pleased to welcome Dr. Kristina Zakhary - ENT Surgeon - to our team, offering specialized care for nasal and sinus conditions. The surgeon will provide expert assessment and treatment for septal deviation through septoplasty, management of acute and chronic sinus infections, and functional and cosmetic rhinoplasty. Patients can expect thorough evaluation, individualized treatment planning, and advanced surgical techniques in a modern clinical setting. These services aim to improve breathing, relieve sinus-related symptoms, and enhance nasal form and function, supporting both medical and quality-of-life outcomes.",
+   
     image: "/website/ENT.png",
      cta: { label: "Contact Us", href: "/contact" },
   },
@@ -98,14 +94,7 @@ export default function SpecialtyClinicPage() {
                 <p className="mt-4 text-base text-slate-600">
                   {specialty.description}
                 </p>
-                <ul className="mt-5 grid gap-2 text-sm text-slate-600">
-                  {specialty.highlights.map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <span className="mt-1 h-2 w-2 rounded-full bg-[#D9C89E]" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     href={specialty.cta.href}
