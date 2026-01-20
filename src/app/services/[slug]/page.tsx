@@ -224,12 +224,12 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </p>
               )}
             </div>
-               <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl h-[280px] sm:h-[360px] md:h-[360px] lg:h-[520px] bg-slate-900/30">
+               <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl h-[280px] sm:h-[360px] md:h-[470px] lg:h-[520px] bg-slate-900/30">
               <Image
                 src={resolvedHeroImage}
                 alt={`${service.name} hero`}
                 fill
-                className="object-contain"
+                className="object-cover"
                 priority
                 sizes="(min-width: 1024px) 45vw, 90vw"
               />
