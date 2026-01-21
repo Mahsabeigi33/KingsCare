@@ -58,14 +58,15 @@ export default async function ServicesPage() {
           </div>
         </div>
       
-    <div className="bg-slate-50">
+    <div className="bg-slate-50 ">
       <div className="mx-auto max-w-6xl px-4 py-16">
         {activeServices.length === 0 ? (
           <p className="mt-10 rounded-3xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-600 shadow">
             We are preparing our service list. Please check back soon or contact the clinic for the latest offerings.
           </p>
         ) : (
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4  md:grid-cols-3">
+          // <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4  md:grid-cols-3">
+          <div className="mt-10 grid gap-6  mx-auto max-w-3xl ">
             {activeServices.map((service) => (
               <ServiceCard
                 key={service.id}
