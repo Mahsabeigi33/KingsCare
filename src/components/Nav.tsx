@@ -16,11 +16,18 @@ const links = [
   { href: "/contact", label: "Contact Us" },
 ]
 
+type ServiceMenuItem = {
+  href: string
+  label: string
+}
+
 export default function Nav() {
   const pathname = usePathname()
   const { data: session } = useSession()
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [servicesMenuOpen, setServicesMenuOpen] = useState(false)
+  const [serviceMenu, setServiceMenu] = useState<ServiceMenuItem[]>([])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -41,12 +48,39 @@ export default function Nav() {
     }
   }, [mobileMenuOpen])
 
+  useEffect(() => {
+    let isActive = true
+    const loadServicesMenu = async () => {
+      try {
+        const response = await fetch("/api/services")
+        if (!response.ok) return
+        const data = (await response.json()) as ServiceMenuItem[]
+        if (!Array.isArray(data)) return
+        if (isActive) {
+          setServiceMenu(data)
+        }
+        console.log("Loaded services menu", data)
+      } catch (error) {
+        console.error("Unable to load services menu", error)
+      }
+    }
+    loadServicesMenu()
+    return () => {
+      isActive = false
+    }
+  }, [])
+
   const isAuthenticated = Boolean(session?.user)
   const bookingPath = "/not-available"
   const bookingHref = "/not-available"
+  const servicesActive = pathname?.startsWith("/services")
 
-  const closeMobileMenu = () => setMobileMenuOpen(false)
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false)
+    setServicesMenuOpen(false)
+  }
   const logoSrc = scrolled ? "/website/Logo-solid.png" : "/website/Logo.png"
+  const servicesMenuItems = serviceMenu.length > 0 ? serviceMenu : []
 
   return (
     <>
@@ -79,19 +113,53 @@ export default function Nav() {
 
             {/* Desktop Navigation */}
             <nav className="hidden items-center gap-6 text-white lg:flex xl:gap-8">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "text-large font-bold transition-all duration-200 hover:text-[#d9b356]",
-                    "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#D9C89E] after:transition-all after:duration-300 hover:after:w-full",
-                    pathname === link.href && "text-[#D9C89E] after:w-full",
-                  )}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {links.map((link) =>
+                link.label === "Services" ? (
+                  <div key={link.href} className="relative group">
+                    <Link
+                      href={link.href}
+                      className={cn(
+                        "text-large font-bold transition-all duration-200 hover:text-[#d9b356]",
+                        "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#D9C89E] after:transition-all after:duration-300 hover:after:w-full",
+                        servicesActive && "text-[#D9C89E] after:w-full",
+                      )}
+                    >
+                      {link.label}
+                    </Link>
+                    <div className="pointer-events-none absolute left-0 top-full z-50 w-72 opacity-0 transition-all duration-200 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100">
+                      <div className="pt-2">
+                        <div className="rounded-2xl border border-white/10 bg-[#0B1F36] p-3 shadow-2xl">
+                          <div className="menu-scrollbar flex max-h-96 flex-col gap-1 overflow-y-auto pr-1">
+                           
+                            {servicesMenuItems.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                className="rounded-3xl px-3 py-2 text-sm font-semibold text-white/85 transition hover:bg-white/10 hover:text-[#D9C89E] "
+                              >
+                                {item.label}
+                              </Link>
+                            ))}
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "text-large font-bold transition-all duration-200 hover:text-[#d9b356]",
+                      "relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-[#D9C89E] after:transition-all after:duration-300 hover:after:w-full",
+                      pathname === link.href && "text-[#D9C89E] after:w-full",
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                ),
+              )}
             </nav>
 
             {/* Desktop Auth Buttons */}
@@ -168,24 +236,67 @@ export default function Nav() {
             <p className="px-4 pb-2 text-xs font-semibold uppercase tracking-wider text-[#D9C89E]/80">
               Navigation
             </p>
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={closeMobileMenu}
-                className={cn(
-                  "group relative overflow-hidden rounded-xl px-4 py-3.5 text-lg font-bold text-white transition-all duration-200",
-                  pathname === link.href
-                    ? "bg-[#D9C89E]/20 text-[#D9C89E] shadow-lg shadow-[#D9C89E]/15"
-                    : "hover:bg-white/10 active:bg-white/20",
-                )}
-              >
-                <span className="relative z-10">{link.label}</span>
-                {pathname === link.href && (
-                  <div className="absolute inset-y-0 left-0 w-1 bg-[#D9C89E]" />
-                )}
-              </Link>
-            ))}
+            {links.map((link) =>
+              link.label === "Services" ? (
+                <div key={link.href} className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setServicesMenuOpen((open) => !open)}
+                    className={cn(
+                      "group relative overflow-hidden rounded-xl px-4 py-3.5 text-left text-lg font-bold text-white transition-all duration-200",
+                      servicesActive
+                        ? "bg-[#D9C89E]/20 text-[#D9C89E] shadow-lg shadow-[#D9C89E]/15"
+                        : "hover:bg-white/10 active:bg-white/20",
+                    )}
+                    aria-expanded={servicesMenuOpen}
+                  >
+                    <span className="relative z-10 flex items-center justify-between">
+                      {link.label}
+                      <span className={cn("text-xs transition-transform duration-200", servicesMenuOpen && "rotate-180")}>
+                        ▼
+                      </span>
+                    </span>
+                    {servicesActive && <div className="absolute inset-y-0 left-0 w-1 bg-[#D9C89E]" />}
+                  </button>
+                  {servicesMenuOpen && (
+                    <div className="menu-scrollbar flex max-h-64 flex-col gap-1 overflow-y-auto rounded-xl bg-white/5 p-2 pr-1">
+                      <Link
+                        href="/services"
+                        onClick={closeMobileMenu}
+                        className="rounded-lg px-3 py-2 text-sm font-semibold text-white/85 transition hover:bg-white/10 hover:text-white"
+                      >
+                        All Services
+                      </Link>
+                      {servicesMenuItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={closeMobileMenu}
+                          className="rounded-lg px-3 py-2 text-sm font-semibold text-white/85 transition hover:bg-white/10 hover:text-white"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={closeMobileMenu}
+                  className={cn(
+                    "group relative overflow-hidden rounded-xl px-4 py-3.5 text-lg font-bold text-white transition-all duration-200",
+                    pathname === link.href
+                      ? "bg-[#D9C89E]/20 text-[#D9C89E] shadow-lg shadow-[#D9C89E]/15"
+                      : "hover:bg-white/10 active:bg-white/20",
+                  )}
+                >
+                  <span className="relative z-10">{link.label}</span>
+                  {pathname === link.href && <div className="absolute inset-y-0 left-0 w-1 bg-[#D9C89E]" />}
+                </Link>
+              ),
+            )}
           </nav>
 
           {/* Mobile Auth Section */}

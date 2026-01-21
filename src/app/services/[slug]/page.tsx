@@ -183,29 +183,33 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
           alt=""
           fill
           priority
-          sizes="100vw"
-          className="absolute inset-0 object-cover opacity-35 hidden"
+          sizes="(min-width: 1024px) 45vw, 90vw"
+          className="absolute inset-0 object-cover aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5]"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0E2A47]/95 via-[#0E2A47]/75 to-transparent" />
-        <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-4 pt-20">
-          <div className="grid w-full items-stretch gap-4 lg:gap-12 md:gap-10 lg:grid-cols-2 pb-8">
-            <div
+        <div className="relative mx-auto flex min-h-screen max-w-7xl items-center px-4 ">
+          {/* <div className="grid w-full items-stretch gap-4 lg:gap-12 md:gap-10 lg:grid-cols-2 pb-8"> */}
+            {/* <div
               className="space-y-5 h-[280px] sm:h-[360px] md:h-[360px] lg:h-[520px] overflow-y-auto pl-4 [&::-webkit-scrollbar]:hidden "
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            > */}
+               <div
+              className="space-y-5 h-[400px] sm:h-[360px] md:h-[460px] lg:h-[540px] overflow-y-auto pl-4 [&::-webkit-scrollbar]:hidden "
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>
-              <h1 className="text-2xl font-semibold leading-tight  md:lg:text-4xl">{service.name}</h1>
+              <h1 className="text-3xl font-semibold leading-tight  md:lg:text-5xl">{service.name}</h1>
               {isEditorDescription && editorData?.blocks ? (
-                <div className="max-w-3xl text-base text-white/85 sm:text-lg space-y-3">
+                <div className=" text-xl text-white/85 sm:text-lg space-y-3">
                   {renderEditorBlocks(editorData.blocks)}
                 </div>
               ) : isHtmlDescription ? (
                 <div
-                  className="max-w-3xl text-base text-white/85 sm:text-lg space-y-3"
+                  className=" text-xl text-white/85 sm:text-lg space-y-3"
                   dangerouslySetInnerHTML={{ __html: description }}
                 />
               ) : descriptionBlocks.length ? (
-                <div className="max-w-3xl text-base text-white/85 sm:text-lg space-y-3">
+                <div className=" text-xl text-white/85 sm:text-lg space-y-3">
                   {descriptionBlocks.map((block, index) =>
                     block.type === "list" ? (
                       <ul key={`list-${index}`} className="list-disc pl-6 space-y-1">
@@ -224,7 +228,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 </p>
               )}
             </div>
-               <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl h-[280px] sm:h-[360px] md:h-[470px] lg:h-[520px] bg-slate-900/30">
+               {/* <div className="relative w-full overflow-hidden rounded-3xl shadow-2xl h-[280px] sm:h-[360px] md:h-[470px] lg:h-[520px] bg-slate-900/30 hidden">
               <Image
                 src={resolvedHeroImage}
                 alt={`${service.name} hero`}
@@ -234,8 +238,8 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
                 sizes="(min-width: 1024px) 45vw, 90vw"
               />
              
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
       </div>
 
