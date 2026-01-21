@@ -87,7 +87,7 @@ export default async function HomePage() {
       
         <div className="mt-12">
            <Link
-              href="/contact"
+              href="/services"
               className="flex max-w-5xl items-center mx-auto justify-center rounded-full bg-[#0E2A47] px-5 py-4 text-xl font-semibold text-white text-center shadow-xl shadow-[#0E2A47]/30 transition hover:bg-[#C7B57A] hover:text-[#0E2A47] hover:shadow-[#C7B57A]/30"
             >
               Our Services

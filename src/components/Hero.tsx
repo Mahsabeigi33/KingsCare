@@ -89,9 +89,11 @@ export default function Hero({
                 fontFamily: "CalistoMT ,serif",
               }}
             >
-              {announcementLines.map((line, index) =>
-                index === 0 ? line : [<br key={`br-${index}`} />, line],
-              )}
+               <ul className="list-disc pl-6">
+                {announcementLines.map((line, index) => (
+                  <li key={`announcement-${index}`}>{line}</li>
+                ))}
+              </ul>
             </div>
           ) : null}
           <p

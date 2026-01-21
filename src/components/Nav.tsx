@@ -237,7 +237,7 @@ export default function Nav() {
               Navigation
             </p>
             {links.map((link) =>
-              link.label === "Services" ? (
+              link.label === "Service" ? (
                 <div key={link.href} className="flex flex-col gap-2">
                   <button
                     type="button"
