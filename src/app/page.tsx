@@ -86,7 +86,13 @@ export default async function HomePage() {
         {/* Team Section */}
       
         <div className="mt-12">
-          <ServicesGrid services={serviceCards} />
+           <Link
+              href="/contact"
+              className="flex max-w-5xl items-center mx-auto justify-center rounded-full bg-[#0E2A47] px-5 py-4 text-xl font-semibold text-white text-center shadow-xl shadow-[#0E2A47]/30 transition hover:bg-[#C7B57A] hover:text-[#0E2A47] hover:shadow-[#C7B57A]/30"
+            >
+              Our Services
+            </Link>
+          {/* <ServicesGrid services={serviceCards} /> */}
         </div>
         <div className="w-7xl-max mx-auto mt-16">
         <h3 className="mb-4 text-3xl font-bold text-[#0E2A47] md:text-4xl text-center">Meet Our Team</h3>
@@ -131,7 +137,7 @@ export default async function HomePage() {
           <div className="w-full mt-8">
             <Link
               href="/contact"
-              className="flex max-w-5xl items-center mx-auto justify-center rounded-full bg-[#0E2A47] px-5 py-4 text-sm font-semibold text-white text-center shadow-xl shadow-[#0E2A47]/30 transition hover:bg-[#C7B57A] hover:text-[#0E2A47] hover:shadow-[#C7B57A]/30"
+              className="flex max-w-5xl items-center mx-auto justify-center rounded-full bg-[#0E2A47] px-5 py-4 text-xl font-semibold text-white text-center shadow-xl shadow-[#0E2A47]/30 transition hover:bg-[#C7B57A] hover:text-[#0E2A47] hover:shadow-[#C7B57A]/30"
             >
               Contact Us
             </Link>

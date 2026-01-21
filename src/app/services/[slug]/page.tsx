@@ -194,7 +194,7 @@ export default async function ServiceDetailPage({ params }: ServicePageProps) {
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             > */}
                <div
-              className="space-y-5 h-[400px] sm:h-[360px] md:h-[460px] lg:h-[540px] overflow-y-auto pl-4 [&::-webkit-scrollbar]:hidden "
+              className="space-y-5 mt-8 h-[400px] sm:h-[360px] md:h-[460px] lg:h-[540px] overflow-y-auto pl-4 [&::-webkit-scrollbar]:hidden "
               style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             >
               <span className="text-xs uppercase tracking-[0.35em] text-white/70">Service overview</span>

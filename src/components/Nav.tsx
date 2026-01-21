@@ -114,7 +114,7 @@ export default function Nav() {
             {/* Desktop Navigation */}
             <nav className="hidden items-center gap-6 text-white lg:flex xl:gap-8">
               {links.map((link) =>
-                link.label === "Services" ? (
+                link.label === "Service" ? (
                   <div key={link.href} className="relative group">
                     <Link
                       href={link.href}
