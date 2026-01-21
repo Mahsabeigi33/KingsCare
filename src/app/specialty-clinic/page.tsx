@@ -5,6 +5,10 @@ import Link from "next/link";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Emergency from "@/components/Emergency";
+import { fetchSpecialtyClinics } from "@/lib/specialty-clinics";
+import { resolveMediaUrl } from "@/lib/media";
+import { parseMarkdown } from "@/lib/markdown";
+import type { MarkdownBlock } from "@/lib/markdown";
 
 export const metadata: Metadata = {
   title: "Specialty Clinic | Kings Care Medical Clinic",
@@ -12,7 +16,89 @@ export const metadata: Metadata = {
     "Explore Kings Care Medical Clinic specialty services including ENT care and psychotherapy support.",
 };
 
-const SPECIALTIES = [
+const containsHtml = (value: string) => /<\/?[a-z][\s\S]*>/i.test(value);
+const stripHtml = (value: string) =>
+  value.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+const safeParse = (value: string) => {
+  if (!value) return null;
+  const trimmed = value.trim();
+  const tryParse = (input: string) => {
+    try {
+      return JSON.parse(input);
+    } catch {
+      return null;
+    }
+  };
+  const cleaned = trimmed.replace(/\\+$/, "");
+  const parsed = tryParse(trimmed) ?? tryParse(cleaned);
+  if (typeof parsed === "string") {
+    const nested = tryParse(parsed) ?? tryParse(parsed.replace(/\\+$/, ""));
+    return nested ?? parsed;
+  }
+  return parsed;
+};
+const isEditorJs = (value: string) => {
+  const parsed = safeParse(value);
+  return Boolean(parsed && Array.isArray(parsed.blocks));
+};
+const renderEditorBlocks = (
+  blocks: Array<{ type: string; data?: { text?: string; level?: number; items?: string[]; style?: string } }>,
+) =>
+  blocks.map((block, index) => {
+    if (block.type === "paragraph") {
+      return (
+        <p key={`para-${index}`} dangerouslySetInnerHTML={{ __html: block.data?.text ?? "" }} />
+      );
+    }
+    if (block.type === "header") {
+      const level = Math.min(Math.max(block.data?.level ?? 3, 2), 4);
+      const Tag = (`h${level}` as "h2" | "h3" | "h4");
+      return (
+        <Tag
+          key={`header-${index}`}
+          className="font-semibold text-[#0E2A47]"
+          dangerouslySetInnerHTML={{ __html: block.data?.text ?? "" }}
+        />
+      );
+    }
+    if (block.type === "list") {
+      const isOrdered = block.data?.style === "ordered";
+      const Tag = (isOrdered ? "ol" : "ul") as "ol" | "ul";
+      const items = block.data?.items ?? [];
+      const listClass = isOrdered ? "list-decimal" : "list-disc";
+      return (
+        <Tag key={`list-${index}`} className={`${listClass} pl-6 space-y-1`}>
+          {items.map((item, itemIndex) => {
+            const content =
+              typeof item === "string"
+                ? item
+                : item && typeof item === "object" && "content" in item
+                  ? String((item as { content?: string }).content ?? "")
+                  : String(item);
+            return (
+              <li key={`item-${index}-${itemIndex}`} dangerouslySetInnerHTML={{ __html: content }} />
+            );
+          })}
+        </Tag>
+      );
+    }
+    return null;
+  });
+
+type SpecialtyDisplay = {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  cta: { label: string; href: string };
+  isEditorDescription?: boolean;
+  isHtmlDescription?: boolean;
+  descriptionBlocks?: MarkdownBlock[];
+  editorData?: { blocks?: Array<{ type: string; data?: { text?: string; level?: number; items?: string[]; style?: string } }> } | null;
+};
+
+const FALLBACK_SPECIALTIES: SpecialtyDisplay[] = [
   {
     id: "ent",
     title: "ENT Clinic",
@@ -40,7 +126,32 @@ const SPECIALTIES = [
   // },
 ];
 
-export default function SpecialtyClinicPage() {
+export default async function SpecialtyClinicPage() {
+  let specialties: SpecialtyDisplay[] = FALLBACK_SPECIALTIES;
+  try {
+    const clinics = await fetchSpecialtyClinics();
+    if (clinics.length > 0) {
+      specialties = clinics.map((clinic) => ({
+        id: clinic.id,
+        title: clinic.title,
+        subtitle: clinic.name,
+        description: clinic.description,
+        isEditorDescription: isEditorJs(clinic.description),
+        isHtmlDescription: !isEditorJs(clinic.description) && containsHtml(clinic.description),
+        descriptionBlocks: !isEditorJs(clinic.description) && !containsHtml(clinic.description)
+          ? parseMarkdown(clinic.description)
+          : [],
+        editorData: isEditorJs(clinic.description) ? safeParse(clinic.description) : null,
+        image: resolveMediaUrl(clinic.image, {
+          cacheKey: clinic.updatedAt ?? clinic.createdAt ?? null,
+        }),
+        cta: { label: "Contact Us", href: "/contact" },
+      }));
+    }
+  } catch (error) {
+    console.error("Unable to load specialty clinics", error);
+  }
+
   return (
     <div className="bg-slate-50">
       <Nav />
@@ -70,7 +181,7 @@ export default function SpecialtyClinicPage() {
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-10">
-          {SPECIALTIES.map((specialty, index) => (
+          {specialties.map((specialty, index) => (
             <div
               key={specialty.id}
               className={`grid gap-8 rounded-3xl border border-white/10 bg-white p-6 shadow-xl sm:p-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] ${
@@ -82,8 +193,8 @@ export default function SpecialtyClinicPage() {
                   src={specialty.image}
                   alt={`${specialty.title} care`}
                   width={600}
-                  height={420}
-                  className="h-full w-full rounded-3xl object-cover"
+                  height={540}
+                  className="h-96 w-full rounded-3xl object-cover md:h-100 lg:h-110"
                 />
               </div>
               <div className={index % 2 === 1 ? "lg:order-1" : ""}>
@@ -91,9 +202,34 @@ export default function SpecialtyClinicPage() {
                   {specialty.subtitle}
                 </p>
                 <h2 className="mt-3 text-3xl font-semibold text-[#0E2A47]">{specialty.title}</h2>
-                <p className="mt-4 text-base text-slate-600">
-                  {specialty.description}
-                </p>
+                {specialty.isEditorDescription && specialty.editorData?.blocks ? (
+                  <div className="menu-scrollbar mt-4 max-h-93 overflow-y-auto pr-2 text-base text-slate-600 space-y-3">
+                    {renderEditorBlocks(specialty.editorData.blocks)}
+                  </div>
+                ) : specialty.isHtmlDescription ? (
+                  <div
+                    className="menu-scrollbar mt-4 max-h-64 overflow-y-auto pr-2 text-base text-slate-600 space-y-3"
+                    dangerouslySetInnerHTML={{ __html: specialty.description }}
+                  />
+                ) : specialty.descriptionBlocks?.length ? (
+                  <div className="menu-scrollbar mt-4 max-h-64 overflow-y-auto pr-2 text-base text-slate-600 space-y-3">
+                    {specialty.descriptionBlocks.map((block, index) =>
+                      block.type === "list" ? (
+                        <ul key={`list-${index}`} className="list-disc pl-6 space-y-1">
+                          {block.items.map((item: string, itemIndex: number) => (
+                            <li key={`item-${index}-${itemIndex}`}>{item}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p key={`para-${index}`}>{block.text}</p>
+                      ),
+                    )}
+                  </div>
+                ) : (
+                  <p className="menu-scrollbar mt-4 max-h-64 overflow-y-auto pr-2 text-base text-slate-600">
+                    {stripHtml(specialty.description)}
+                  </p>
+                )}
                 
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link

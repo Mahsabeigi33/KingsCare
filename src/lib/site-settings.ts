@@ -30,11 +30,17 @@ export async function fetchSiteSettings(): Promise<SiteSettings | null> {
     return null
   }
 
-  const response = await fetch(url, {
-    headers: buildHeaders(),
-    next: { revalidate: 600 },
-    cache: "force-cache",
-  })
+  let response: Response
+  try {
+    response = await fetch(url, {
+      headers: buildHeaders(),
+      next: { revalidate: 600 },
+      cache: "force-cache",
+    })
+  } catch (error) {
+    console.error("Failed to fetch site settings", error)
+    return null
+  }
 
   if (!response.ok) {
     console.error("Failed to fetch site settings", response.status)
